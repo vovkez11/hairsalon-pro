@@ -2423,7 +2423,7 @@
             window.app = new StylistManagerPro();
             console.log('🎉 StylistManager Pro ULTIMATE - Complete Fixed Version Ready!');
         });
-        // === ADD PWA INSTALL BUTTON CODE HERE ===
+  // === ADD PWA INSTALL BUTTON CODE HERE ===
 // Service Worker Registration for PWA
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/stylebook-pro/sw.js')
@@ -2442,7 +2442,7 @@ installBtn.id = 'pwaInstallBtn';
 installBtn.style.cssText = `
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    left: 20px;  /* CHANGED FROM right TO left */
     background: #d81b60;
     color: white;
     border: none;
@@ -2480,4 +2480,5 @@ window.addEventListener('appinstalled', () => {
 </body>
 
 </html>
+
 
