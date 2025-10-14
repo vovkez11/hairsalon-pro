@@ -1,6 +1,6 @@
 {
-  "name": "StylistManager Pro",
-  "short_name": "StylistManager",
+  "name": "stylebook pro",
+  "short_name": "Stylebook",
   "description": "Ultimate Multilingual Hairdresser Management System",
   "start_url": "/",
   "display": "standalone",
@@ -21,3 +21,4 @@
   ],
   "categories": ["business", "productivity"]
 }
+
