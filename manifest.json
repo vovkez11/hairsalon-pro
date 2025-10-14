@@ -1,24 +1,10 @@
 {
-  "name": "stylebook pro",
-  "short_name": "Stylebook",
-  "description": "Ultimate Multilingual Hairdresser Management System",
+  "name": "HairSalon Pro",
+  "short_name": "HairSalon",
+  "description": "Professional Hairdresser Management System", 
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0d1117",
-  "theme_color": "#d81b60",
-  "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "assets/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ],
-  "categories": ["business", "productivity"]
+  "theme_color": "#e91e63",
+  "orientation": "portrait"
 }
-
