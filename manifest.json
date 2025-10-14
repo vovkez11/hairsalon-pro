@@ -2,7 +2,7 @@
   "name": "HairSalon Pro",
   "short_name": "HairSalon",
   "description": "Professional Hairdresser Management System", 
-  "start_url": "/",
+ "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0d1117",
   "theme_color": "#e91e63",
@@ -20,3 +20,4 @@
     }
   ]
 }
+
