@@ -2423,6 +2423,60 @@
             window.app = new StylistManagerPro();
             console.log('🎉 StylistManager Pro ULTIMATE - Complete Fixed Version Ready!');
         });
+        // === ADD PWA INSTALL BUTTON CODE HERE ===
+// Service Worker Registration for PWA
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/stylebook-pro/sw.js')
+        .then(registration => {
+            console.log('✅ Service Worker registered successfully:', registration);
+        })
+        .catch(error => {
+            console.log('❌ Service Worker registration failed:', error);
+        });
+}
+
+// Create PWA Install Button
+const installBtn = document.createElement('button');
+installBtn.innerHTML = '📱 Install App';
+installBtn.id = 'pwaInstallBtn';
+installBtn.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #d81b60;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 10000;
+    display: none;
+    font-family: 'Roboto', sans-serif;
+`;
+
+document.body.appendChild(installBtn);
+
+// Show install button when PWA is ready
+window.addEventListener('beforeinstallprompt', (e) => {
+    console.log('🎯 PWA can be installed!');
+    e.preventDefault();
+    installBtn.style.display = 'block';
+    
+    installBtn.onclick = () => {
+        e.prompt();
+        installBtn.style.display = 'none';
+    };
+});
+
+// Hide button after install
+window.addEventListener('appinstalled', () => {
+    console.log('🎉 App installed successfully!');
+    installBtn.style.display = 'none';
+});
+// === END OF PWA CODE ===
     </script>
 </body>
+
 </html>
