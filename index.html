@@ -1322,6 +1322,18 @@
                 console.log('💇‍♀️ HairSalon Pro Ultimate - Initialized Successfully!');
             }
 
+            // ADDED: Service Worker Registration
+            async registerServiceWorker() {
+                if ('serviceWorker' in navigator) {
+                    try {
+                        const registration = await navigator.serviceWorker.register('sw.js');
+                        console.log('✅ Service Worker registered:', registration);
+                    } catch (error) {
+                        console.log('❌ Service Worker registration failed:', error);
+                    }
+                }
+            }
+
             setupEventListeners() {
                 // Navigation
                 document.querySelectorAll('.nav-link[data-section]').forEach(btn => {
@@ -1369,6 +1381,9 @@
             }
 
             setupPWA() {
+                // REGISTER SERVICE WORKER FIRST
+                this.registerServiceWorker();
+
                 let deferredPrompt;
                 const installButton = document.getElementById('installButton');
                 const installPrompt = document.getElementById('installPrompt');
@@ -1896,7 +1911,3 @@
     </script>
 </body>
 </html>
-
-
-
-
