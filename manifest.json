@@ -1,39 +1,115 @@
 {
-  "name": "StylistManager Pro",
-  "short_name": "StylistManager",
+  "name": "Stylebook Pro",
+  "short_name": "Stylebook",
   "description": "Ultimate Multilingual Hairdresser Management System",
   "version": "1.0.0",
   "lang": "en",
-  "start_url": "/stylistmanager-pro/",
+  "dir": "auto",
+  
+  "start_url": "/stylebook-pro/",
+  "scope": "/stylebook-pro/",
   "display": "standalone",
-  "background_color": "#0d1117",
-  "theme_color": "#d81b60",
   "orientation": "portrait-primary",
+  
+  "theme_color": "#d81b60",
+  "background_color": "#0d1117",
+  
   "icons": [
     {
-      "src": "assets/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "/stylebook-pro/assets/icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "assets/icons/icon-512.png",
+      "src": "/stylebook-pro/assets/icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/stylebook-pro/assets/icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/stylebook-pro/assets/icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/stylebook-pro/assets/icons/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/stylebook-pro/assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/stylebook-pro/assets/icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/stylebook-pro/assets/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
-  "categories": ["business", "productivity", "utilities"],
+  
+  "categories": ["business", "productivity", "finance"],
+  
   "screenshots": [
     {
-      "src": "assets/screenshot-wide.png",
-      "sizes": "1280x720",
+      "src": "/stylebook-pro/assets/screenshots/phone-1.png",
+      "sizes": "1080x1920",
       "type": "image/png",
-      "form_factor": "wide"
+      "form_factor": "narrow",
+      "label": "Client Management"
     },
     {
-      "src": "assets/screenshot-narrow.png",
-      "sizes": "540x720",
+      "src": "/stylebook-pro/assets/screenshots/phone-2.png",
+      "sizes": "1080x1920",
       "type": "image/png",
-      "form_factor": "narrow"
+      "form_factor": "narrow",
+      "label": "Appointment Scheduling"
+    }
+  ],
+  
+  "shortcuts": [
+    {
+      "name": "Add New Client",
+      "short_name": "New Client",
+      "description": "Quickly add a new client",
+      "url": "/stylebook-pro/#clients?action=new",
+      "icons": [
+        {
+          "src": "/stylebook-pro/assets/icons/shortcut-client.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Schedule Appointment",
+      "short_name": "New Appointment",
+      "description": "Schedule a new appointment",
+      "url": "/stylebook-pro/#appointments?action=new",
+      "icons": [
+        {
+          "src": "/stylebook-pro/assets/icons/shortcut-appointment.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }
