@@ -695,21 +695,6 @@
                 padding: 14px;
             }
         }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
@@ -718,34 +703,34 @@
         <div class="logo">HairSalon Pro</div>
         
         <div class="nav-section">
-            <div class="nav-section-title">Main Navigation</div>
+            <div class="nav-section-title" data-i18n="main_navigation">Main Navigation</div>
             <a class="nav-link active" data-section="dashboard">
-                <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+                <i class="fas fa-tachometer-alt"></i> <span data-i18n="dashboard">Dashboard</span>
             </a>
             <a class="nav-link" data-section="clients">
-                <i class="fas fa-users"></i> <span>Clients</span>
+                <i class="fas fa-users"></i> <span data-i18n="clients">Clients</span>
             </a>
             <a class="nav-link" data-section="appointments">
-                <i class="fas fa-calendar-check"></i> <span>Appointments</span>
+                <i class="fas fa-calendar-check"></i> <span data-i18n="appointments">Appointments</span>
             </a>
             <a class="nav-link" data-section="inventory">
-                <i class="fas fa-boxes"></i> <span>Inventory</span>
+                <i class="fas fa-boxes"></i> <span data-i18n="inventory">Inventory</span>
             </a>
             <a class="nav-link" data-section="reports">
-                <i class="fas fa-chart-bar"></i> <span>Reports</span>
+                <i class="fas fa-chart-bar"></i> <span data-i18n="reports">Reports</span>
             </a>
         </div>
 
         <div class="nav-section">
-            <div class="nav-section-title">Quick Actions</div>
+            <div class="nav-section-title" data-i18n="quick_actions">Quick Actions</div>
             <a class="nav-link" id="quickAddClient">
-                <i class="fas fa-user-plus"></i> <span>Add Client</span>
+                <i class="fas fa-user-plus"></i> <span data-i18n="add_client">Add Client</span>
             </a>
             <a class="nav-link" id="quickAddAppointment">
-                <i class="fas fa-calendar-plus"></i> <span>Schedule Appointment</span>
+                <i class="fas fa-calendar-plus"></i> <span data-i18n="schedule_appointment">Schedule Appointment</span>
             </a>
             <a class="nav-link" id="quickAddInventory">
-                <i class="fas fa-box-open"></i> <span>Add Inventory</span>
+                <i class="fas fa-box-open"></i> <span data-i18n="add_inventory">Add Inventory</span>
             </a>
         </div>
 
@@ -766,9 +751,9 @@
                 <i class="fas fa-scissors"></i>
                 HairSalon Pro
             </div>
-            <div class="tagline">Professional Hairdresser Management System</div>
+            <div class="tagline" data-i18n="tagline">Professional Hairdresser Management System</div>
             <button class="install-btn" id="installButton">
-                <i class="fas fa-download"></i> <span>Install App</span>
+                <i class="fas fa-download"></i> <span data-i18n="install_app">Install App</span>
             </button>
         </div>
 
@@ -777,29 +762,29 @@
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">
-                        <i class="fas fa-tachometer-alt"></i> Salon Overview
+                        <i class="fas fa-tachometer-alt"></i> <span data-i18n="salon_overview">Salon Overview</span>
                     </h2>
                     <button class="btn btn-outline" onclick="app.exportData('all')">
-                        <i class="fas fa-download"></i> Backup Data
+                        <i class="fas fa-download"></i> <span data-i18n="backup_data">Backup Data</span>
                     </button>
                 </div>
                 
                 <div class="stats-grid">
                     <div class="stat-card" onclick="app.showSection('clients')">
                         <div class="stat-value" id="totalClients">0</div>
-                        <div class="stat-label">Total Clients</div>
+                        <div class="stat-label" data-i18n="total_clients">Total Clients</div>
                     </div>
                     <div class="stat-card" onclick="app.showSection('appointments')">
                         <div class="stat-value" id="todayAppointments">0</div>
-                        <div class="stat-label">Today's Appointments</div>
+                        <div class="stat-label" data-i18n="today_appointments">Today's Appointments</div>
                     </div>
                     <div class="stat-card" onclick="app.showSection('inventory')">
                         <div class="stat-value" id="lowStockItems">0</div>
-                        <div class="stat-label">Low Stock Items</div>
+                        <div class="stat-label" data-i18n="low_stock">Low Stock Items</div>
                     </div>
                     <div class="stat-card" onclick="app.showSection('reports')">
                         <div class="stat-value" id="monthlyRevenue">$0</div>
-                        <div class="stat-label">Monthly Revenue</div>
+                        <div class="stat-label" data-i18n="monthly_revenue">Monthly Revenue</div>
                     </div>
                 </div>
             </div>
@@ -807,19 +792,19 @@
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">
-                        <i class="fas fa-clock"></i> Today's Appointments
+                        <i class="fas fa-clock"></i> <span data-i18n="todays_appointments">Today's Appointments</span>
                     </h2>
                     <button class="btn btn-primary" onclick="app.showSection('appointments')">
-                        <i class="fas fa-eye"></i> View All
+                        <i class="fas fa-eye"></i> <span data-i18n="view_all">View All</span>
                     </button>
                 </div>
                 <div id="todaysAppointmentsList">
                     <div class="empty-state">
                         <i class="fas fa-calendar-times"></i>
-                        <h3>No Appointments Today</h3>
-                        <p>Your schedule is clear for today</p>
+                        <h3 data-i18n="no_appointments_today">No Appointments Today</h3>
+                        <p data-i18n="no_appointments_today_desc">Your schedule is clear for today</p>
                         <button class="btn btn-primary" onclick="app.openModal('addAppointmentModal')">
-                            <i class="fas fa-plus"></i> Schedule Appointment
+                            <i class="fas fa-plus"></i> <span data-i18n="schedule_appointment">Schedule Appointment</span>
                         </button>
                     </div>
                 </div>
@@ -828,14 +813,14 @@
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">
-                        <i class="fas fa-chart-line"></i> Quick Insights
+                        <i class="fas fa-chart-line"></i> <span data-i18n="quick_insights">Quick Insights</span>
                     </h2>
                 </div>
                 <div id="dashboardInsights">
                     <div class="empty-state">
                         <i class="fas fa-chart-pie"></i>
-                        <h3>No Data Yet</h3>
-                        <p>Start adding clients and appointments to see insights</p>
+                        <h3 data-i18n="no_data_yet">No Data Yet</h3>
+                        <p data-i18n="start_adding_data">Start adding clients and appointments to see insights</p>
                     </div>
                 </div>
             </div>
@@ -846,24 +831,24 @@
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">
-                        <i class="fas fa-users"></i> Client Management
+                        <i class="fas fa-users"></i> <span data-i18n="client_management">Client Management</span>
                     </h2>
                     <button class="btn btn-primary" onclick="app.openModal('addClientModal')">
-                        <i class="fas fa-plus"></i> New Client
+                        <i class="fas fa-plus"></i> <span data-i18n="new_client">New Client</span>
                     </button>
                 </div>
                 
                 <div class="form-group">
-                    <input type="text" class="form-control" id="clientSearch" placeholder="🔍 Search clients by name, phone, or email...">
+                    <input type="text" class="form-control" id="clientSearch" placeholder="🔍 Search clients..." data-i18n-placeholder="search_clients">
                 </div>
                 
                 <div id="clientsList">
                     <div class="empty-state">
                         <i class="fas fa-users"></i>
-                        <h3>No Clients Yet</h3>
-                        <p>Start building your professional client database</p>
+                        <h3 data-i18n="no_clients_yet">No Clients Yet</h3>
+                        <p data-i18n="build_client_database">Start building your professional client database</p>
                         <button class="btn btn-primary" onclick="app.openModal('addClientModal')">
-                            <i class="fas fa-plus"></i> Add Your First Client
+                            <i class="fas fa-plus"></i> <span data-i18n="add_first_client">Add Your First Client</span>
                         </button>
                     </div>
                 </div>
@@ -875,24 +860,24 @@
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">
-                        <i class="fas fa-calendar-alt"></i> Appointment Management
+                        <i class="fas fa-calendar-alt"></i> <span data-i18n="appointment_management">Appointment Management</span>
                     </h2>
                     <button class="btn btn-primary" onclick="app.openModal('addAppointmentModal')">
-                        <i class="fas fa-plus"></i> New Appointment
+                        <i class="fas fa-plus"></i> <span data-i18n="new_appointment">New Appointment</span>
                     </button>
                 </div>
                 
                 <div class="form-group">
-                    <input type="text" class="form-control" id="appointmentSearch" placeholder="🔍 Search appointments...">
+                    <input type="text" class="form-control" id="appointmentSearch" placeholder="🔍 Search appointments..." data-i18n-placeholder="search_appointments">
                 </div>
                 
                 <div id="appointmentsList">
                     <div class="empty-state">
                         <i class="fas fa-calendar-plus"></i>
-                        <h3>No Appointments Scheduled</h3>
-                        <p>Schedule your first professional hair appointment</p>
+                        <h3 data-i18n="no_appointments_scheduled">No Appointments Scheduled</h3>
+                        <p data-i18n="schedule_first_appointment">Schedule your first professional hair appointment</p>
                         <button class="btn btn-primary" onclick="app.openModal('addAppointmentModal')">
-                            <i class="fas fa-plus"></i> Create First Appointment
+                            <i class="fas fa-plus"></i> <span data-i18n="create_first_appointment">Create First Appointment</span>
                         </button>
                     </div>
                 </div>
@@ -904,24 +889,24 @@
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">
-                        <i class="fas fa-syringe"></i> Inventory Management
+                        <i class="fas fa-syringe"></i> <span data-i18n="inventory_management">Inventory Management</span>
                     </h2>
                     <button class="btn btn-primary" onclick="app.openModal('addInventoryModal')">
-                        <i class="fas fa-plus"></i> New Item
+                        <i class="fas fa-plus"></i> <span data-i18n="new_item">New Item</span>
                     </button>
                 </div>
                 
                 <div class="form-group">
-                    <input type="text" class="form-control" id="inventorySearch" placeholder="🔍 Search inventory items...">
+                    <input type="text" class="form-control" id="inventorySearch" placeholder="🔍 Search inventory items..." data-i18n-placeholder="search_inventory">
                 </div>
                 
                 <div id="inventoryList">
                     <div class="empty-state">
                         <i class="fas fa-box-open"></i>
-                        <h3>No Inventory Items</h3>
-                        <p>Track your hair products and professional supplies</p>
+                        <h3 data-i18n="no_inventory_items">No Inventory Items</h3>
+                        <p data-i18n="track_supplies">Track your hair products and professional supplies</p>
                         <button class="btn btn-primary" onclick="app.openModal('addInventoryModal')">
-                            <i class="fas fa-plus"></i> Add First Item
+                            <i class="fas fa-plus"></i> <span data-i18n="add_first_item">Add First Item</span>
                         </button>
                     </div>
                 </div>
@@ -935,43 +920,43 @@
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">
-                        <i class="fas fa-chart-bar"></i> Analytics & Reports
+                        <i class="fas fa-chart-bar"></i> <span data-i18n="analytics_reports">Analytics & Reports</span>
                     </h2>
                 </div>
 
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-value" id="totalAppointments">0</div>
-                        <div class="stat-label">Total Appointments</div>
+                        <div class="stat-label" data-i18n="total_appointments">Total Appointments</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value" id="totalRevenue">$0</div>
-                        <div class="stat-label">Total Revenue</div>
+                        <div class="stat-label" data-i18n="total_revenue">Total Revenue</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value" id="avgAppointmentPrice">$0</div>
-                        <div class="stat-label">Avg Appointment Price</div>
+                        <div class="stat-label" data-i18n="avg_appointment_price">Avg Appointment Price</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value" id="clientRetention">0%</div>
-                        <div class="stat-label">Client Retention</div>
+                        <div class="stat-label" data-i18n="client_retention">Client Retention</div>
                     </div>
                 </div>
 
                 <div style="margin: 25px 0;">
-                    <h3 class="card-title"><i class="fas fa-download"></i> Data Export</h3>
+                    <h3 class="card-title"><i class="fas fa-download"></i> <span data-i18n="data_export">Data Export</span></h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 20px;">
                         <button class="btn btn-success" onclick="app.exportData('all')">
-                            <i class="fas fa-database"></i> Full Backup
+                            <i class="fas fa-database"></i> <span data-i18n="full_backup">Full Backup</span>
                         </button>
                         <button class="btn btn-outline" onclick="app.exportData('clients')">
-                            <i class="fas fa-users"></i> Export Clients
+                            <i class="fas fa-users"></i> <span data-i18n="export_clients">Export Clients</span>
                         </button>
                         <button class="btn btn-outline" onclick="app.exportData('appointments')">
-                            <i class="fas fa-calendar"></i> Export Appointments
+                            <i class="fas fa-calendar"></i> <span data-i18n="export_appointments">Export Appointments</span>
                         </button>
                         <button class="btn btn-outline" onclick="app.exportData('inventory')">
-                            <i class="fas fa-box"></i> Export Inventory
+                            <i class="fas fa-box"></i> <span data-i18n="export_inventory">Export Inventory</span>
                         </button>
                     </div>
                 </div>
@@ -984,13 +969,13 @@
 
     <!-- Install Prompt -->
     <div class="install-prompt" id="installPrompt">
-        <span style="font-weight: 600; font-size: 1em;">Install HairSalon Pro for the ultimate experience?</span>
+        <span style="font-weight: 600; font-size: 1em;" data-i18n="install_prompt">Install HairSalon Pro for the ultimate experience?</span>
         <div style="display: flex; gap: 12px;">
             <button class="btn btn-success" id="installConfirmBtn">
-                <i class="fas fa-download"></i> Install Now
+                <i class="fas fa-download"></i> <span data-i18n="install_now">Install Now</span>
             </button>
             <button class="btn btn-outline" id="installDismissBtn">
-                Maybe Later
+                <span data-i18n="maybe_later">Maybe Later</span>
             </button>
         </div>
     </div>
@@ -999,54 +984,55 @@
     <div id="addClientModal" class="modal">
         <div class="modal-content">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-user-plus"></i> Create New Client</h3>
+                <h3 class="card-title"><i class="fas fa-user-plus"></i> <span data-i18n="create_new_client">Create New Client</span></h3>
                 <button class="btn btn-danger" onclick="app.closeModal('addClientModal')">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <form id="clientForm">
                 <div class="form-group">
-                    <label class="form-label">Full Name *</label>
-                    <input type="text" class="form-control" id="clientName" placeholder="John Smith" required>
+                    <label class="form-label" data-i18n="full_name">Full Name *</label>
+                    <input type="text" class="form-control" id="clientName" placeholder="John Smith" data-i18n-placeholder="name_placeholder" required>
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
-                        <label class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="clientPhone" placeholder="+1 (555) 123-4567">
+                        <label class="form-label" data-i18n="phone_number">Phone Number</label>
+                        <input type="tel" class="form-control" id="clientPhone" placeholder="+1 (555) 123-4567" data-i18n-placeholder="phone_placeholder">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="clientEmail" placeholder="john@example.com">
+                        <label class="form-label" data-i18n="email_address">Email Address</label>
+                        <input type="email" class="form-control" id="clientEmail" placeholder="john@example.com" data-i18n-placeholder="email_placeholder">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Hair Type & Preferences</label>
+                    <label class="form-label" data-i18n="hair_type">Hair Type</label>
                     <select class="form-control" id="clientHairType">
-                        <option value="">Select hair type...</option>
-                        <option value="straight">Straight</option>
-                        <option value="wavy">Wavy</option>
-                        <option value="curly">Curly</option>
-                        <option value="coily">Coily</option>
-                        <option value="fine">Fine</option>
-                        <option value="thick">Thick</option>
+                        <option value="" data-i18n="select_hair_type">Select hair type...</option>
+                        <option value="straight" data-i18n="straight">Straight</option>
+                        <option value="wavy" data-i18n="wavy">Wavy</option>
+                        <option value="curly" data-i18n="curly">Curly</option>
+                        <option value="coily" data-i18n="coily">Coily</option>
+                        <option value="fine" data-i18n="fine">Fine</option>
+                        <option value="thick" data-i18n="thick">Thick</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Allergies & Notes</label>
+                    <label class="form-label" data-i18n="allergies_notes">Allergies & Notes</label>
                     <textarea class="form-control" id="clientNotes" 
-                              placeholder="Allergies, style preferences, important notes, favorite products..." rows="4"></textarea>
+                              placeholder="Allergies, style preferences, important notes, favorite products..." 
+                              data-i18n-placeholder="notes_placeholder" rows="4"></textarea>
                 </div>
 
                 <div style="display: flex; gap: 12px; margin-top: 25px;">
                     <button type="button" class="btn btn-outline" onclick="app.closeModal('addClientModal')" style="flex: 1;">
-                        <i class="fas fa-times"></i> Cancel
+                        <i class="fas fa-times"></i> <span data-i18n="cancel">Cancel</span>
                     </button>
                     <button type="submit" class="btn btn-primary" style="flex: 2;">
-                        <i class="fas fa-save"></i> Save Client
+                        <i class="fas fa-save"></i> <span data-i18n="save_client">Save Client</span>
                     </button>
                 </div>
             </form>
@@ -1057,65 +1043,66 @@
     <div id="addAppointmentModal" class="modal">
         <div class="modal-content">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-calendar-plus"></i> Schedule Appointment</h3>
+                <h3 class="card-title"><i class="fas fa-calendar-plus"></i> <span data-i18n="schedule_appointment">Schedule Appointment</span></h3>
                 <button class="btn btn-danger" onclick="app.closeModal('addAppointmentModal')">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <form id="appointmentForm">
                 <div class="form-group">
-                    <label class="form-label">Client *</label>
+                    <label class="form-label" data-i18n="client">Client *</label>
                     <select class="form-control" id="appointmentClient" required>
-                        <option value="">Select a client...</option>
+                        <option value="" data-i18n="select_client">Select a client...</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Appointment Title *</label>
+                    <label class="form-label" data-i18n="appointment_title">Appointment Title *</label>
                     <input type="text" class="form-control" id="appointmentTitle" 
-                           placeholder="e.g., Haircut & Color, Balayage, Styling..." required>
+                           placeholder="e.g., Haircut & Color, Balayage, Styling..." data-i18n-placeholder="appointment_title_placeholder" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Date & Time *</label>
+                    <label class="form-label" data-i18n="date_time">Date & Time *</label>
                     <input type="datetime-local" class="form-control" id="appointmentDateTime" required>
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
-                        <label class="form-label">Duration (hours)</label>
+                        <label class="form-label" data-i18n="duration_hours">Duration (hours)</label>
                         <input type="number" class="form-control" id="appointmentDuration" 
                                placeholder="2" min="0.5" max="8" step="0.5" value="1">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Price</label>
+                        <label class="form-label" data-i18n="price">Price</label>
                         <input type="number" class="form-control" id="appointmentPrice" 
                                placeholder="0.00" step="0.01" min="0">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Service Type</label>
+                    <label class="form-label" data-i18n="service_type">Service Type</label>
                     <select class="form-control" id="appointmentService">
-                        <option value="">Select service...</option>
-                        <option value="haircut">Haircut</option>
-                        <option value="coloring">Coloring</option>
-                        <option value="styling">Styling</option>
-                        <option value="treatment">Treatment</option>
-                        <option value="extension">Extensions</option>
-                        <option value="other">Other</option>
+                        <option value="" data-i18n="select_service">Select service...</option>
+                        <option value="haircut" data-i18n="haircut">Haircut</option>
+                        <option value="coloring" data-i18n="coloring">Coloring</option>
+                        <option value="styling" data-i18n="styling">Styling</option>
+                        <option value="treatment" data-i18n="treatment">Treatment</option>
+                        <option value="extension" data-i18n="extension">Extensions</option>
+                        <option value="other" data-i18n="other">Other</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Appointment Notes</label>
+                    <label class="form-label" data-i18n="appointment_notes">Appointment Notes</label>
                     <textarea class="form-control" id="appointmentNotes" 
-                              placeholder="Style details, color formulas, special requests, aftercare instructions..." rows="4"></textarea>
+                              placeholder="Style details, color formulas, special requests, aftercare instructions..." 
+                              data-i18n-placeholder="appointment_notes_placeholder" rows="4"></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 1.1em;">
-                    <i class="fas fa-save"></i> Save Appointment
+                    <i class="fas fa-save"></i> <span data-i18n="save_appointment">Save Appointment</span>
                 </button>
             </form>
         </div>
@@ -1125,35 +1112,35 @@
     <div id="addInventoryModal" class="modal">
         <div class="modal-content">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-box"></i> New Inventory Item</h3>
+                <h3 class="card-title"><i class="fas fa-box"></i> <span data-i18n="new_inventory_item">New Inventory Item</span></h3>
                 <button class="btn btn-danger" onclick="app.closeModal('addInventoryModal')">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <form id="inventoryForm">
                 <div class="form-group">
-                    <label class="form-label">Item Name *</label>
+                    <label class="form-label" data-i18n="item_name">Item Name *</label>
                     <input type="text" class="form-control" id="inventoryName" 
-                           placeholder="Shampoo, Hair Color, Conditioner, Styling Products..." required>
+                           placeholder="Shampoo, Hair Color, Conditioner, Styling Products..." data-i18n-placeholder="item_name_placeholder" required>
                 </div>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
-                        <label class="form-label">Type *</label>
+                        <label class="form-label" data-i18n="type">Type *</label>
                         <select class="form-control" id="inventoryType" required>
-                            <option value="">Select type...</option>
-                            <option value="shampoo">Shampoo</option>
-                            <option value="conditioner">Conditioner</option>
-                            <option value="color">Hair Color</option>
-                            <option value="treatment">Treatment</option>
-                            <option value="styling">Styling Product</option>
-                            <option value="tool">Tool</option>
-                            <option value="supply">Supply</option>
+                            <option value="" data-i18n="select_type">Select type...</option>
+                            <option value="shampoo" data-i18n="shampoo">Shampoo</option>
+                            <option value="conditioner" data-i18n="conditioner">Conditioner</option>
+                            <option value="color" data-i18n="color">Hair Color</option>
+                            <option value="treatment" data-i18n="treatment">Treatment</option>
+                            <option value="styling" data-i18n="styling">Styling Product</option>
+                            <option value="tool" data-i18n="tool">Tool</option>
+                            <option value="supply" data-i18n="supply">Supply</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Current Quantity *</label>
+                        <label class="form-label" data-i18n="current_quantity">Current Quantity *</label>
                         <input type="number" class="form-control" id="inventoryQty" 
                                placeholder="10" min="0" required value="10">
                     </div>
@@ -1161,30 +1148,31 @@
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
-                        <label class="form-label">Low Stock Alert</label>
+                        <label class="form-label" data-i18n="low_stock_alert">Low Stock Alert</label>
                         <input type="number" class="form-control" id="inventoryAlert" 
                                placeholder="5" min="1" value="5">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Price per Unit</label>
+                        <label class="form-label" data-i18n="price_per_unit">Price per Unit</label>
                         <input type="number" class="form-control" id="inventoryPrice" 
                                placeholder="0.00" step="0.01" min="0">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Supplier & Notes</label>
+                    <label class="form-label" data-i18n="supplier_notes">Supplier & Notes</label>
                     <textarea class="form-control" id="inventoryNotes" 
-                              placeholder="Supplier information, color codes, expiration dates..." rows="3"></textarea>
+                              placeholder="Supplier information, color codes, expiration dates..." 
+                              data-i18n-placeholder="supplier_notes_placeholder" rows="3"></textarea>
                 </div>
                 
                 <div style="display: flex; gap: 12px; margin-top: 25px;">
                     <button type="button" class="btn btn-outline" onclick="app.closeModal('addInventoryModal')" style="flex: 1;">
-                        Cancel
+                        <span data-i18n="cancel">Cancel</span>
                     </button>
                     <button type="submit" class="btn btn-primary" style="flex: 2;">
-                        <i class="fas fa-save"></i> Save Item
+                        <i class="fas fa-save"></i> <span data-i18n="save_item">Save Item</span>
                     </button>
                 </div>
             </form>
@@ -1195,10 +1183,402 @@
         // HAIRSALON PRO - COMPLETE PROFESSIONAL HAIRDRESSER MANAGEMENT SYSTEM
         class HairSalonPro {
             constructor() {
+                // COMPLETELY CLEAN DATA - NO SAMPLE CLIENTS OR APPOINTMENTS
                 this.clients = JSON.parse(localStorage.getItem('hairsalon_clients')) || [];
                 this.appointments = JSON.parse(localStorage.getItem('hairsalon_appointments')) || [];
                 this.inventory = JSON.parse(localStorage.getItem('hairsalon_inventory')) || [];
                 this.currentLanguage = localStorage.getItem('hairsalon_language') || 'en';
+                
+                // Complete translation resources
+                this.translations = {
+                    en: {
+                        // Navigation
+                        "main_navigation": "Main Navigation",
+                        "dashboard": "Dashboard",
+                        "clients": "Clients",
+                        "appointments": "Appointments",
+                        "inventory": "Inventory",
+                        "reports": "Reports",
+                        "quick_actions": "Quick Actions",
+                        "add_client": "Add Client",
+                        "schedule_appointment": "Schedule Appointment",
+                        "add_inventory": "Add Inventory",
+                        
+                        // Header
+                        "tagline": "Professional Hairdresser Management System",
+                        "install_app": "Install App",
+                        
+                        // Dashboard
+                        "salon_overview": "Salon Overview",
+                        "backup_data": "Backup Data",
+                        "total_clients": "Total Clients",
+                        "today_appointments": "Today's Appointments",
+                        "low_stock": "Low Stock Items",
+                        "monthly_revenue": "Monthly Revenue",
+                        "todays_appointments": "Today's Appointments",
+                        "view_all": "View All",
+                        "quick_insights": "Quick Insights",
+                        "no_appointments_today": "No Appointments Today",
+                        "no_appointments_today_desc": "Your schedule is clear for today",
+                        "no_data_yet": "No Data Yet",
+                        "start_adding_data": "Start adding clients and appointments to see insights",
+                        
+                        // Clients
+                        "client_management": "Client Management",
+                        "new_client": "New Client",
+                        "search_clients": "Search clients by name, phone, or email...",
+                        "no_clients_yet": "No Clients Yet",
+                        "build_client_database": "Start building your professional client database",
+                        "add_first_client": "Add Your First Client",
+                        "create_new_client": "Create New Client",
+                        "full_name": "Full Name",
+                        "name_placeholder": "John Smith",
+                        "phone_number": "Phone Number",
+                        "phone_placeholder": "+1 (555) 123-4567",
+                        "email_address": "Email Address",
+                        "email_placeholder": "john@example.com",
+                        "hair_type": "Hair Type",
+                        "select_hair_type": "Select hair type...",
+                        "straight": "Straight",
+                        "wavy": "Wavy",
+                        "curly": "Curly",
+                        "coily": "Coily",
+                        "fine": "Fine",
+                        "thick": "Thick",
+                        "allergies_notes": "Allergies & Notes",
+                        "notes_placeholder": "Allergies, style preferences, important notes, favorite products...",
+                        "cancel": "Cancel",
+                        "save_client": "Save Client",
+                        
+                        // Appointments
+                        "appointment_management": "Appointment Management",
+                        "new_appointment": "New Appointment",
+                        "search_appointments": "Search appointments...",
+                        "no_appointments_scheduled": "No Appointments Scheduled",
+                        "schedule_first_appointment": "Schedule your first professional hair appointment",
+                        "create_first_appointment": "Create First Appointment",
+                        "schedule_appointment": "Schedule Appointment",
+                        "client": "Client",
+                        "select_client": "Select a client...",
+                        "appointment_title": "Appointment Title",
+                        "appointment_title_placeholder": "e.g., Haircut & Color, Balayage, Styling...",
+                        "date_time": "Date & Time",
+                        "duration_hours": "Duration (hours)",
+                        "price": "Price",
+                        "service_type": "Service Type",
+                        "select_service": "Select service...",
+                        "haircut": "Haircut",
+                        "coloring": "Coloring",
+                        "styling": "Styling",
+                        "treatment": "Treatment",
+                        "extension": "Extensions",
+                        "other": "Other",
+                        "appointment_notes": "Appointment Notes",
+                        "appointment_notes_placeholder": "Style details, color formulas, special requests, aftercare instructions...",
+                        "save_appointment": "Save Appointment",
+                        
+                        // Inventory
+                        "inventory_management": "Inventory Management",
+                        "new_item": "New Item",
+                        "search_inventory": "Search inventory items...",
+                        "no_inventory_items": "No Inventory Items",
+                        "track_supplies": "Track your hair products and professional supplies",
+                        "add_first_item": "Add First Item",
+                        "new_inventory_item": "New Inventory Item",
+                        "item_name": "Item Name",
+                        "item_name_placeholder": "Shampoo, Hair Color, Conditioner, Styling Products...",
+                        "type": "Type",
+                        "select_type": "Select type...",
+                        "shampoo": "Shampoo",
+                        "conditioner": "Conditioner",
+                        "color": "Hair Color",
+                        "treatment": "Treatment",
+                        "styling": "Styling Product",
+                        "tool": "Tool",
+                        "supply": "Supply",
+                        "current_quantity": "Current Quantity",
+                        "low_stock_alert": "Low Stock Alert",
+                        "price_per_unit": "Price per Unit",
+                        "supplier_notes": "Supplier & Notes",
+                        "supplier_notes_placeholder": "Supplier information, color codes, expiration dates...",
+                        "save_item": "Save Item",
+                        
+                        // Reports
+                        "analytics_reports": "Analytics & Reports",
+                        "total_appointments": "Total Appointments",
+                        "total_revenue": "Total Revenue",
+                        "avg_appointment_price": "Avg Appointment Price",
+                        "client_retention": "Client Retention",
+                        "data_export": "Data Export",
+                        "full_backup": "Full Backup",
+                        "export_clients": "Export Clients",
+                        "export_appointments": "Export Appointments",
+                        "export_inventory": "Export Inventory",
+                        
+                        // Install Prompt
+                        "install_prompt": "Install HairSalon Pro for the ultimate experience?",
+                        "install_now": "Install Now",
+                        "maybe_later": "Maybe Later"
+                    },
+                    es: {
+                        // Navigation
+                        "main_navigation": "Navegación Principal",
+                        "dashboard": "Panel de Control",
+                        "clients": "Clientes",
+                        "appointments": "Citas",
+                        "inventory": "Inventario",
+                        "reports": "Informes",
+                        "quick_actions": "Acciones Rápidas",
+                        "add_client": "Agregar Cliente",
+                        "schedule_appointment": "Programar Cita",
+                        "add_inventory": "Agregar Inventario",
+                        
+                        // Header
+                        "tagline": "Sistema Profesional de Gestión para Peluqueros",
+                        "install_app": "Instalar App",
+                        
+                        // Dashboard
+                        "salon_overview": "Resumen del Salón",
+                        "backup_data": "Respaldar Datos",
+                        "total_clients": "Total de Clientes",
+                        "today_appointments": "Citas de Hoy",
+                        "low_stock": "Artículos con Stock Bajo",
+                        "monthly_revenue": "Ingresos Mensuales",
+                        "todays_appointments": "Citas de Hoy",
+                        "view_all": "Ver Todos",
+                        "quick_insights": "Información Rápida",
+                        "no_appointments_today": "No Hay Citas Hoy",
+                        "no_appointments_today_desc": "Tu horario está libre para hoy",
+                        "no_data_yet": "Aún No Hay Datos",
+                        "start_adding_data": "Comienza agregando clientes y citas para ver información",
+                        
+                        // Clients
+                        "client_management": "Gestión de Clientes",
+                        "new_client": "Nuevo Cliente",
+                        "search_clients": "Buscar clientes por nombre, teléfono o email...",
+                        "no_clients_yet": "Aún No Hay Clientes",
+                        "build_client_database": "Comienza a construir tu base de datos profesional de clientes",
+                        "add_first_client": "Agregar Tu Primer Cliente",
+                        "create_new_client": "Crear Nuevo Cliente",
+                        "full_name": "Nombre Completo",
+                        "name_placeholder": "Juan Pérez",
+                        "phone_number": "Número de Teléfono",
+                        "phone_placeholder": "+1 (555) 123-4567",
+                        "email_address": "Correo Electrónico",
+                        "email_placeholder": "juan@ejemplo.com",
+                        "hair_type": "Tipo de Cabello",
+                        "select_hair_type": "Seleccionar tipo de cabello...",
+                        "straight": "Liso",
+                        "wavy": "Ondulado",
+                        "curly": "Rizado",
+                        "coily": "Muy Rizado",
+                        "fine": "Fino",
+                        "thick": "Grueso",
+                        "allergies_notes": "Alergias y Notas",
+                        "notes_placeholder": "Alergias, preferencias de estilo, notas importantes, productos favoritos...",
+                        "cancel": "Cancelar",
+                        "save_client": "Guardar Cliente",
+                        
+                        // Appointments
+                        "appointment_management": "Gestión de Citas",
+                        "new_appointment": "Nueva Cita",
+                        "search_appointments": "Buscar citas...",
+                        "no_appointments_scheduled": "No Hay Citas Programadas",
+                        "schedule_first_appointment": "Programa tu primera cita profesional de peluquería",
+                        "create_first_appointment": "Crear Primera Cita",
+                        "schedule_appointment": "Programar Cita",
+                        "client": "Cliente",
+                        "select_client": "Seleccionar un cliente...",
+                        "appointment_title": "Título de la Cita",
+                        "appointment_title_placeholder": "ej., Corte y Color, Balayage, Estilizado...",
+                        "date_time": "Fecha y Hora",
+                        "duration_hours": "Duración (horas)",
+                        "price": "Precio",
+                        "service_type": "Tipo de Servicio",
+                        "select_service": "Seleccionar servicio...",
+                        "haircut": "Corte de Pelo",
+                        "coloring": "Coloración",
+                        "styling": "Estilizado",
+                        "treatment": "Tratamiento",
+                        "extension": "Extensiones",
+                        "other": "Otro",
+                        "appointment_notes": "Notas de la Cita",
+                        "appointment_notes_placeholder": "Detalles del estilo, fórmulas de color, solicitudes especiales, instrucciones de cuidado...",
+                        "save_appointment": "Guardar Cita",
+                        
+                        // Inventory
+                        "inventory_management": "Gestión de Inventario",
+                        "new_item": "Nuevo Artículo",
+                        "search_inventory": "Buscar artículos de inventario...",
+                        "no_inventory_items": "No Hay Artículos en Inventario",
+                        "track_supplies": "Rastrea tus productos para el cabello y suministros profesionales",
+                        "add_first_item": "Agregar Primer Artículo",
+                        "new_inventory_item": "Nuevo Artículo de Inventario",
+                        "item_name": "Nombre del Artículo",
+                        "item_name_placeholder": "Champú, Tinte para el Cabello, Acondicionador, Productos de Estilo...",
+                        "type": "Tipo",
+                        "select_type": "Seleccionar tipo...",
+                        "shampoo": "Champú",
+                        "conditioner": "Acondicionador",
+                        "color": "Tinte para el Cabello",
+                        "treatment": "Tratamiento",
+                        "styling": "Producto de Estilo",
+                        "tool": "Herramienta",
+                        "supply": "Suministro",
+                        "current_quantity": "Cantidad Actual",
+                        "low_stock_alert": "Alerta de Stock Bajo",
+                        "price_per_unit": "Precio por Unidad",
+                        "supplier_notes": "Proveedor y Notas",
+                        "supplier_notes_placeholder": "Información del proveedor, códigos de color, fechas de vencimiento...",
+                        "save_item": "Guardar Artículo",
+                        
+                        // Reports
+                        "analytics_reports": "Análisis e Informes",
+                        "total_appointments": "Total de Citas",
+                        "total_revenue": "Ingresos Totales",
+                        "avg_appointment_price": "Precio Promedio por Cita",
+                        "client_retention": "Retención de Clientes",
+                        "data_export": "Exportar Datos",
+                        "full_backup": "Respaldo Completo",
+                        "export_clients": "Exportar Clientes",
+                        "export_appointments": "Exportar Citas",
+                        "export_inventory": "Exportar Inventario",
+                        
+                        // Install Prompt
+                        "install_prompt": "¿Instalar HairSalon Pro para la mejor experiencia?",
+                        "install_now": "Instalar Ahora",
+                        "maybe_later": "Quizás Más Tarde"
+                    },
+                    fr: {
+                        // Navigation
+                        "main_navigation": "Navigation Principale",
+                        "dashboard": "Tableau de Bord",
+                        "clients": "Clients",
+                        "appointments": "Rendez-vous",
+                        "inventory": "Inventaire",
+                        "reports": "Rapports",
+                        "quick_actions": "Actions Rapides",
+                        "add_client": "Ajouter un Client",
+                        "schedule_appointment": "Planifier un Rendez-vous",
+                        "add_inventory": "Ajouter à l'Inventaire",
+                        
+                        // Header
+                        "tagline": "Système Professionnel de Gestion de Coiffure",
+                        "install_app": "Installer l'App",
+                        
+                        // Dashboard
+                        "salon_overview": "Aperçu du Salon",
+                        "backup_data": "Sauvegarder les Données",
+                        "total_clients": "Total des Clients",
+                        "today_appointments": "Rendez-vous d'Aujourd'hui",
+                        "low_stock": "Articles en Stock Faible",
+                        "monthly_revenue": "Revenu Mensuel",
+                        "todays_appointments": "Rendez-vous d'Aujourd'hui",
+                        "view_all": "Voir Tout",
+                        "quick_insights": "Aperçus Rapides",
+                        "no_appointments_today": "Aucun Rendez-vous Aujourd'hui",
+                        "no_appointments_today_desc": "Votre emploi du temps est libre pour aujourd'hui",
+                        "no_data_yet": "Pas Encore de Données",
+                        "start_adding_data": "Commencez à ajouter des clients et des rendez-vous pour voir des aperçus",
+                        
+                        // Clients
+                        "client_management": "Gestion des Clients",
+                        "new_client": "Nouveau Client",
+                        "search_clients": "Rechercher des clients par nom, téléphone ou email...",
+                        "no_clients_yet": "Pas Encore de Clients",
+                        "build_client_database": "Commencez à constituer votre base de données professionnelle de clients",
+                        "add_first_client": "Ajouter Votre Premier Client",
+                        "create_new_client": "Créer un Nouveau Client",
+                        "full_name": "Nom Complet",
+                        "name_placeholder": "Jean Dupont",
+                        "phone_number": "Numéro de Téléphone",
+                        "phone_placeholder": "+1 (555) 123-4567",
+                        "email_address": "Adresse Email",
+                        "email_placeholder": "jean@exemple.com",
+                        "hair_type": "Type de Cheveux",
+                        "select_hair_type": "Sélectionner le type de cheveux...",
+                        "straight": "Raides",
+                        "wavy": "Ondulés",
+                        "curly": "Bouclés",
+                        "coily": "Très Bouclés",
+                        "fine": "Fins",
+                        "thick": "Épais",
+                        "allergies_notes": "Allergies et Notes",
+                        "notes_placeholder": "Allergies, préférences de style, notes importantes, produits préférés...",
+                        "cancel": "Annuler",
+                        "save_client": "Sauvegarder le Client",
+                        
+                        // Appointments
+                        "appointment_management": "Gestion des Rendez-vous",
+                        "new_appointment": "Nouveau Rendez-vous",
+                        "search_appointments": "Rechercher des rendez-vous...",
+                        "no_appointments_scheduled": "Aucun Rendez-vous Programmé",
+                        "schedule_first_appointment": "Planifiez votre premier rendez-vous professionnel de coiffure",
+                        "create_first_appointment": "Créer le Premier Rendez-vous",
+                        "schedule_appointment": "Planifier un Rendez-vous",
+                        "client": "Client",
+                        "select_client": "Sélectionner un client...",
+                        "appointment_title": "Titre du Rendez-vous",
+                        "appointment_title_placeholder": "ex., Coupe et Couleur, Balayage, Coiffure...",
+                        "date_time": "Date et Heure",
+                        "duration_hours": "Durée (heures)",
+                        "price": "Prix",
+                        "service_type": "Type de Service",
+                        "select_service": "Sélectionner le service...",
+                        "haircut": "Coupe de Cheveux",
+                        "coloring": "Coloration",
+                        "styling": "Coiffure",
+                        "treatment": "Traitement",
+                        "extension": "Extensions",
+                        "other": "Autre",
+                        "appointment_notes": "Notes du Rendez-vous",
+                        "appointment_notes_placeholder": "Détails du style, formules de couleur, demandes spéciales, instructions d'entretien...",
+                        "save_appointment": "Sauvegarder le Rendez-vous",
+                        
+                        // Inventory
+                        "inventory_management": "Gestion de l'Inventaire",
+                        "new_item": "Nouvel Article",
+                        "search_inventory": "Rechercher des articles dans l'inventaire...",
+                        "no_inventory_items": "Aucun Article en Inventaire",
+                        "track_supplies": "Suivez vos produits capillaires et fournitures professionnelles",
+                        "add_first_item": "Ajouter le Premier Article",
+                        "new_inventory_item": "Nouvel Article d'Inventaire",
+                        "item_name": "Nom de l'Article",
+                        "item_name_placeholder": "Shampoing, Colorant Capillaire, Après-shampoing, Produits de Coiffage...",
+                        "type": "Type",
+                        "select_type": "Sélectionner le type...",
+                        "shampoo": "Shampoing",
+                        "conditioner": "Après-shampoing",
+                        "color": "Colorant Capillaire",
+                        "treatment": "Traitement",
+                        "styling": "Produit de Coiffage",
+                        "tool": "Outil",
+                        "supply": "Fourniture",
+                        "current_quantity": "Quantité Actuelle",
+                        "low_stock_alert": "Alerte de Stock Faible",
+                        "price_per_unit": "Prix par Unité",
+                        "supplier_notes": "Fournisseur et Notes",
+                        "supplier_notes_placeholder": "Informations du fournisseur, codes couleur, dates d'expiration...",
+                        "save_item": "Sauvegarder l'Article",
+                        
+                        // Reports
+                        "analytics_reports": "Analyses et Rapports",
+                        "total_appointments": "Total des Rendez-vous",
+                        "total_revenue": "Revenu Total",
+                        "avg_appointment_price": "Prix Moyen des Rendez-vous",
+                        "client_retention": "Fidélisation des Clients",
+                        "data_export": "Exportation des Données",
+                        "full_backup": "Sauvegarde Complète",
+                        "export_clients": "Exporter les Clients",
+                        "export_appointments": "Exporter les Rendez-vous",
+                        "export_inventory": "Exporter l'Inventaire",
+                        
+                        // Install Prompt
+                        "install_prompt": "Installer HairSalon Pro pour une expérience ultime ?",
+                        "install_now": "Installer Maintenant",
+                        "maybe_later": "Peut-être Plus Tard"
+                    }
+                };
                 
                 this.init();
             }
@@ -1326,8 +1706,30 @@
             setLanguage(lang) {
                 this.currentLanguage = lang;
                 localStorage.setItem('hairsalon_language', lang);
+                
+                // Update language selector
                 document.getElementById('languageSelect').value = lang;
-                // In a complete implementation, you would update all text content here
+                
+                // Apply translations to all elements
+                this.applyTranslations();
+            }
+
+            applyTranslations() {
+                // Translate all elements with data-i18n attribute
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (this.translations[this.currentLanguage] && this.translations[this.currentLanguage][key]) {
+                        element.textContent = this.translations[this.currentLanguage][key];
+                    }
+                });
+                
+                // Translate all placeholders
+                document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                    const key = element.getAttribute('data-i18n-placeholder');
+                    if (this.translations[this.currentLanguage] && this.translations[this.currentLanguage][key]) {
+                        element.placeholder = this.translations[this.currentLanguage][key];
+                    }
+                });
             }
 
             showSection(sectionId) {
@@ -1379,7 +1781,7 @@
 
             populateClientDropdown() {
                 const clientSelect = document.getElementById('appointmentClient');
-                clientSelect.innerHTML = '<option value="">Select a client...</option>';
+                clientSelect.innerHTML = `<option value="" data-i18n="select_client">${this.translate('select_client')}</option>`;
                 this.clients.forEach(client => {
                     clientSelect.innerHTML += `<option value="${client.id}">${client.name}</option>`;
                 });
@@ -1525,20 +1927,21 @@
                     container.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-calendar-times"></i>
-                            <h3>No Appointments Today</h3>
-                            <p>Your schedule is clear for today</p>
+                            <h3 data-i18n="no_appointments_today">${this.translate('no_appointments_today')}</h3>
+                            <p data-i18n="no_appointments_today_desc">${this.translate('no_appointments_today_desc')}</p>
                             <button class="btn btn-primary" onclick="app.openModal('addAppointmentModal')">
-                                <i class="fas fa-plus"></i> Schedule Appointment
+                                <i class="fas fa-plus"></i> <span data-i18n="schedule_appointment">${this.translate('schedule_appointment')}</span>
                             </button>
                         </div>
                     `;
+                    this.applyTranslations();
                     return;
                 }
 
                 container.innerHTML = `
                     <div style="margin-bottom: 15px;">
                         <h4 style="color: var(--primary); margin-bottom: 12px;">
-                            <i class="fas fa-list"></i> ${todaysAppointments.length} Appointment${todaysAppointments.length > 1 ? 's' : ''} Today
+                            <i class="fas fa-list"></i> ${todaysAppointments.length} ${this.translate('appointment')}${todaysAppointments.length > 1 ? 's' : ''} ${this.translate('today')}
                         </h4>
                     </div>
                     ${todaysAppointments.map(appointment => {
@@ -1554,20 +1957,20 @@
                         
                         let statusClass = '';
                         let statusIcon = '🕒';
-                        let statusText = `In ${hoursUntil}h`;
+                        let statusText = `${this.translate('in')} ${hoursUntil}h`;
                         
                         if (isUrgent) {
                             statusClass = 'urgent';
                             statusIcon = '⚠️';
-                            statusText = 'Starting soon!';
+                            statusText = this.translate('starting_soon');
                         } else if (isCompleted) {
                             statusClass = 'completed';
                             statusIcon = '✅';
-                            statusText = 'Completed';
+                            statusText = this.translate('completed');
                         } else if (hoursUntil < 0) {
                             statusClass = 'completed';
                             statusIcon = '✅';
-                            statusText = 'Completed';
+                            statusText = this.translate('completed');
                         }
                         
                         return `
@@ -1611,15 +2014,15 @@
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
                             <div style="background: rgba(233, 30, 99, 0.1); padding: 18px; border-radius: 12px; text-align: center;">
                                 <div style="font-size: 1.6em; color: var(--primary); font-weight: bold;">${this.appointments.length}</div>
-                                <div style="color: rgba(255,255,255,0.8);">Total Appointments</div>
+                                <div style="color: rgba(255,255,255,0.8);">${this.translate('total_appointments')}</div>
                             </div>
                             <div style="background: rgba(76,175,80,0.1); padding: 18px; border-radius: 12px; text-align: center;">
                                 <div style="font-size: 1.6em; color: var(--success); font-weight: bold;">${this.formatCurrency(avgAppointmentPrice)}</div>
-                                <div style="color: rgba(255,255,255,0.8);">Avg Appointment Price</div>
+                                <div style="color: rgba(255,255,255,0.8);">${this.translate('avg_appointment_price')}</div>
                             </div>
                             <div style="background: rgba(156, 39, 176, 0.1); padding: 18px; border-radius: 12px; text-align: center;">
                                 <div style="font-size: 1.6em; color: var(--secondary); font-weight: bold;">${returningClients}</div>
-                                <div style="color: rgba(255,255,255,0.8);">Returning Clients</div>
+                                <div style="color: rgba(255,255,255,0.8);">${this.translate('returning_clients')}</div>
                             </div>
                         </div>
                     `;
@@ -1627,10 +2030,11 @@
                     container.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-chart-pie"></i>
-                            <h3>No Data Yet</h3>
-                            <p>Start adding clients and appointments to see insights</p>
+                            <h3 data-i18n="no_data_yet">${this.translate('no_data_yet')}</h3>
+                            <p data-i18n="start_adding_data">${this.translate('start_adding_data')}</p>
                         </div>
                     `;
+                    this.applyTranslations();
                 }
             }
 
@@ -1641,13 +2045,14 @@
                     container.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-users"></i>
-                            <h3>No Clients Yet</h3>
-                            <p>Start building your professional client database</p>
+                            <h3 data-i18n="no_clients_yet">${this.translate('no_clients_yet')}</h3>
+                            <p data-i18n="build_client_database">${this.translate('build_client_database')}</p>
                             <button class="btn btn-primary" onclick="app.openModal('addClientModal')">
-                                <i class="fas fa-plus"></i> Add Your First Client
+                                <i class="fas fa-plus"></i> <span data-i18n="add_first_client">${this.translate('add_first_client')}</span>
                             </button>
                         </div>
                     `;
+                    this.applyTranslations();
                     return;
                 }
 
@@ -1662,23 +2067,23 @@
                             <div class="item-content" onclick="app.showSection('clients')">
                                 <div class="item-title">
                                     <i class="fas fa-user"></i> ${client.name}
-                                    ${clientAppointments.length > 0 ? '<span style="background: var(--success); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7em; margin-left: 10px;">Regular</span>' : ''}
+                                    ${clientAppointments.length > 0 ? '<span style="background: var(--success); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7em; margin-left: 10px;">' + this.translate('regular_client') + '</span>' : ''}
                                 </div>
                                 <div class="item-meta">
                                     ${client.phone ? `<div><i class="fas fa-phone"></i> ${client.phone}</div>` : ''}
                                     ${client.email ? `<div><i class="fas fa-envelope"></i> ${client.email}</div>` : ''}
-                                    ${client.hairType ? `<div><i class="fas fa-cut"></i> ${client.hairType} hair</div>` : ''}
-                                    <div><i class="fas fa-calendar"></i> ${clientAppointments.length} appointments | ${this.formatCurrency(totalSpent)}</div>
-                                    ${lastAppointment ? `<div><i class="fas fa-clock"></i> Last visit: ${lastAppointment.toLocaleDateString()}</div>` : ''}
+                                    ${client.hairType ? `<div><i class="fas fa-cut"></i> ${client.hairType} ${this.translate('hair')}</div>` : ''}
+                                    <div><i class="fas fa-calendar"></i> ${clientAppointments.length} ${this.translate('appointments')} | ${this.formatCurrency(totalSpent)}</div>
+                                    ${lastAppointment ? `<div><i class="fas fa-clock"></i> ${this.translate('last_visit')}: ${lastAppointment.toLocaleDateString()}</div>` : ''}
                                     ${client.notes ? `<div style="margin-top: 6px; padding: 6px; background: rgba(255,255,255,0.05); border-radius: 6px;"><i class="fas fa-sticky-note"></i> ${client.notes}</div>` : ''}
-                                    <div style="margin-top: 4px; font-size: 0.8em; opacity: 0.7;">Added: ${new Date(client.createdAt).toLocaleDateString()}</div>
+                                    <div style="margin-top: 4px; font-size: 0.8em; opacity: 0.7;">${this.translate('added')}: ${new Date(client.createdAt).toLocaleDateString()}</div>
                                 </div>
                             </div>
                             <div class="item-actions">
-                                <button class="action-btn btn-primary" onclick="event.stopPropagation(); app.editClient('${client.id}')" title="Edit Client">
+                                <button class="action-btn btn-primary" onclick="event.stopPropagation(); app.editClient('${client.id}')" title="${this.translate('edit_client')}">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="action-btn btn-danger" onclick="event.stopPropagation(); app.deleteClient('${client.id}')" title="Delete Client">
+                                <button class="action-btn btn-danger" onclick="event.stopPropagation(); app.deleteClient('${client.id}')" title="${this.translate('delete_client')}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -1695,13 +2100,14 @@
                     container.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-calendar-plus"></i>
-                            <h3>No Appointments Scheduled</h3>
-                            <p>Schedule your first professional hair appointment</p>
+                            <h3 data-i18n="no_appointments_scheduled">${this.translate('no_appointments_scheduled')}</h3>
+                            <p data-i18n="schedule_first_appointment">${this.translate('schedule_first_appointment')}</p>
                             <button class="btn btn-primary" onclick="app.openModal('addAppointmentModal')">
-                                <i class="fas fa-plus"></i> Create First Appointment
+                                <i class="fas fa-plus"></i> <span data-i18n="create_first_appointment">${this.translate('create_first_appointment')}</span>
                             </button>
                         </div>
                     `;
+                    this.applyTranslations();
                     return;
                 }
 
@@ -1713,7 +2119,7 @@
                     const isPast = appointmentDate < new Date();
                     const isToday = appointmentDate.toDateString() === new Date().toDateString();
                     const statusClass = isPast ? 'completed' : (isToday ? 'urgent' : 'upcoming');
-                    const statusText = isPast ? 'Completed' : (isToday ? 'Today' : 'Upcoming');
+                    const statusText = isPast ? this.translate('completed') : (isToday ? this.translate('today') : this.translate('upcoming'));
                     const statusColor = isPast ? 'var(--success)' : (isToday ? 'var(--warning)' : 'var(--primary)');
                     
                     return `
@@ -1721,21 +2127,21 @@
                             <div class="item-content" onclick="app.showSection('appointments')">
                                 <div class="item-title">${appointment.title}</div>
                                 <div class="item-meta">
-                                    <strong>Client:</strong> ${client.name}<br>
-                                    <strong>When:</strong> ${appointmentDate.toLocaleString()}<br>
-                                    <strong>Duration:</strong> ${appointment.duration} hours<br>
-                                    <strong>Status:</strong> <span style="color: ${statusColor}; font-weight: 600;">${statusText}</span><br>
-                                    ${appointment.price ? `<strong>Price:</strong> ${this.formatCurrency(appointment.price)}` : ''}
-                                    ${appointment.service ? `<br><strong>Service:</strong> ${appointment.service}` : ''}
-                                    ${appointment.notes ? `<br><strong>Notes:</strong> ${appointment.notes}` : ''}
-                                    <br><small style='opacity: 0.7;'>Created: ${new Date(appointment.createdAt).toLocaleDateString()}</small>
+                                    <strong>${this.translate('client')}:</strong> ${client.name}<br>
+                                    <strong>${this.translate('when')}:</strong> ${appointmentDate.toLocaleString()}<br>
+                                    <strong>${this.translate('duration')}:</strong> ${appointment.duration} ${this.translate('hours')}<br>
+                                    <strong>${this.translate('status')}:</strong> <span style="color: ${statusColor}; font-weight: 600;">${statusText}</span><br>
+                                    ${appointment.price ? `<strong>${this.translate('price')}:</strong> ${this.formatCurrency(appointment.price)}` : ''}
+                                    ${appointment.service ? `<br><strong>${this.translate('service')}:</strong> ${appointment.service}` : ''}
+                                    ${appointment.notes ? `<br><strong>${this.translate('notes')}:</strong> ${appointment.notes}` : ''}
+                                    <br><small style='opacity: 0.7;'>${this.translate('created')}: ${new Date(appointment.createdAt).toLocaleDateString()}</small>
                                 </div>
                             </div>
                             <div class="item-actions">
-                                <button class="action-btn btn-primary" onclick="event.stopPropagation(); app.editAppointment('${appointment.id}')" title="Edit Appointment">
+                                <button class="action-btn btn-primary" onclick="event.stopPropagation(); app.editAppointment('${appointment.id}')" title="${this.translate('edit_appointment')}">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="action-btn btn-danger" onclick="event.stopPropagation(); app.deleteAppointment('${appointment.id}')" title="Delete Appointment">
+                                <button class="action-btn btn-danger" onclick="event.stopPropagation(); app.deleteAppointment('${appointment.id}')" title="${this.translate('delete_appointment')}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -1752,13 +2158,14 @@
                     container.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-box-open"></i>
-                            <h3>No Inventory Items</h3>
-                            <p>Track your hair products and professional supplies</p>
+                            <h3 data-i18n="no_inventory_items">${this.translate('no_inventory_items')}</h3>
+                            <p data-i18n="track_supplies">${this.translate('track_supplies')}</p>
                             <button class="btn btn-primary" onclick="app.openModal('addInventoryModal')">
-                                <i class="fas fa-plus"></i> Add First Item
+                                <i class="fas fa-plus"></i> <span data-i18n="add_first_item">${this.translate('add_first_item')}</span>
                             </button>
                         </div>
                     `;
+                    this.applyTranslations();
                     return;
                 }
 
@@ -1781,20 +2188,20 @@
                             <div class="item-content" onclick="app.showSection('inventory')">
                                 <div class="item-title">
                                     ${icon} ${item.name}
-                                    ${isLowStock ? '<span style="background: var(--warning); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7em; margin-left: 10px;">Low Stock</span>' : ''}
+                                    ${isLowStock ? '<span style="background: var(--warning); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7em; margin-left: 10px;">' + this.translate('low_stock') + '</span>' : ''}
                                 </div>
                                 <div class="item-meta">
-                                    <div ${stockStyle}>📦 ${item.qty} in stock | ⚠️ Alert at: ${item.alert}</div>
-                                    <div>🏷️ ${item.type} ${item.price ? `| ${this.formatCurrency(item.price)} per unit` : ''}</div>
+                                    <div ${stockStyle}>📦 ${item.qty} ${this.translate('in_stock')} | ⚠️ ${this.translate('alert_at')}: ${item.alert}</div>
+                                    <div>🏷️ ${item.type} ${item.price ? `| ${this.formatCurrency(item.price)} ${this.translate('per_unit')}` : ''}</div>
                                     ${item.notes ? `<div style="margin-top: 6px; padding: 6px; background: rgba(255,255,255,0.05); border-radius: 6px;">📝 ${item.notes}</div>` : ''}
-                                    <div style="margin-top: 4px; font-size: 0.8em; opacity: 0.7;">Added: ${new Date(item.createdAt).toLocaleDateString()}</div>
+                                    <div style="margin-top: 4px; font-size: 0.8em; opacity: 0.7;">${this.translate('added')}: ${new Date(item.createdAt).toLocaleDateString()}</div>
                                 </div>
                             </div>
                             <div class="item-actions">
-                                <button class="action-btn btn-primary" onclick="event.stopPropagation(); app.editInventoryItem('${item.id}')" title="Edit Item">
+                                <button class="action-btn btn-primary" onclick="event.stopPropagation(); app.editInventoryItem('${item.id}')" title="${this.translate('edit_item')}">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="action-btn btn-danger" onclick="event.stopPropagation(); app.deleteInventoryItem('${item.id}')" title="Delete Item">
+                                <button class="action-btn btn-danger" onclick="event.stopPropagation(); app.deleteInventoryItem('${item.id}')" title="${this.translate('delete_item')}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -1809,14 +2216,14 @@
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <div>
                                     <h4 style="color: var(--warning); margin: 0 0 8px 0; display: flex; align-items: center; gap: 8px;">
-                                        <i class="fas fa-exclamation-triangle"></i> Low Stock Alerts
+                                        <i class="fas fa-exclamation-triangle"></i> ${this.translate('low_stock_alerts')}
                                     </h4>
                                     <p style="margin: 0; color: rgba(255,255,255,0.8);">
-                                        ${lowStock.length} item(s) need restocking
+                                        ${lowStock.length} ${this.translate('items_need_restocking')}
                                     </p>
                                 </div>
                                 <button class="btn btn-warning" onclick="app.showSection('inventory')">
-                                    <i class="fas fa-boxes"></i> Manage Inventory
+                                    <i class="fas fa-boxes"></i> ${this.translate('manage_inventory')}
                                 </button>
                             </div>
                         </div>
@@ -2023,6 +2430,10 @@
 
             getClientById(clientId) {
                 return this.clients.find(c => c.id === clientId);
+            }
+
+            translate(key) {
+                return this.translations[this.currentLanguage]?.[key] || this.translations['en'][key] || key;
             }
 
             showNotification(message) {
