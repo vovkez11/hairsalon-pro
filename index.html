@@ -428,6 +428,30 @@
             font-size: 0.9em;
         }
 
+        /* PWA Install Button */
+        #pwaInstallBtn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 10000;
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        #pwaInstallBtn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .sidebar {
@@ -448,6 +472,13 @@
             .modal-content {
                 width: 95%;
                 padding: 1rem;
+            }
+
+            #pwaInstallBtn {
+                bottom: 10px;
+                left: 10px;
+                padding: 10px 16px;
+                font-size: 14px;
             }
         }
     </style>
@@ -970,6 +1001,9 @@
 
     <!-- Toast -->
     <div class="toast" id="toast"></div>
+
+    <!-- PWA Install Button -->
+    <button id="pwaInstallBtn">📱 Install App</button>
 
     <script>
         // ULTIMATE MULTILINGUAL STYLISTMANAGER PRO - COMPLETE FIXED VERSION
@@ -1507,6 +1541,46 @@
                 this.setLanguage(this.currentLanguage);
                 this.refreshAll();
                 this.showToast('🎉 App loaded successfully!', 'success');
+                this.initPWA();
+            }
+
+            initPWA() {
+                // Service Worker Registration
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register('sw.js')
+                        .then(registration => console.log('✅ SW registered'))
+                        .catch(error => console.log('❌ SW registration failed: ', error));
+                }
+
+                // PWA Install Logic
+                let deferredPrompt;
+                const installBtn = document.getElementById('pwaInstallBtn');
+
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    console.log('🎯 PWA install prompt available');
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    installBtn.style.display = 'block';
+                    
+                    installBtn.onclick = async () => {
+                        installBtn.style.display = 'none';
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        console.log(`User response: ${outcome}`);
+                        deferredPrompt = null;
+                    };
+                });
+
+                window.addEventListener('appinstalled', () => {
+                    console.log('🎉 PWA installed');
+                    installBtn.style.display = 'none';
+                    this.showToast('🎉 App installed successfully!', 'success');
+                });
+
+                // Hide button if already in standalone mode
+                if (window.matchMedia('(display-mode: standalone)').matches) {
+                    installBtn.style.display = 'none';
+                }
             }
 
             setLanguage(lang) {
@@ -2423,170 +2497,6 @@
             window.app = new StylistManagerPro();
             console.log('🎉 StylistManager Pro ULTIMATE - Complete Fixed Version Ready!');
         });
-// === ENHANCED PWA INSTALL BUTTON WITH DEBUGGING ===
-let deferredPrompt;
-
-// Service Worker Registration for PWA
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-        .then(registration => {
-            console.log('✅ Service Worker registered successfully:', registration);
-        })
-        .catch(error => {
-            console.log('❌ Service Worker registration failed:', error);
-            // Try without the path prefix
-            navigator.serviceWorker.register('sw.js')
-                .then(registration => {
-                    console.log('✅ Service Worker registered with relative path:', registration);
-                })
-                .catch(error => {
-                    console.log('❌ Service Worker registration completely failed:', error);
-                });
-        });
-} else {
-    console.log('❌ Service Worker not supported');
-}
-
-// Create PWA Install Button
-const installBtn = document.createElement('button');
-installBtn.innerHTML = '📱 Install App';
-installBtn.id = 'pwaInstallBtn';
-installBtn.style.cssText = `
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    background: #d81b60;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 25px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    z-index: 10000;
-    display: none;
-    font-family: 'Roboto', sans-serif;
-    transition: all 0.3s ease;
-`;
-
-installBtn.addEventListener('mouseenter', () => {
-    installBtn.style.transform = 'scale(1.05)';
-    installBtn.style.background = '#ad1457';
-});
-
-installBtn.addEventListener('mouseleave', () => {
-    installBtn.style.transform = 'scale(1)';
-    installBtn.style.background = '#d81b60';
-});
-
-document.body.appendChild(installBtn);
-
-// Enhanced PWA Installation Logic
-window.addEventListener('beforeinstallprompt', (e) => {
-    console.log('🎯 beforeinstallprompt event fired!');
-    
-    // Prevent the mini-infobar from appearing on mobile
-    e.preventDefault();
-    
-    // Stash the event so it can be triggered later
-    deferredPrompt = e;
-    
-    // Show the install button
-    installBtn.style.display = 'block';
-    
-    console.log('✅ PWA can be installed - showing install button');
-    
-    // Optional: Update UI to notify the user they can install the PWA
-    installBtn.onclick = async () => {
-        console.log('🔄 Install button clicked');
-        
-        // Hide the app provided install promotion
-        installBtn.style.display = 'none';
-        
-        // Show the install prompt
-        deferredPrompt.prompt();
-        
-        // Wait for the user to respond to the prompt
-        const { outcome } = await deferredPrompt.userChoice;
-        
-        console.log(`📱 User response to install prompt: ${outcome}`);
-        
-        // We've used the prompt, and can't use it again, throw it away
-        deferredPrompt = null;
-    };
-});
-
-// Listen for app installation
-window.addEventListener('appinstalled', (evt) => {
-    console.log('🎉 PWA was successfully installed!');
-    installBtn.style.display = 'none';
-    deferredPrompt = null;
-    
-    // Show success message
-    app.showToast('🎉 App installed successfully!', 'success');
-});
-
-// Debug: Check PWA criteria
-function checkPWAReadiness() {
-    console.log('🔍 Checking PWA readiness...');
-    
-    // Check if app meets PWA criteria
-    const isHTTPS = window.location.protocol === 'https:' || window.location.hostname === 'localhost';
-    const hasSW = 'serviceWorker' in navigator;
-    const hasManifest = document.querySelector('link[rel="manifest"]') !== null;
-    
-    console.log('📊 PWA Status:');
-    console.log('  - HTTPS/Localhost:', isHTTPS);
-    console.log('  - Service Worker Support:', hasSW);
-    console.log('  - Manifest Found:', hasManifest);
-    
-    if (!isHTTPS) {
-        console.log('❌ PWA requires HTTPS (except localhost)');
-    }
-    if (!hasSW) {
-        console.log('❌ Service Worker not supported');
-    }
-    if (!hasManifest) {
-        console.log('❌ Web App Manifest not found');
-    }
-    
-    return isHTTPS && hasSW && hasManifest;
-}
-
-// Run PWA check on load
-setTimeout(checkPWAReadiness, 1000);
-
-// Manual install trigger (for testing)
-const manualInstallBtn = document.createElement('button');
-manualInstallBtn.innerHTML = '🔧 Debug PWA';
-manualInstallBtn.style.cssText = `
-    position: fixed;
-    bottom: 80px;
-    left: 20px;
-    background: #8e24aa;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 12px;
-    cursor: pointer;
-    z-index: 10000;
-    font-family: 'Roboto', sans-serif;
-    opacity: 0.8;
-`;
-
-manualInstallBtn.onclick = () => {
-    checkPWAReadiness();
-    console.log('🛠️ Manual PWA check triggered');
-    app.showToast('🔧 Checking PWA readiness...', 'success');
-};
-
-document.body.appendChild(manualInstallBtn);
-// === END OF ENHANCED PWA CODE ===
     </script>
 </body>
-
 </html>
-
-
-
