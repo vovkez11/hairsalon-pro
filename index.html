@@ -1106,7 +1106,7 @@
                         <div class="empty-state">
                             <i class="fas fa-calendar-plus"></i>
                             <h3 data-i18n="no_upcoming_sessions">No Upcoming Sessions</h3>
-                            <p data-i18n="schedule_appointments_to_see">Schedule appointments to see them here</p>
+                            <p data-i18n="schedule_sessions_to_see">Schedule appointments to see them here</p>
                             <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
                                 <i class="fas fa-plus"></i> <span data-i18n="schedule_appointment">Schedule Appointment</span>
                             </button>
@@ -1119,23 +1119,28 @@
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title">
-                            <i class="fas fa-calendar-alt"></i> <span data-i18n="calendar_view">Calendar View</span>
+                            <i class="fas fa-calendar-alt"></i> <span data-i18n="appointment_calendar">Appointment Calendar</span>
                         </h2>
-                        <div class="calendar-nav">
-                            <button class="btn btn-outline btn-sm" id="prevMonth">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <h3 id="currentMonthYear">January 2023</h3>
-                            <button class="btn btn-outline btn-sm" id="nextMonth">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
+                        <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
+                            <i class="fas fa-plus"></i> <span data-i18n="new_appointment">New Appointment</span>
+                        </button>
+                    </div>
+
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <div class="calendar-nav">
+                                <button class="btn btn-outline" id="prevMonth">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <h3 id="currentMonth">Month Year</h3>
+                                <button class="btn btn-outline" id="nextMonth">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
                             <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
                                 <i class="fas fa-plus"></i> <span data-i18n="new_appointment">New Appointment</span>
                             </button>
                         </div>
-                    </div>
-
-                    <div class="calendar-container">
                         <div class="calendar-grid" id="calendarGrid">
                             <!-- Calendar will be generated here -->
                         </div>
@@ -1158,7 +1163,7 @@
                         <div class="empty-state">
                             <i class="fas fa-box-open"></i>
                             <h3 data-i18n="no_inventory_items">No Inventory Items</h3>
-                            <p data-i18n="add_inventory_items">Add your salon products and supplies to track inventory</p>
+                            <p data-i18n="add_products_to_track">Add products to track your salon inventory</p>
                             <button class="btn btn-primary" onclick="HairSalonApp.openModal('addInventoryModal')">
                                 <i class="fas fa-plus"></i> <span data-i18n="add_first_item">Add Your First Item</span>
                             </button>
@@ -1180,22 +1185,22 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <form id="addClientForm">
+            <form id="clientForm">
                 <div class="form-group">
                     <label class="form-label" for="clientName" data-i18n="full_name">Full Name</label>
-                    <input type="text" class="form-control" id="clientName" required>
+                    <input type="text" id="clientName" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="clientPhone" data-i18n="phone_number">Phone Number</label>
-                    <input type="tel" class="form-control" id="clientPhone" required>
+                    <input type="tel" id="clientPhone" class="form-control">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="clientEmail" data-i18n="email_address">Email Address</label>
-                    <input type="email" class="form-control" id="clientEmail">
+                    <input type="email" id="clientEmail" class="form-control">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="clientNotes" data-i18n="notes">Notes</label>
-                    <textarea class="form-control" id="clientNotes" rows="3"></textarea>
+                    <textarea id="clientNotes" class="form-control" rows="3"></textarea>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-outline" onclick="HairSalonApp.closeModal('addClientModal')" data-i18n="cancel">Cancel</button>
@@ -1216,25 +1221,25 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <form id="addAppointmentForm">
+            <form id="appointmentForm">
                 <div class="form-group">
                     <label class="form-label" for="appointmentClient" data-i18n="select_client">Select Client</label>
-                    <select class="form-control" id="appointmentClient" required>
-                        <option value="" data-i18n="choose_client">Choose a client...</option>
+                    <select id="appointmentClient" class="form-control" required>
+                        <option value="" data-i18n="select_client">Select Client</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="appointmentDate" data-i18n="date">Date</label>
-                    <input type="date" class="form-control" id="appointmentDate" required>
+                    <input type="date" id="appointmentDate" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="appointmentTime" data-i18n="time">Time</label>
-                    <input type="time" class="form-control" id="appointmentTime" required>
+                    <input type="time" id="appointmentTime" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="appointmentService" data-i18n="service">Service</label>
-                    <select class="form-control" id="appointmentService" required>
-                        <option value="" data-i18n="choose_service">Choose a service...</option>
+                    <select id="appointmentService" class="form-control" required>
+                        <option value="" data-i18n="select_service">Select Service</option>
                         <option value="haircut" data-i18n="haircut">Haircut</option>
                         <option value="coloring" data-i18n="coloring">Coloring</option>
                         <option value="styling" data-i18n="styling">Styling</option>
@@ -1244,19 +1249,8 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="appointmentNotes" data-i18n="notes">Notes</label>
-                    <textarea class="form-control" id="appointmentNotes" rows="3"></textarea>
+                    <textarea id="appointmentNotes" class="form-control" rows="3"></textarea>
                 </div>
-                
-                <!-- Inventory Deduction Section -->
-                <div class="inventory-deduction-section">
-                    <h4 class="form-label" data-i18n="inventory_deduction">Inventory Deduction</h4>
-                    <p class="form-label" style="font-size: 0.9em; opacity: 0.8;" data-i18n="select_items_used">Select items used during this appointment:</p>
-                    
-                    <div class="inventory-items-grid" id="appointmentInventoryItems">
-                        <!-- Inventory items will be populated here -->
-                    </div>
-                </div>
-                
                 <div class="form-actions">
                     <button type="button" class="btn btn-outline" onclick="HairSalonApp.closeModal('addAppointmentModal')" data-i18n="cancel">Cancel</button>
                     <button type="submit" class="btn btn-primary" data-i18n="save_appointment">Save Appointment</button>
@@ -1276,34 +1270,34 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <form id="addInventoryForm">
+            <form id="inventoryForm">
                 <div class="form-group">
-                    <label class="form-label" for="inventoryName" data-i18n="item_name">Item Name</label>
-                    <input type="text" class="form-control" id="inventoryName" required>
+                    <label class="form-label" for="itemName" data-i18n="item_name">Item Name</label>
+                    <input type="text" id="itemName" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="inventoryCategory" data-i18n="category">Category</label>
-                    <select class="form-control" id="inventoryCategory" required>
-                        <option value="" data-i18n="choose_category">Choose a category...</option>
+                    <label class="form-label" for="itemCategory" data-i18n="category">Category</label>
+                    <select id="itemCategory" class="form-control" required>
+                        <option value="" data-i18n="select_category">Select Category</option>
                         <option value="shampoo" data-i18n="shampoo">Shampoo</option>
                         <option value="conditioner" data-i18n="conditioner">Conditioner</option>
-                        <option value="color" data-i18n="color">Color</option>
-                        <option value="styling" data-i18n="styling">Styling</option>
+                        <option value="color" data-i18n="hair_color">Hair Color</option>
+                        <option value="styling" data-i18n="styling_products">Styling Products</option>
                         <option value="tools" data-i18n="tools">Tools</option>
                         <option value="other" data-i18n="other">Other</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="inventoryQuantity" data-i18n="quantity">Quantity</label>
-                    <input type="number" class="form-control" id="inventoryQuantity" min="0" required>
+                    <label class="form-label" for="itemQuantity" data-i18n="quantity">Quantity</label>
+                    <input type="number" id="itemQuantity" class="form-control" min="0" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="inventoryLowStock" data-i18n="low_stock_threshold">Low Stock Threshold</label>
-                    <input type="number" class="form-control" id="inventoryLowStock" min="1" required>
+                    <label class="form-label" for="itemLowStock" data-i18n="low_stock_threshold">Low Stock Threshold</label>
+                    <input type="number" id="itemLowStock" class="form-control" min="1" value="5">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="inventoryNotes" data-i18n="notes">Notes</label>
-                    <textarea class="form-control" id="inventoryNotes" rows="3"></textarea>
+                    <label class="form-label" for="itemNotes" data-i18n="notes">Notes</label>
+                    <textarea id="itemNotes" class="form-control" rows="3"></textarea>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-outline" onclick="HairSalonApp.closeModal('addInventoryModal')" data-i18n="cancel">Cancel</button>
@@ -1320,181 +1314,62 @@
     <div class="install-prompt" id="installPrompt">
         <span data-i18n="install_prompt">Install HairSalon Pro for a better experience</span>
         <button class="btn btn-primary" id="installPromptButton" data-i18n="install">Install</button>
-        <button class="btn btn-outline" id="dismissInstallPrompt" data-i18n="dismiss">Dismiss</button>
+        <button class="btn btn-outline" id="installDismissButton" data-i18n="dismiss">Dismiss</button>
     </div>
 
     <script>
-        // HairSalon Pro - PERFECT WORKING MASTERPIECE
-        class HairSalonPro {
-            constructor() {
-                this.currentLanguage = 'en';
-                this.currentDate = new Date();
-                this.deferredPrompt = null;
-                
-                // Initialize empty data
-                this.clients = JSON.parse(localStorage.getItem('hairsalon_clients')) || [];
-                this.appointments = JSON.parse(localStorage.getItem('hairsalon_appointments')) || [];
-                this.inventory = JSON.parse(localStorage.getItem('hairsalon_inventory')) || [];
-                
-                // Complete translations
-                this.translations = {
-                    en: {
-                        "app_name": "HairSalon Pro", "tagline": "Professional Hairdresser Management System",
-                        "main_navigation": "Main Navigation", "dashboard": "Dashboard", "clients": "Clients", 
-                        "appointments": "Appointments", "upcoming_sessions": "Upcoming Sessions", "calendar": "Calendar", "inventory": "Inventory",
-                        "quick_actions": "Quick Actions", "add_client": "Add Client", "schedule_appointment": "Schedule Appointment",
-                        "install_app": "Install App", "salon_overview": "Salon Overview", "total_clients": "Total Clients",
-                        "today_appointments": "Today's Appointments", "low_stock": "Low Stock Items", "monthly_revenue": "Monthly Revenue",
-                        "todays_appointments": "Today's Appointments", "view_all": "View All", "no_appointments_today": "No Appointments Today",
-                        "no_appointments_today_desc": "Your schedule is clear for today", "client_management": "Client Management",
-                        "new_client": "New Client", "no_clients_yet": "No Clients Yet", "build_client_database": "Start building your professional client database",
-                        "add_first_client": "Add Your First Client", "add_new_client": "Add New Client", "full_name": "Full Name",
-                        "phone_number": "Phone Number", "email_address": "Email Address", "notes": "Notes", "cancel": "Cancel",
-                        "save_client": "Save Client", "confirm_delete_client": "Are you sure you want to delete this client?",
-                        "client_deleted": "Client deleted successfully", "client_saved": "Client saved successfully",
-                        "appointment_management": "Appointment Management", "new_appointment": "New Appointment",
-                        "no_appointments_scheduled": "No Appointments Scheduled", "schedule_first_appointment": "Schedule your first professional hair appointment",
-                        "create_first_appointment": "Create First Appointment", "select_client": "Select Client", "choose_client": "Choose a client...",
-                        "date": "Date", "time": "Time", "service": "Service", "choose_service": "Choose a service...", "haircut": "Haircut",
-                        "coloring": "Coloring", "styling": "Styling", "treatment": "Treatment", "other": "Other", "save_appointment": "Save Appointment",
-                        "scheduled": "Scheduled", "completed": "Completed", "cancelled": "Cancelled", "confirm_delete_appointment": "Are you sure you want to delete this appointment?",
-                        "appointment_deleted": "Appointment deleted successfully", "appointment_saved": "Appointment scheduled successfully",
-                        "appointment_completed": "Appointment marked as completed", "appointment_cancelled": "Appointment cancelled",
-                        "inventory_deduction": "Inventory Deduction", "select_items_used": "Select items used during this appointment:",
-                        "quantity": "Quantity", "calendar_view": "Calendar View", "sun": "Sun", "mon": "Mon", "tue": "Tue", "wed": "Wed", 
-                        "thu": "Thu", "fri": "Fri", "sat": "Sat", "inventory_management": "Inventory Management", "new_item": "New Item",
-                        "no_inventory_items": "No Inventory Items", "add_inventory_items": "Add your salon products and supplies to track inventory",
-                        "add_first_item": "Add Your First Item", "add_inventory_item": "Add Inventory Item", "item_name": "Item Name",
-                        "category": "Category", "choose_category": "Choose a category...", "shampoo": "Shampoo", "conditioner": "Conditioner",
-                        "color": "Color", "styling": "Styling", "tools": "Tools", "low_stock_threshold": "Low Stock Threshold", "save_item": "Save Item",
-                        "confirm_delete_inventory": "Are you sure you want to delete this inventory item?", "inventory_deleted": "Inventory item deleted successfully",
-                        "inventory_saved": "Inventory item saved successfully", "low_stock_warning": "Low Stock Warning", "install_prompt": "Install HairSalon Pro for a better experience",
-                        "install": "Install", "dismiss": "Dismiss", "app_installed": "App installed successfully",
-                        "no_upcoming_sessions": "No Upcoming Sessions", "schedule_appointments_to_see": "Schedule appointments to see them here"
-                    },
-                    es: {
-                        "app_name": "HairSalon Pro", "tagline": "Sistema Profesional de Gestión de Peluquería",
-                        "main_navigation": "Navegación Principal", "dashboard": "Panel de Control", "clients": "Clientes", 
-                        "appointments": "Citas", "upcoming_sessions": "Próximas Sesiones", "calendar": "Calendario", "inventory": "Inventario",
-                        "quick_actions": "Acciones Rápidas", "add_client": "Agregar Cliente", "schedule_appointment": "Programar Cita",
-                        "install_app": "Instalar App", "salon_overview": "Resumen del Salón", "total_clients": "Total de Clientes",
-                        "today_appointments": "Citas de Hoy", "low_stock": "Artículos con Stock Bajo", "monthly_revenue": "Ingresos Mensuales",
-                        "todays_appointments": "Citas de Hoy", "view_all": "Ver Todos", "no_appointments_today": "No Hay Citas Hoy",
-                        "no_appointments_today_desc": "Tu horario está libre para hoy", "client_management": "Gestión de Clientes",
-                        "new_client": "Nuevo Cliente", "no_clients_yet": "Aún No Hay Clientes", "build_client_database": "Comienza a construir tu base de datos profesional de clientes",
-                        "add_first_client": "Agregar Tu Primer Cliente", "add_new_client": "Agregar Nuevo Cliente", "full_name": "Nombre Completo",
-                        "phone_number": "Número de Teléfono", "email_address": "Correo Electrónico", "notes": "Notas", "cancel": "Cancelar",
-                        "save_client": "Guardar Cliente", "confirm_delete_client": "¿Estás seguro de que quieres eliminar este cliente?",
-                        "client_deleted": "Cliente eliminado exitosamente", "client_saved": "Cliente guardado exitosamente",
-                        "appointment_management": "Gestión de Citas", "new_appointment": "Nueva Cita",
-                        "no_appointments_scheduled": "No Hay Citas Programadas", "schedule_first_appointment": "Programa tu primera cita profesional de peluquería",
-                        "create_first_appointment": "Crear Primera Cita", "select_client": "Seleccionar Cliente", "choose_client": "Elige un cliente...",
-                        "date": "Fecha", "time": "Hora", "service": "Servicio", "choose_service": "Elige un servicio...", "haircut": "Corte de Pelo",
-                        "coloring": "Coloración", "styling": "Estilizado", "treatment": "Tratamiento", "other": "Otro", "save_appointment": "Guardar Cita",
-                        "scheduled": "Programada", "completed": "Completada", "cancelled": "Cancelada", "confirm_delete_appointment": "¿Estás seguro de que quieres eliminar esta cita?",
-                        "appointment_deleted": "Cita eliminada exitosamente", "appointment_saved": "Cita programada exitosamente",
-                        "appointment_completed": "Cita marcada como completada", "appointment_cancelled": "Cita cancelada",
-                        "inventory_deduction": "Deducción de Inventario", "select_items_used": "Selecciona los artículos utilizados durante esta cita:",
-                        "quantity": "Cantidad", "calendar_view": "Vista de Calendario", "sun": "Dom", "mon": "Lun", "tue": "Mar", "wed": "Mié", 
-                        "thu": "Jue", "fri": "Vie", "sat": "Sáb", "inventory_management": "Gestión de Inventario", "new_item": "Nuevo Artículo",
-                        "no_inventory_items": "No Hay Artículos en Inventario", "add_inventory_items": "Agrega tus productos y suministros de salón para rastrear el inventario",
-                        "add_first_item": "Agrega Tu Primer Artículo", "add_inventory_item": "Agregar Artículo al Inventario", "item_name": "Nombre del Artículo",
-                        "category": "Categoría", "choose_category": "Elige una categoría...", "shampoo": "Champú", "conditioner": "Acondicionador",
-                        "color": "Color", "styling": "Estilizado", "tools": "Herramientas", "low_stock_threshold": "Umbral de Stock Bajo", "save_item": "Guardar Artículo",
-                        "confirm_delete_inventory": "¿Estás seguro de que quieres eliminar este artículo del inventario?", "inventory_deleted": "Artículo de inventario eliminado exitosamente",
-                        "inventory_saved": "Artículo de inventario guardado exitosamente", "low_stock_warning": "Advertencia de Stock Bajo", "install_prompt": "Instala HairSalon Pro para una mejor experiencia",
-                        "install": "Instalar", "dismiss": "Descartar", "app_installed": "Aplicación instalada exitosamente",
-                        "no_upcoming_sessions": "No Hay Próximas Sesiones", "schedule_appointments_to_see": "Programa citas para verlas aquí"
-                    },
-                    ru: {
-                        "app_name": "HairSalon Pro", "tagline": "Профессиональная система управления парикмахерской",
-                        "main_navigation": "Основная Навигация", "dashboard": "Панель управления", "clients": "Клиенты", 
-                        "appointments": "Записи", "upcoming_sessions": "Предстоящие Сеансы", "calendar": "Календарь", "inventory": "Инвентарь",
-                        "quick_actions": "Быстрые действия", "add_client": "Добавить клиента", "schedule_appointment": "Запланировать запись",
-                        "install_app": "Установить приложение", "salon_overview": "Обзор салона", "total_clients": "Всего клиентов",
-                        "today_appointments": "Записи на сегодня", "low_stock": "Товары с низким запасом", "monthly_revenue": "Ежемесячный доход",
-                        "todays_appointments": "Записи на сегодня", "view_all": "Посмотреть все", "no_appointments_today": "Сегодня нет записей",
-                        "no_appointments_today_desc": "Ваше расписание на сегодня свободно", "client_management": "Управление клиентами",
-                        "new_client": "Новый клиент", "no_clients_yet": "Пока нет клиентов", "build_client_database": "Начните создавать свою профессиональную базу данных клиентов",
-                        "add_first_client": "Добавьте своего первого клиента", "add_new_client": "Добавить нового клиента", "full_name": "Полное имя",
-                        "phone_number": "Номер телефона", "email_address": "Адрес электронной почты", "notes": "Примечания", "cancel": "Отмена",
-                        "save_client": "Сохранить клиента", "confirm_delete_client": "Вы уверены, что хотите удалить этого клиента?",
-                        "client_deleted": "Клиент успешно удален", "client_saved": "Клиент успешно сохранен",
-                        "appointment_management": "Управление записями", "new_appointment": "Новая запись",
-                        "no_appointments_scheduled": "Нет запланированных записей", "schedule_first_appointment": "Запланируйте свою первую профессиональную запись в парикмахерской",
-                        "create_first_appointment": "Создать первую запись", "select_client": "Выбрать клиента", "choose_client": "Выберите клиента...",
-                        "date": "Дата", "time": "Время", "service": "Услуга", "choose_service": "Выберите услугу...", "haircut": "Стрижка",
-                        "coloring": "Окрашивание", "styling": "Укладка", "treatment": "Лечение", "other": "Другое", "save_appointment": "Сохранить запись",
-                        "scheduled": "Запланировано", "completed": "Завершено", "cancelled": "Отменено", "confirm_delete_appointment": "Вы уверены, что хотите удалить эту запись?",
-                        "appointment_deleted": "Запись успешно удалена", "appointment_saved": "Запись успешно запланирована",
-                        "appointment_completed": "Запись отмечена как завершенная", "appointment_cancelled": "Запись отменена",
-                        "inventory_deduction": "Списание инвентаря", "select_items_used": "Выберите предметы, использованные во время этой записи:",
-                        "quantity": "Количество", "calendar_view": "Вид календаря", "sun": "Вс", "mon": "Пн", "tue": "Вт", "wed": "Ср", 
-                        "thu": "Чт", "fri": "Пт", "sat": "Сб", "inventory_management": "Управление инвентарем", "new_item": "Новый предмет",
-                        "no_inventory_items": "Нет предметов в инвентаре", "add_inventory_items": "Добавьте свои продукты и принадлежности для салона, чтобы отслеживать инвентарь",
-                        "add_first_item": "Добавьте свой первый предмет", "add_inventory_item": "Добавить предмет в инвентарь", "item_name": "Название предмета",
-                        "category": "Категория", "choose_category": "Выберите категорию...", "shampoo": "Шампунь", "conditioner": "Кондиционер",
-                        "color": "Краска", "styling": "Укладка", "tools": "Инструменты", "low_stock_threshold": "Порог низкого запаса", "save_item": "Сохранить предмет",
-                        "confirm_delete_inventory": "Вы уверены, что хотите удалить этот предмет из инвентаря?", "inventory_deleted": "Предмет инвентаря успешно удален",
-                        "inventory_saved": "Предмет инвентаря успешно сохранен", "low_stock_warning": "Предупреждение о низком запасе", "install_prompt": "Установите HairSalon Pro для лучшего опыта",
-                        "install": "Установить", "dismiss": "Отклонить", "app_installed": "Приложение успешно установлено",
-                        "no_upcoming_sessions": "Нет предстоящих сеансов", "schedule_appointments_to_see": "Запланируйте записи, чтобы увидеть их здесь"
-                    },
-                    he: {
-                        "app_name": "HairSalon Pro", "tagline": "מערכת ניהול מספרה מקצועית",
-                        "main_navigation": "ניווט ראשי", "dashboard": "לוח בקרה", "clients": "לקוחות", 
-                        "appointments": "תורים", "upcoming_sessions": "מפגשים קרובים", "calendar": "יומן", "inventory": "מלאי",
-                        "quick_actions": "פעולות מהירות", "add_client": "הוסף לקוח", "schedule_appointment": "קבע תור",
-                        "install_app": "התקן אפליקציה", "salon_overview": "סקירת הסלון", "total_clients": "סה\"כ לקוחות",
-                        "today_appointments": "תורים להיום", "low_stock": "פריטים במלאי נמוך", "monthly_revenue": "הכנסה חודשית",
-                        "todays_appointments": "תורים להיום", "view_all": "הצג הכל", "no_appointments_today": "אין תורים להיום",
-                        "no_appointments_today_desc": "לוח הזמנים שלך פנוי להיום", "client_management": "ניהול לקוחות",
-                        "new_client": "לקוח חדש", "no_clients_yet": "אין עדיין לקוחות", "build_client_database": "התחל לבנות את מסד הנתונים המקצועי של הלקוחות שלך",
-                        "add_first_client": "הוסף את הלקוח הראשון שלך", "add_new_client": "הוסף לקוח חדש", "full_name": "שם מלא",
-                        "phone_number": "מספר טלפון", "email_address": "כתובת אימייל", "notes": "הערות", "cancel": "ביטול",
-                        "save_client": "שמור לקוח", "confirm_delete_client": "האם אתה בטוח שברצונך למחוק לקוח זה?",
-                        "client_deleted": "לקוח נמחק בהצלחה", "client_saved": "לקוח נשמר בהצלחה",
-                        "appointment_management": "ניהול תורים", "new_appointment": "תור חדש",
-                        "no_appointments_scheduled": "אין תורים מתוזמנים", "schedule_first_appointment": "קבע את התור המקצועי הראשון שלך במספרה",
-                        "create_first_appointment": "צור תור ראשון", "select_client": "בחר לקוח", "choose_client": "בחר לקוח...",
-                        "date": "תאריך", "time": "שעה", "service": "שירות", "choose_service": "בחר שירות...", "haircut": "תספורת",
-                        "coloring": "צביעה", "styling": "עיצוב שיער", "treatment": "טיפול", "other": "אחר", "save_appointment": "שמור תור",
-                        "scheduled": "מתוזמן", "completed": "הושלם", "cancelled": "בוטל", "confirm_delete_appointment": "האם אתה בטוח שברצונך למחוק תור זה?",
-                        "appointment_deleted": "תור נמחק בהצלחה", "appointment_saved": "תור נקבע בהצלחה",
-                        "appointment_completed": "תור סומן כהושלם", "appointment_cancelled": "תור בוטל",
-                        "inventory_deduction": "ניכוי מלאי", "select_items_used": "בחר פריטים ששומשו במהלך תור זה:",
-                        "quantity": "כמות", "calendar_view": "תצוגת יומן", "sun": "א", "mon": "ב", "tue": "ג", "wed": "ד", 
-                        "thu": "ה", "fri": "ו", "sat": "ש", "inventory_management": "ניהול מלאי", "new_item": "פריט חדש",
-                        "no_inventory_items": "אין פריטים במלאי", "add_inventory_items": "הוסף את מוצרי ואספקת הסלון שלך כדי לעקוב אחר המלאי",
-                        "add_first_item": "הוסף את הפריט הראשון שלך", "add_inventory_item": "הוסף פריט למלאי", "item_name": "שם הפריט",
-                        "category": "קטגוריה", "choose_category": "בחר קטגוריה...", "shampoo": "שמפו", "conditioner": "קונדישנר",
-                        "color": "צבע", "styling": "עיצוב שיער", "tools": "כלים", "low_stock_threshold": "סף מלאי נמוך", "save_item": "שמור פריט",
-                        "confirm_delete_inventory": "האם אתה בטוח שברצונך למחוק פריט מלאי זה?", "inventory_deleted": "פריט מלאי נמחק בהצלחה",
-                        "inventory_saved": "פריט מלאי נשמר בהצלחה", "low_stock_warning": "אזהרת מלאי נמוך", "install_prompt": "התקן את HairSalon Pro לחוויה טובה יותר",
-                        "install": "התקן", "dismiss": "בטל", "app_installed": "האפליקציה הותקנה בהצלחה",
-                        "no_upcoming_sessions": "אין מפגשים קרובים", "schedule_appointments_to_see": "קבע תורים כדי לראות אותם כאן"
-                    }
-                };
-                
-                this.init();
-            }
-            
+        // HairSalon Pro Application
+        const HairSalonApp = {
+            // Initialize the application
             init() {
-                this.setupEventListeners();
-                this.setupLanguage();
+                this.loadData();
+                this.bindEvents();
                 this.updateDashboard();
-                this.renderCalendar();
-                this.checkInstallPrompt();
+                this.generateCalendar();
+                this.setupLanguage();
+                this.setupPWA();
                 
-                console.log('💇‍♀️ HairSalon Pro - PERFECTLY INITIALIZED!');
-            }
+                // Show dashboard by default
+                this.showSection('dashboard');
+                
+                console.log('HairSalon Pro initialized successfully');
+            },
             
-            setupEventListeners() {
+            // Load data from localStorage
+            loadData() {
+                this.clients = JSON.parse(localStorage.getItem('hairSalonClients')) || [];
+                this.appointments = JSON.parse(localStorage.getItem('hairSalonAppointments')) || [];
+                this.inventory = JSON.parse(localStorage.getItem('hairSalonInventory')) || [];
+                
+                // Update client dropdown in appointment form
+                this.updateClientDropdown();
+            },
+            
+            // Save data to localStorage
+            saveData() {
+                localStorage.setItem('hairSalonClients', JSON.stringify(this.clients));
+                localStorage.setItem('hairSalonAppointments', JSON.stringify(this.appointments));
+                localStorage.setItem('hairSalonInventory', JSON.stringify(this.inventory));
+                
+                // Update dashboard and views
+                this.updateDashboard();
+                this.renderClients();
+                this.renderAppointments();
+                this.renderUpcomingSessions();
+                this.renderInventory();
+                this.generateCalendar();
+            },
+            
+            // Bind event listeners
+            bindEvents() {
                 // Navigation
-                document.querySelectorAll('.nav-link[data-section]').forEach(link => {
+                document.querySelectorAll('.nav-link').forEach(link => {
                     link.addEventListener('click', (e) => {
                         e.preventDefault();
-                        this.showSection(e.currentTarget.getAttribute('data-section'));
+                        const section = link.getAttribute('data-section');
+                        if (section) {
+                            this.showSection(section);
+                        }
                     });
                 });
                 
@@ -1508,19 +1383,30 @@
                 });
                 
                 // Forms
-                document.getElementById('addClientForm').addEventListener('submit', (e) => {
+                document.getElementById('clientForm').addEventListener('submit', (e) => {
                     e.preventDefault();
-                    this.saveClient();
+                    this.addClient();
                 });
                 
-                document.getElementById('addAppointmentForm').addEventListener('submit', (e) => {
+                document.getElementById('appointmentForm').addEventListener('submit', (e) => {
                     e.preventDefault();
-                    this.saveAppointment();
+                    this.addAppointment();
                 });
                 
-                document.getElementById('addInventoryForm').addEventListener('submit', (e) => {
+                document.getElementById('inventoryForm').addEventListener('submit', (e) => {
                     e.preventDefault();
-                    this.saveInventoryItem();
+                    this.addInventoryItem();
+                });
+                
+                // Calendar navigation
+                document.getElementById('prevMonth').addEventListener('click', () => {
+                    this.currentMonth.setMonth(this.currentMonth.getMonth() - 1);
+                    this.generateCalendar();
+                });
+                
+                document.getElementById('nextMonth').addEventListener('click', () => {
+                    this.currentMonth.setMonth(this.currentMonth.getMonth() + 1);
+                    this.generateCalendar();
                 });
                 
                 // Language selector
@@ -1528,79 +1414,20 @@
                     this.changeLanguage(e.target.value);
                 });
                 
-                // Calendar navigation
-                document.getElementById('prevMonth').addEventListener('click', () => {
-                    this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-                    this.renderCalendar();
-                });
-                
-                document.getElementById('nextMonth').addEventListener('click', () => {
-                    this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-                    this.renderCalendar();
-                });
-                
                 // Install button
                 document.getElementById('installButton').addEventListener('click', () => {
                     this.installApp();
                 });
-                
-                // Install prompt
-                document.getElementById('installPromptButton').addEventListener('click', () => {
-                    this.installApp();
-                });
-                
-                document.getElementById('dismissInstallPrompt').addEventListener('click', () => {
-                    this.hideInstallPrompt();
-                });
-                
-                // Close modals when clicking outside
-                document.querySelectorAll('.modal').forEach(modal => {
-                    modal.addEventListener('click', (e) => {
-                        if (e.target === modal) {
-                            this.closeModal(modal.id);
-                        }
-                    });
-                });
-            }
+            },
             
-            setupLanguage() {
-                const savedLanguage = localStorage.getItem('hairsalon_language');
-                if (savedLanguage) {
-                    this.currentLanguage = savedLanguage;
-                }
-                document.getElementById('languageSelect').value = this.currentLanguage;
-                this.translatePage();
-            }
-            
-            changeLanguage(lang) {
-                this.currentLanguage = lang;
-                localStorage.setItem('hairsalon_language', lang);
-                this.translatePage();
-                this.updateDashboard();
-                this.renderCalendar();
-                this.renderUpcomingSessions();
-            }
-            
-            translatePage() {
-                document.querySelectorAll('[data-i18n]').forEach(element => {
-                    const key = element.getAttribute('data-i18n');
-                    if (this.translations[this.currentLanguage] && this.translations[this.currentLanguage][key]) {
-                        element.textContent = this.translations[this.currentLanguage][key];
-                    }
-                });
-            }
-            
-            translate(key) {
-                return this.translations[this.currentLanguage]?.[key] || key;
-            }
-            
+            // Show a specific section
             showSection(sectionId) {
                 // Hide all sections
                 document.querySelectorAll('.section').forEach(section => {
                     section.classList.remove('active');
                 });
                 
-                // Show the selected section
+                // Show selected section
                 document.getElementById(sectionId).classList.add('active');
                 
                 // Update navigation
@@ -1610,117 +1437,26 @@
                         link.classList.add('active');
                     }
                 });
-                
-                // Render specific content
-                if (sectionId === 'clients') {
-                    this.renderClients();
-                } else if (sectionId === 'appointments') {
-                    this.renderAppointments();
-                } else if (sectionId === 'upcoming') {
-                    this.renderUpcomingSessions();
-                } else if (sectionId === 'inventory') {
-                    this.renderInventory();
-                } else if (sectionId === 'calendar') {
-                    this.renderCalendar();
-                }
-            }
+            },
             
+            // Open a modal
             openModal(modalId) {
                 document.getElementById(modalId).classList.add('show');
-                
-                if (modalId === 'addAppointmentModal') {
-                    // Set default date to today
-                    const today = new Date().toISOString().split('T')[0];
-                    document.getElementById('appointmentDate').value = today;
-                    document.getElementById('appointmentTime').value = '10:00';
-                    
-                    this.populateClientDropdown();
-                    this.populateInventoryForAppointment();
-                }
-            }
+            },
             
+            // Close a modal
             closeModal(modalId) {
                 document.getElementById(modalId).classList.remove('show');
-                
-                // Reset forms
-                const form = document.querySelector(`#${modalId} form`);
-                if (form) {
-                    form.reset();
-                }
-                
-                if (modalId === 'addAppointmentModal') {
-                    this.resetInventorySelection();
-                }
-            }
+            },
             
-            populateClientDropdown() {
-                const dropdown = document.getElementById('appointmentClient');
-                dropdown.innerHTML = '<option value="" data-i18n="choose_client">Choose a client...</option>';
-                
-                this.clients.forEach(client => {
-                    const option = document.createElement('option');
-                    option.value = client.id;
-                    option.textContent = client.name;
-                    dropdown.appendChild(option);
-                });
-                
-                this.translatePage();
-            }
-            
-            populateInventoryForAppointment() {
-                const container = document.getElementById('appointmentInventoryItems');
-                container.innerHTML = '';
-                
-                if (this.inventory.length === 0) {
-                    container.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; opacity: 0.7;" data-i18n="no_inventory_items">No inventory items available</p>';
-                    this.translatePage();
-                    return;
-                }
-                
-                this.inventory.forEach(item => {
-                    const isLowStock = item.quantity <= item.lowStock;
-                    
-                    const itemElement = document.createElement('div');
-                    itemElement.className = `inventory-item-select ${isLowStock ? 'low-stock' : ''}`;
-                    itemElement.setAttribute('data-id', item.id);
-                    
-                    itemElement.innerHTML = `
-                        <h4>${item.name}</h4>
-                        <p>${this.translate(item.category)}</p>
-                        <p>${this.translate('quantity')}: ${item.quantity}</p>
-                        ${isLowStock ? `<p style="color: var(--danger);"><i class="fas fa-exclamation-triangle"></i> ${this.translate('low_stock_warning')}</p>` : ''}
-                        <div class="inventory-quantity-input" style="display: none;">
-                            <label data-i18n="quantity">Quantity:</label>
-                            <input type="number" min="1" max="${item.quantity}" value="1">
-                        </div>
-                    `;
-                    
-                    itemElement.addEventListener('click', () => {
-                        itemElement.classList.toggle('selected');
-                        const quantityInput = itemElement.querySelector('.inventory-quantity-input');
-                        quantityInput.style.display = itemElement.classList.contains('selected') ? 'flex' : 'none';
-                    });
-                    
-                    container.appendChild(itemElement);
-                });
-                
-                this.translatePage();
-            }
-            
-            resetInventorySelection() {
-                document.querySelectorAll('.inventory-item-select').forEach(item => {
-                    item.classList.remove('selected');
-                    item.querySelector('.inventory-quantity-input').style.display = 'none';
-                });
-            }
-            
-            saveClient() {
+            // Add a new client
+            addClient() {
                 const name = document.getElementById('clientName').value;
                 const phone = document.getElementById('clientPhone').value;
                 const email = document.getElementById('clientEmail').value;
                 const notes = document.getElementById('clientNotes').value;
                 
-                const newClient = {
+                const client = {
                     id: Date.now().toString(),
                     name,
                     phone,
@@ -1729,72 +1465,58 @@
                     dateAdded: new Date().toISOString()
                 };
                 
-                this.clients.push(newClient);
+                this.clients.push(client);
                 this.saveData();
                 this.closeModal('addClientModal');
-                this.showToast(this.translate('client_saved'), 'success');
-                this.renderClients();
-                this.updateDashboard();
-            }
+                this.showToast('Client added successfully', 'success');
+                document.getElementById('clientForm').reset();
+                
+                // Update client dropdown in appointment form
+                this.updateClientDropdown();
+            },
             
-            saveAppointment() {
+            // Add a new appointment
+            addAppointment() {
                 const clientId = document.getElementById('appointmentClient').value;
                 const date = document.getElementById('appointmentDate').value;
                 const time = document.getElementById('appointmentTime').value;
                 const service = document.getElementById('appointmentService').value;
                 const notes = document.getElementById('appointmentNotes').value;
                 
-                // Get selected inventory items and quantities
-                const inventoryUsed = [];
-                document.querySelectorAll('.inventory-item-select.selected').forEach(item => {
-                    const itemId = item.getAttribute('data-id');
-                    const quantity = parseInt(item.querySelector('.inventory-quantity-input input').value) || 1;
-                    
-                    if (itemId && quantity > 0) {
-                        inventoryUsed.push({
-                            id: itemId,
-                            quantity: quantity
-                        });
-                    }
-                });
-                
                 const client = this.clients.find(c => c.id === clientId);
+                if (!client) {
+                    this.showToast('Please select a client', 'error');
+                    return;
+                }
                 
-                const newAppointment = {
+                const appointment = {
                     id: Date.now().toString(),
                     clientId,
-                    clientName: client ? client.name : 'Unknown Client',
+                    clientName: client.name,
                     date,
                     time,
                     service,
                     notes,
-                    inventoryUsed,
                     status: 'scheduled',
-                    dateCreated: new Date().toISOString()
+                    createdAt: new Date().toISOString()
                 };
                 
-                this.appointments.push(newAppointment);
-                
-                // Deduct inventory
-                this.deductInventory(inventoryUsed);
-                
+                this.appointments.push(appointment);
                 this.saveData();
                 this.closeModal('addAppointmentModal');
-                this.showToast(this.translate('appointment_saved'), 'success');
-                this.renderAppointments();
-                this.renderCalendar();
-                this.renderUpcomingSessions();
-                this.updateDashboard();
-            }
+                this.showToast('Appointment scheduled successfully', 'success');
+                document.getElementById('appointmentForm').reset();
+            },
             
-            saveInventoryItem() {
-                const name = document.getElementById('inventoryName').value;
-                const category = document.getElementById('inventoryCategory').value;
-                const quantity = parseInt(document.getElementById('inventoryQuantity').value);
-                const lowStock = parseInt(document.getElementById('inventoryLowStock').value);
-                const notes = document.getElementById('inventoryNotes').value;
+            // Add a new inventory item
+            addInventoryItem() {
+                const name = document.getElementById('itemName').value;
+                const category = document.getElementById('itemCategory').value;
+                const quantity = parseInt(document.getElementById('itemQuantity').value);
+                const lowStock = parseInt(document.getElementById('itemLowStock').value);
+                const notes = document.getElementById('itemNotes').value;
                 
-                const newItem = {
+                const item = {
                     id: Date.now().toString(),
                     name,
                     category,
@@ -1804,30 +1526,27 @@
                     dateAdded: new Date().toISOString()
                 };
                 
-                this.inventory.push(newItem);
+                this.inventory.push(item);
                 this.saveData();
                 this.closeModal('addInventoryModal');
-                this.showToast(this.translate('inventory_saved'), 'success');
-                this.renderInventory();
-                this.updateDashboard();
-            }
+                this.showToast('Inventory item added successfully', 'success');
+                document.getElementById('inventoryForm').reset();
+            },
             
-            deductInventory(inventoryUsed) {
-                inventoryUsed.forEach(usedItem => {
-                    const inventoryItem = this.inventory.find(item => item.id === usedItem.id);
-                    if (inventoryItem) {
-                        inventoryItem.quantity = Math.max(0, inventoryItem.quantity - usedItem.quantity);
-                    }
+            // Update client dropdown in appointment form
+            updateClientDropdown() {
+                const dropdown = document.getElementById('appointmentClient');
+                dropdown.innerHTML = '<option value="" data-i18n="select_client">Select Client</option>';
+                
+                this.clients.forEach(client => {
+                    const option = document.createElement('option');
+                    option.value = client.id;
+                    option.textContent = client.name;
+                    dropdown.appendChild(option);
                 });
-                this.saveData();
-            }
+            },
             
-            saveData() {
-                localStorage.setItem('hairsalon_clients', JSON.stringify(this.clients));
-                localStorage.setItem('hairsalon_appointments', JSON.stringify(this.appointments));
-                localStorage.setItem('hairsalon_inventory', JSON.stringify(this.inventory));
-            }
-            
+            // Render clients list
             renderClients() {
                 const container = document.getElementById('clientsList');
                 
@@ -1842,38 +1561,30 @@
                             </button>
                         </div>
                     `;
-                    this.translatePage();
                     return;
                 }
                 
-                container.innerHTML = '';
-                
-                this.clients.forEach(client => {
-                    const clientElement = document.createElement('div');
-                    clientElement.className = 'data-item';
-                    
-                    clientElement.innerHTML = `
+                container.innerHTML = this.clients.map(client => `
+                    <div class="data-item">
                         <div class="data-item-content">
                             <h4>${client.name}</h4>
-                            <p><i class="fas fa-phone"></i> ${client.phone}</p>
-                            ${client.email ? `<p><i class="fas fa-envelope"></i> ${client.email}</p>` : ''}
-                            ${client.notes ? `<p><i class="fas fa-sticky-note"></i> ${client.notes}</p>` : ''}
-                            <span><i class="far fa-calendar"></i> ${new Date(client.dateAdded).toLocaleDateString()}</span>
+                            <p>${client.phone || 'No phone'}</p>
+                            <p>${client.email || 'No email'}</p>
+                            ${client.notes ? `<span>${client.notes}</span>` : ''}
                         </div>
                         <div class="data-item-actions">
-                            <button class="btn btn-outline btn-sm" onclick="HairSalonApp.editClient('${client.id}')">
+                            <button class="btn btn-sm btn-outline" onclick="HairSalonApp.editClient('${client.id}')">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm" onclick="HairSalonApp.deleteClient('${client.id}')">
+                            <button class="btn btn-sm btn-danger" onclick="HairSalonApp.deleteClient('${client.id}')">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
-                    `;
-                    
-                    container.appendChild(clientElement);
-                });
-            }
+                    </div>
+                `).join('');
+            },
             
+            // Render appointments list
             renderAppointments() {
                 const container = document.getElementById('appointmentsList');
                 
@@ -1888,11 +1599,8 @@
                             </button>
                         </div>
                     `;
-                    this.translatePage();
                     return;
                 }
-                
-                container.innerHTML = '';
                 
                 // Sort appointments by date and time
                 const sortedAppointments = [...this.appointments].sort((a, b) => {
@@ -1901,97 +1609,81 @@
                     return dateA - dateB;
                 });
                 
-                sortedAppointments.forEach(appointment => {
-                    const appointmentElement = document.createElement('div');
-                    appointmentElement.className = 'data-item appointment-item';
-                    
-                    // Format date and time
-                    const appointmentDate = new Date(`${appointment.date}T${appointment.time}`);
-                    const formattedDate = appointmentDate.toLocaleDateString();
-                    const formattedTime = appointmentDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    
-                    appointmentElement.innerHTML = `
+                container.innerHTML = sortedAppointments.map(appointment => `
+                    <div class="data-item appointment-item">
                         <div class="data-item-content">
                             <h4>${appointment.clientName}</h4>
-                            <p><i class="fas fa-calendar"></i> ${formattedDate} at ${formattedTime}</p>
-                            <p><i class="fas fa-cut"></i> ${this.translate(appointment.service)}</p>
-                            ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
-                            <span><i class="fas fa-circle" style="color: ${appointment.status === 'scheduled' ? 'var(--success)' : appointment.status === 'completed' ? 'var(--primary)' : 'var(--danger)'}"></i> ${this.translate(appointment.status)}</span>
+                            <p>${this.formatDate(appointment.date)} at ${appointment.time}</p>
+                            <p>Service: ${appointment.service}</p>
+                            ${appointment.notes ? `<span>${appointment.notes}</span>` : ''}
                         </div>
                         <div class="data-item-actions">
-                            <button class="btn btn-success btn-sm" onclick="HairSalonApp.completeAppointment('${appointment.id}')" ${appointment.status === 'completed' ? 'disabled' : ''}>
+                            <button class="btn btn-sm btn-success" onclick="HairSalonApp.completeAppointment('${appointment.id}')">
                                 <i class="fas fa-check"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm" onclick="HairSalonApp.cancelAppointment('${appointment.id}')" ${appointment.status === 'cancelled' ? 'disabled' : ''}>
-                                <i class="fas fa-times"></i>
+                            <button class="btn btn-sm btn-outline" onclick="HairSalonApp.editAppointment('${appointment.id}')">
+                                <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-outline btn-sm" onclick="HairSalonApp.deleteAppointment('${appointment.id}')">
+                            <button class="btn btn-sm btn-danger" onclick="HairSalonApp.deleteAppointment('${appointment.id}')">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
-                    `;
-                    
-                    container.appendChild(appointmentElement);
-                });
-            }
+                    </div>
+                `).join('');
+            },
             
+            // Render upcoming sessions
             renderUpcomingSessions() {
                 const container = document.getElementById('upcomingSessionsList');
                 const today = new Date().toISOString().split('T')[0];
                 
-                // Get upcoming appointments (today and future)
+                // Filter upcoming appointments (today and future)
                 const upcomingAppointments = this.appointments.filter(apt => 
                     apt.date >= today && apt.status === 'scheduled'
-                ).sort((a, b) => new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`));
+                );
                 
                 if (upcomingAppointments.length === 0) {
                     container.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-calendar-plus"></i>
                             <h3 data-i18n="no_upcoming_sessions">No Upcoming Sessions</h3>
-                            <p data-i18n="schedule_appointments_to_see">Schedule appointments to see them here</p>
+                            <p data-i18n="schedule_sessions_to_see">Schedule appointments to see them here</p>
                             <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
                                 <i class="fas fa-plus"></i> <span data-i18n="schedule_appointment">Schedule Appointment</span>
                             </button>
                         </div>
                     `;
-                    this.translatePage();
                     return;
                 }
                 
-                container.innerHTML = '';
+                // Sort by date and time
+                const sortedAppointments = [...upcomingAppointments].sort((a, b) => {
+                    const dateA = new Date(`${a.date}T${a.time}`);
+                    const dateB = new Date(`${b.date}T${b.time}`);
+                    return dateA - dateB;
+                });
                 
-                upcomingAppointments.forEach(appointment => {
-                    const appointmentElement = document.createElement('div');
-                    appointmentElement.className = 'data-item appointment-item';
-                    
-                    // Format date and time
-                    const appointmentDate = new Date(`${appointment.date}T${appointment.time}`);
-                    const formattedDate = appointmentDate.toLocaleDateString();
-                    const formattedTime = appointmentDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    
-                    appointmentElement.innerHTML = `
+                container.innerHTML = sortedAppointments.map(appointment => `
+                    <div class="data-item appointment-item">
                         <div class="data-item-content">
                             <h4>${appointment.clientName}</h4>
-                            <p><i class="fas fa-calendar"></i> ${formattedDate} at ${formattedTime}</p>
-                            <p><i class="fas fa-cut"></i> ${this.translate(appointment.service)}</p>
-                            ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
-                            <span><i class="fas fa-circle" style="color: var(--success)"></i> ${this.translate('scheduled')}</span>
+                            <p>${this.formatDate(appointment.date)} at ${appointment.time}</p>
+                            <p>Service: ${appointment.service}</p>
+                            ${appointment.notes ? `<span>${appointment.notes}</span>` : ''}
                         </div>
                         <div class="data-item-actions">
-                            <button class="btn btn-success btn-sm" onclick="HairSalonApp.completeAppointment('${appointment.id}')">
+                            <button class="btn btn-sm btn-success" onclick="HairSalonApp.completeAppointment('${appointment.id}')">
                                 <i class="fas fa-check"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm" onclick="HairSalonApp.cancelAppointment('${appointment.id}')">
-                                <i class="fas fa-times"></i>
+                            <button class="btn btn-sm btn-outline" onclick="HairSalonApp.editAppointment('${appointment.id}')">
+                                <i class="fas fa-edit"></i>
                             </button>
                         </div>
-                    `;
-                    
-                    container.appendChild(appointmentElement);
-                });
-            }
+                    </div>
+                `).join('');
+            },
             
+            // Render inventory list
             renderInventory() {
                 const container = document.getElementById('inventoryList');
                 
@@ -2000,86 +1692,73 @@
                         <div class="empty-state">
                             <i class="fas fa-box-open"></i>
                             <h3 data-i18n="no_inventory_items">No Inventory Items</h3>
-                            <p data-i18n="add_inventory_items">Add your salon products and supplies to track inventory</p>
+                            <p data-i18n="add_products_to_track">Add products to track your salon inventory</p>
                             <button class="btn btn-primary" onclick="HairSalonApp.openModal('addInventoryModal')">
                                 <i class="fas fa-plus"></i> <span data-i18n="add_first_item">Add Your First Item</span>
                             </button>
                         </div>
                     `;
-                    this.translatePage();
                     return;
                 }
                 
-                container.innerHTML = '';
-                
-                this.inventory.forEach(item => {
+                container.innerHTML = this.inventory.map(item => {
                     const isLowStock = item.quantity <= item.lowStock;
+                    const lowStockClass = isLowStock ? 'low-stock' : '';
                     
-                    const itemElement = document.createElement('div');
-                    itemElement.className = `data-item inventory-item ${isLowStock ? 'low-stock' : ''}`;
-                    
-                    itemElement.innerHTML = `
+                    return `
+                    <div class="data-item inventory-item ${lowStockClass}">
                         <div class="data-item-content">
                             <h4>${item.name}</h4>
-                            <p><i class="fas fa-tag"></i> ${this.translate(item.category)}</p>
-                            <p><i class="fas fa-box"></i> ${this.translate('quantity')}: ${item.quantity}</p>
-                            <p><i class="fas fa-exclamation-triangle"></i> ${this.translate('low_stock_threshold')}: ${item.lowStock}</p>
-                            ${item.notes ? `<p><i class="fas fa-sticky-note"></i> ${item.notes}</p>` : ''}
-                            ${isLowStock ? `<p style="color: var(--danger);"><i class="fas fa-exclamation-circle"></i> ${this.translate('low_stock_warning')}</p>` : ''}
-                            <span><i class="far fa-calendar"></i> ${new Date(item.dateAdded).toLocaleDateString()}</span>
+                            <p>Category: ${item.category}</p>
+                            <p>Quantity: ${item.quantity} ${isLowStock ? '<i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i>' : ''}</p>
+                            ${item.notes ? `<span>${item.notes}</span>` : ''}
                         </div>
                         <div class="data-item-actions">
-                            <button class="btn btn-outline btn-sm" onclick="HairSalonApp.editInventoryItem('${item.id}')">
+                            <button class="btn btn-sm btn-outline" onclick="HairSalonApp.editInventoryItem('${item.id}')">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm" onclick="HairSalonApp.deleteInventoryItem('${item.id}')">
+                            <button class="btn btn-sm btn-danger" onclick="HairSalonApp.deleteInventoryItem('${item.id}')">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
-                    `;
-                    
-                    container.appendChild(itemElement);
-                });
-            }
+                    </div>
+                `}).join('');
+            },
             
-            renderCalendar() {
-                const container = document.getElementById('calendarGrid');
-                const monthYearElement = document.getElementById('currentMonthYear');
+            // Generate calendar view
+            currentMonth: new Date(),
+            generateCalendar() {
+                const calendarGrid = document.getElementById('calendarGrid');
+                const monthYearElement = document.getElementById('currentMonth');
                 
-                // Set month and year header
-                const monthNames = [
-                    'January', 'February', 'March', 'April', 'May', 'June',
-                    'July', 'August', 'September', 'October', 'November', 'December'
-                ];
-                
-                const currentMonth = this.currentDate.getMonth();
-                const currentYear = this.currentDate.getFullYear();
-                
-                monthYearElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-                
-                // Get first day of month and number of days
-                const firstDay = new Date(currentYear, currentMonth, 1);
-                const lastDay = new Date(currentYear, currentMonth + 1, 0);
-                const daysInMonth = lastDay.getDate();
-                const startingDay = firstDay.getDay(); // 0 = Sunday, 1 = Monday, etc.
+                // Set month/year header
+                const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'];
+                monthYearElement.textContent = `${monthNames[this.currentMonth.getMonth()]} ${this.currentMonth.getFullYear()}`;
                 
                 // Clear calendar
-                container.innerHTML = '';
+                calendarGrid.innerHTML = '';
                 
                 // Add day headers
                 const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
                 dayNames.forEach(day => {
-                    const dayHeader = document.createElement('div');
-                    dayHeader.className = 'calendar-day-header';
-                    dayHeader.textContent = this.translate(day.toLowerCase());
-                    container.appendChild(dayHeader);
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'calendar-day-header';
+                    dayElement.textContent = day;
+                    calendarGrid.appendChild(dayElement);
                 });
+                
+                // Get first day of month and number of days
+                const firstDay = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1);
+                const lastDay = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                const startingDay = firstDay.getDay();
                 
                 // Add empty cells for days before the first day of the month
                 for (let i = 0; i < startingDay; i++) {
                     const emptyDay = document.createElement('div');
                     emptyDay.className = 'calendar-day other-month';
-                    container.appendChild(emptyDay);
+                    calendarGrid.appendChild(emptyDay);
                 }
                 
                 // Add days of the month
@@ -2088,78 +1767,85 @@
                 
                 for (let day = 1; day <= daysInMonth; day++) {
                     const dayElement = document.createElement('div');
+                    const currentDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), day);
+                    
                     dayElement.className = 'calendar-day';
                     
-                    const currentDate = new Date(currentYear, currentMonth, day);
-                    const isToday = currentDate.getTime() === today.getTime();
-                    
-                    if (isToday) {
+                    // Check if it's today
+                    if (currentDate.getTime() === today.getTime()) {
                         dayElement.classList.add('today');
                     }
                     
-                    // Check if this day has events
-                    const dateStr = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-                    const dayAppointments = this.appointments.filter(apt => apt.date === dateStr);
+                    // Check if there are appointments on this day
+                    const dateString = currentDate.toISOString().split('T')[0];
+                    const dayAppointments = this.appointments.filter(apt => apt.date === dateString);
                     
                     if (dayAppointments.length > 0) {
                         dayElement.classList.add('has-events');
                     }
                     
-                    dayElement.innerHTML = `
-                        <div class="calendar-day-number">${day}</div>
-                        <div class="calendar-events" id="events-${currentYear}-${currentMonth}-${day}"></div>
-                    `;
+                    // Add day number
+                    const dayNumber = document.createElement('div');
+                    dayNumber.className = 'calendar-day-number';
+                    dayNumber.textContent = day;
+                    dayElement.appendChild(dayNumber);
                     
-                    // Add events for this day
-                    this.renderEventsForDay(currentYear, currentMonth, day);
+                    // Add appointments for this day
+                    if (dayAppointments.length > 0) {
+                        const eventsContainer = document.createElement('div');
+                        eventsContainer.className = 'calendar-events';
+                        
+                        dayAppointments.slice(0, 3).forEach(apt => {
+                            const eventElement = document.createElement('div');
+                            eventElement.className = `calendar-event ${apt.status}`;
+                            eventElement.textContent = `${apt.time} - ${apt.clientName}`;
+                            eventElement.title = `${apt.time} - ${apt.clientName} (${apt.service})`;
+                            eventsContainer.appendChild(eventElement);
+                        });
+                        
+                        if (dayAppointments.length > 3) {
+                            const moreElement = document.createElement('div');
+                            moreElement.className = 'calendar-event';
+                            moreElement.textContent = `+${dayAppointments.length - 3} more`;
+                            eventsContainer.appendChild(moreElement);
+                        }
+                        
+                        dayElement.appendChild(eventsContainer);
+                    }
                     
-                    container.appendChild(dayElement);
+                    // Add click event to create appointment
+                    dayElement.addEventListener('click', () => {
+                        this.openModal('addAppointmentModal');
+                        document.getElementById('appointmentDate').value = dateString;
+                    });
+                    
+                    calendarGrid.appendChild(dayElement);
                 }
-            }
+            },
             
-            renderEventsForDay(year, month, day) {
-                const eventsContainer = document.getElementById(`events-${year}-${month}-${day}`);
-                if (!eventsContainer) return;
-                
-                // Format date for comparison
-                const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-                
-                // Find appointments for this day
-                const dayAppointments = this.appointments.filter(apt => apt.date === dateStr);
-                
-                if (dayAppointments.length === 0) return;
-                
-                dayAppointments.forEach(apt => {
-                    const eventElement = document.createElement('div');
-                    eventElement.className = `calendar-event ${apt.status}`;
-                    eventElement.textContent = `${apt.time} - ${apt.clientName}`;
-                    eventElement.title = `${apt.clientName} - ${this.translate(apt.service)}`;
-                    
-                    eventsContainer.appendChild(eventElement);
-                });
-            }
-            
+            // Update dashboard statistics
             updateDashboard() {
-                // Total clients
+                // Update client count
                 document.getElementById('totalClients').textContent = this.clients.length;
                 
-                // Today's appointments
+                // Update today's appointments
                 const today = new Date().toISOString().split('T')[0];
                 const todayAppointments = this.appointments.filter(apt => apt.date === today && apt.status === 'scheduled');
                 document.getElementById('todayAppointments').textContent = todayAppointments.length;
                 
-                // Low stock items
+                // Update low stock items
                 const lowStockItems = this.inventory.filter(item => item.quantity <= item.lowStock);
                 document.getElementById('lowStockItems').textContent = lowStockItems.length;
                 
-                // Monthly revenue (simulated)
-                const monthlyRevenue = this.appointments.filter(apt => apt.status === 'completed').length * 45;
+                // Update monthly revenue (placeholder calculation)
+                const monthlyRevenue = this.appointments.length * 45; // Assuming average $45 per appointment
                 document.getElementById('monthlyRevenue').textContent = `$${monthlyRevenue}`;
                 
-                // Today's appointments list
+                // Update today's appointments list
                 this.renderTodaysAppointments();
-            }
+            },
             
+            // Render today's appointments on dashboard
             renderTodaysAppointments() {
                 const container = document.getElementById('todaysAppointmentsList');
                 const today = new Date().toISOString().split('T')[0];
@@ -2176,145 +1862,53 @@
                             </button>
                         </div>
                     `;
-                    this.translatePage();
                     return;
                 }
                 
-                container.innerHTML = '';
+                // Sort by time
+                const sortedAppointments = [...todayAppointments].sort((a, b) => {
+                    return a.time.localeCompare(b.time);
+                });
                 
-                todayAppointments.forEach(appointment => {
-                    const appointmentElement = document.createElement('div');
-                    appointmentElement.className = 'data-item appointment-item';
-                    
-                    // Format time
-                    const appointmentTime = new Date(`2000-01-01T${appointment.time}`);
-                    const formattedTime = appointmentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    
-                    appointmentElement.innerHTML = `
+                container.innerHTML = sortedAppointments.map(appointment => `
+                    <div class="data-item appointment-item">
                         <div class="data-item-content">
                             <h4>${appointment.clientName}</h4>
-                            <p><i class="fas fa-clock"></i> ${formattedTime}</p>
-                            <p><i class="fas fa-cut"></i> ${this.translate(appointment.service)}</p>
-                            ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
+                            <p>${appointment.time} - ${appointment.service}</p>
+                            ${appointment.notes ? `<span>${appointment.notes}</span>` : ''}
                         </div>
                         <div class="data-item-actions">
-                            <button class="btn btn-success btn-sm" onclick="HairSalonApp.completeAppointment('${appointment.id}')">
+                            <button class="btn btn-sm btn-success" onclick="HairSalonApp.completeAppointment('${appointment.id}')">
                                 <i class="fas fa-check"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm" onclick="HairSalonApp.cancelAppointment('${appointment.id}')">
-                                <i class="fas fa-times"></i>
+                            <button class="btn btn-sm btn-outline" onclick="HairSalonApp.editAppointment('${appointment.id}')">
+                                <i class="fas fa-edit"></i>
                             </button>
                         </div>
-                    `;
-                    
-                    container.appendChild(appointmentElement);
+                    </div>
+                `).join('');
+            },
+            
+            // Format date for display
+            formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { 
+                    weekday: 'short', 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
                 });
-            }
+            },
             
-            completeAppointment(id) {
-                const appointment = this.appointments.find(apt => apt.id === id);
-                if (appointment) {
-                    appointment.status = 'completed';
-                    this.saveData();
-                    this.renderAppointments();
-                    this.renderTodaysAppointments();
-                    this.renderCalendar();
-                    this.renderUpcomingSessions();
-                    this.showToast(this.translate('appointment_completed'), 'success');
-                }
-            }
-            
-            cancelAppointment(id) {
-                const appointment = this.appointments.find(apt => apt.id === id);
-                if (appointment) {
-                    appointment.status = 'cancelled';
-                    this.saveData();
-                    this.renderAppointments();
-                    this.renderTodaysAppointments();
-                    this.renderCalendar();
-                    this.renderUpcomingSessions();
-                    this.showToast(this.translate('appointment_cancelled'), 'warning');
-                }
-            }
-            
-            deleteAppointment(id) {
-                if (confirm(this.translate('confirm_delete_appointment'))) {
-                    this.appointments = this.appointments.filter(apt => apt.id !== id);
-                    this.saveData();
-                    this.renderAppointments();
-                    this.renderTodaysAppointments();
-                    this.renderCalendar();
-                    this.renderUpcomingSessions();
-                    this.updateDashboard();
-                    this.showToast(this.translate('appointment_deleted'), 'success');
-                }
-            }
-            
-            deleteClient(id) {
-                if (confirm(this.translate('confirm_delete_client'))) {
-                    // Also delete appointments for this client
-                    this.appointments = this.appointments.filter(apt => apt.clientId !== id);
-                    this.clients = this.clients.filter(client => client.id !== id);
-                    this.saveData();
-                    this.renderClients();
-                    this.renderAppointments();
-                    this.renderUpcomingSessions();
-                    this.updateDashboard();
-                    this.showToast(this.translate('client_deleted'), 'success');
-                }
-            }
-            
-            deleteInventoryItem(id) {
-                if (confirm(this.translate('confirm_delete_inventory'))) {
-                    this.inventory = this.inventory.filter(item => item.id !== id);
-                    this.saveData();
-                    this.renderInventory();
-                    this.updateDashboard();
-                    this.showToast(this.translate('inventory_deleted'), 'success');
-                }
-            }
-            
-            editClient(id) {
-                const client = this.clients.find(c => c.id === id);
-                if (client) {
-                    document.getElementById('clientName').value = client.name;
-                    document.getElementById('clientPhone').value = client.phone;
-                    document.getElementById('clientEmail').value = client.email;
-                    document.getElementById('clientNotes').value = client.notes;
-                    
-                    // Store the client ID for updating
-                    document.getElementById('addClientForm').dataset.editingId = client.id;
-                    
-                    this.openModal('addClientModal');
-                }
-            }
-            
-            editInventoryItem(id) {
-                const item = this.inventory.find(i => i.id === id);
-                if (item) {
-                    document.getElementById('inventoryName').value = item.name;
-                    document.getElementById('inventoryCategory').value = item.category;
-                    document.getElementById('inventoryQuantity').value = item.quantity;
-                    document.getElementById('inventoryLowStock').value = item.lowStock;
-                    document.getElementById('inventoryNotes').value = item.notes;
-                    
-                    // Store the item ID for updating
-                    document.getElementById('addInventoryForm').dataset.editingId = item.id;
-                    
-                    this.openModal('addInventoryModal');
-                }
-            }
-            
+            // Show toast notification
             showToast(message, type = 'info') {
                 const toast = document.getElementById('toast');
                 toast.textContent = message;
                 toast.className = 'toast show';
                 
-                // Set background based on type
+                // Set color based on type
                 if (type === 'success') {
                     toast.style.background = 'linear-gradient(135deg, var(--success) 0%, #66bb6a 100%)';
-                } else if (type === 'warning') {
-                    toast.style.background = 'linear-gradient(135deg, var(--warning) 0%, #ffb74d 100%)';
                 } else if (type === 'error') {
                     toast.style.background = 'linear-gradient(135deg, var(--danger) 0%, #ef5350 100%)';
                 } else {
@@ -2325,52 +1919,282 @@
                 setTimeout(() => {
                     toast.classList.remove('show');
                 }, 3000);
-            }
+            },
             
-            checkInstallPrompt() {
+            // Setup language functionality
+            setupLanguage() {
+                // Set initial language
+                const savedLanguage = localStorage.getItem('hairSalonLanguage') || 'en';
+                document.getElementById('languageSelect').value = savedLanguage;
+                this.changeLanguage(savedLanguage);
+            },
+            
+            // Change application language
+            changeLanguage(lang) {
+                localStorage.setItem('hairSalonLanguage', lang);
+                
+                // Update all elements with data-i18n attribute
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[lang] && translations[lang][key]) {
+                        element.textContent = translations[lang][key];
+                    }
+                });
+            },
+            
+            // Setup PWA functionality
+            setupPWA() {
+                let deferredPrompt;
+                const installButton = document.getElementById('installButton');
+                const installPrompt = document.getElementById('installPrompt');
+                const installPromptButton = document.getElementById('installPromptButton');
+                const installDismissButton = document.getElementById('installDismissButton');
+                
+                // Listen for beforeinstallprompt event
                 window.addEventListener('beforeinstallprompt', (e) => {
+                    // Prevent the mini-infobar from appearing on mobile
                     e.preventDefault();
-                    this.deferredPrompt = e;
-                    document.getElementById('installButton').style.display = 'inline-flex';
-                    document.getElementById('installButton').classList.add('pulse');
+                    // Stash the event so it can be triggered later
+                    deferredPrompt = e;
+                    // Show install button
+                    installButton.style.display = 'inline-flex';
+                    installButton.classList.add('pulse');
                     
+                    // Show install prompt after 5 seconds
                     setTimeout(() => {
-                        this.showInstallPrompt();
+                        if (!localStorage.getItem('hairSalonInstallDismissed')) {
+                            installPrompt.classList.add('show');
+                        }
                     }, 5000);
                 });
                 
-                window.addEventListener('appinstalled', () => {
-                    document.getElementById('installButton').style.display = 'none';
-                    this.hideInstallPrompt();
-                    this.showToast(this.translate('app_installed'), 'success');
+                // Install button click handler
+                installButton.addEventListener('click', () => {
+                    this.installApp();
                 });
-            }
+                
+                // Install prompt button handler
+                installPromptButton.addEventListener('click', () => {
+                    this.installApp();
+                    installPrompt.classList.remove('show');
+                });
+                
+                // Dismiss install prompt
+                installDismissButton.addEventListener('click', () => {
+                    installPrompt.classList.remove('show');
+                    localStorage.setItem('hairSalonInstallDismissed', 'true');
+                });
+            },
             
-            showInstallPrompt() {
-                document.getElementById('installPrompt').classList.add('show');
-            }
-            
-            hideInstallPrompt() {
-                document.getElementById('installPrompt').classList.remove('show');
-            }
-            
-            async installApp() {
+            // Install the app
+            installApp() {
                 if (this.deferredPrompt) {
                     this.deferredPrompt.prompt();
-                    const { outcome } = await this.deferredPrompt.userChoice;
-                    
-                    if (outcome === 'accepted') {
-                        this.showToast(this.translate('app_installed'), 'success');
-                    }
-                    
-                    this.deferredPrompt = null;
+                    this.deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                            document.getElementById('installButton').style.display = 'none';
+                            document.getElementById('installPrompt').classList.remove('show');
+                        }
+                        this.deferredPrompt = null;
+                    });
+                }
+            },
+            
+            // Placeholder methods for future implementation
+            editClient(id) {
+                this.showToast('Edit client functionality coming soon', 'info');
+            },
+            
+            deleteClient(id) {
+                if (confirm('Are you sure you want to delete this client?')) {
+                    this.clients = this.clients.filter(client => client.id !== id);
+                    this.saveData();
+                    this.showToast('Client deleted successfully', 'success');
+                }
+            },
+            
+            completeAppointment(id) {
+                const appointment = this.appointments.find(apt => apt.id === id);
+                if (appointment) {
+                    appointment.status = 'completed';
+                    this.saveData();
+                    this.showToast('Appointment marked as completed', 'success');
+                }
+            },
+            
+            editAppointment(id) {
+                this.showToast('Edit appointment functionality coming soon', 'info');
+            },
+            
+            deleteAppointment(id) {
+                if (confirm('Are you sure you want to delete this appointment?')) {
+                    this.appointments = this.appointments.filter(apt => apt.id !== id);
+                    this.saveData();
+                    this.showToast('Appointment deleted successfully', 'success');
+                }
+            },
+            
+            editInventoryItem(id) {
+                this.showToast('Edit inventory item functionality coming soon', 'info');
+            },
+            
+            deleteInventoryItem(id) {
+                if (confirm('Are you sure you want to delete this inventory item?')) {
+                    this.inventory = this.inventory.filter(item => item.id !== id);
+                    this.saveData();
+                    this.showToast('Inventory item deleted successfully', 'success');
                 }
             }
-        }
+        };
 
-        // Initialize the PERFECT application
-        document.addEventListener('DOMContentLoaded', function() {
-            window.HairSalonApp = new HairSalonPro();
+        // Translations object
+        const translations = {
+            en: {
+                app_name: "HairSalon Pro",
+                tagline: "Professional Hairdresser Management System",
+                install_app: "Install App",
+                dashboard: "Dashboard",
+                clients: "Clients",
+                appointments: "Appointments",
+                upcoming_sessions: "Upcoming Sessions",
+                calendar: "Calendar",
+                inventory: "Inventory",
+                main_navigation: "Main Navigation",
+                quick_actions: "Quick Actions",
+                add_client: "Add Client",
+                schedule_appointment: "Schedule Appointment",
+                salon_overview: "Salon Overview",
+                total_clients: "Total Clients",
+                today_appointments: "Today's Appointments",
+                low_stock: "Low Stock Items",
+                monthly_revenue: "Monthly Revenue",
+                todays_appointments: "Today's Appointments",
+                view_all: "View All",
+                no_appointments_today: "No Appointments Today",
+                no_appointments_today_desc: "Your schedule is clear for today",
+                client_management: "Client Management",
+                new_client: "New Client",
+                no_clients_yet: "No Clients Yet",
+                build_client_database: "Start building your professional client database",
+                add_first_client: "Add Your First Client",
+                appointment_management: "Appointment Management",
+                new_appointment: "New Appointment",
+                no_appointments_scheduled: "No Appointments Scheduled",
+                schedule_first_appointment: "Schedule your first professional hair appointment",
+                create_first_appointment: "Create First Appointment",
+                no_upcoming_sessions: "No Upcoming Sessions",
+                schedule_sessions_to_see: "Schedule appointments to see them here",
+                appointment_calendar: "Appointment Calendar",
+                add_new_client: "Add New Client",
+                full_name: "Full Name",
+                phone_number: "Phone Number",
+                email_address: "Email Address",
+                notes: "Notes",
+                cancel: "Cancel",
+                save_client: "Save Client",
+                select_client: "Select Client",
+                date: "Date",
+                time: "Time",
+                service: "Service",
+                select_service: "Select Service",
+                haircut: "Haircut",
+                coloring: "Coloring",
+                styling: "Styling",
+                treatment: "Treatment",
+                other: "Other",
+                save_appointment: "Save Appointment",
+                add_inventory_item: "Add Inventory Item",
+                item_name: "Item Name",
+                category: "Category",
+                select_category: "Select Category",
+                shampoo: "Shampoo",
+                conditioner: "Conditioner",
+                hair_color: "Hair Color",
+                styling_products: "Styling Products",
+                tools: "Tools",
+                quantity: "Quantity",
+                low_stock_threshold: "Low Stock Threshold",
+                save_item: "Save Item",
+                install_prompt: "Install HairSalon Pro for a better experience",
+                install: "Install",
+                dismiss: "Dismiss"
+            },
+            es: {
+                app_name: "HairSalon Pro",
+                tagline: "Sistema Profesional de Gestión de Peluquería",
+                install_app: "Instalar App",
+                dashboard: "Panel",
+                clients: "Clientes",
+                appointments: "Citas",
+                upcoming_sessions: "Próximas Sesiones",
+                calendar: "Calendario",
+                inventory: "Inventario",
+                main_navigation: "Navegación Principal",
+                quick_actions: "Acciones Rápidas",
+                add_client: "Agregar Cliente",
+                schedule_appointment: "Programar Cita",
+                salon_overview: "Resumen del Salón",
+                total_clients: "Total de Clientes",
+                today_appointments: "Citas de Hoy",
+                low_stock: "Artículos con Bajo Stock",
+                monthly_revenue: "Ingresos Mensuales",
+                todays_appointments: "Citas de Hoy",
+                view_all: "Ver Todo",
+                no_appointments_today: "No Hay Citas Hoy",
+                no_appointments_today_desc: "Tu agenda está despejada para hoy",
+                client_management: "Gestión de Clientes",
+                new_client: "Nuevo Cliente",
+                no_clients_yet: "Aún No Hay Clientes",
+                build_client_database: "Comienza a construir tu base de datos de clientes profesional",
+                add_first_client: "Agregar Tu Primer Cliente",
+                appointment_management: "Gestión de Citas",
+                new_appointment: "Nueva Cita",
+                no_appointments_scheduled: "No Hay Citas Programadas",
+                schedule_first_appointment: "Programa tu primera cita de peluquería profesional",
+                create_first_appointment: "Crear Primera Cita",
+                no_upcoming_sessions: "No Hay Próximas Sesiones",
+                schedule_sessions_to_see: "Programa citas para verlas aquí",
+                appointment_calendar: "Calendario de Citas",
+                add_new_client: "Agregar Nuevo Cliente",
+                full_name: "Nombre Completo",
+                phone_number: "Número de Teléfono",
+                email_address: "Correo Electrónico",
+                notes: "Notas",
+                cancel: "Cancelar",
+                save_client: "Guardar Cliente",
+                select_client: "Seleccionar Cliente",
+                date: "Fecha",
+                time: "Hora",
+                service: "Servicio",
+                select_service: "Seleccionar Servicio",
+                haircut: "Corte de Pelo",
+                coloring: "Coloración",
+                styling: "Estilizado",
+                treatment: "Tratamiento",
+                other: "Otro",
+                save_appointment: "Guardar Cita",
+                add_inventory_item: "Agregar Artículo al Inventario",
+                item_name: "Nombre del Artículo",
+                category: "Categoría",
+                select_category: "Seleccionar Categoría",
+                shampoo: "Champú",
+                conditioner: "Acondicionador",
+                hair_color: "Color de Cabello",
+                styling_products: "Productos de Estilizado",
+                tools: "Herramientas",
+                quantity: "Cantidad",
+                low_stock_threshold: "Umbral de Stock Bajo",
+                save_item: "Guardar Artículo",
+                install_prompt: "Instala HairSalon Pro para una mejor experiencia",
+                install: "Instalar",
+                dismiss: "Descartar"
+            }
+        };
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            HairSalonApp.init();
         });
     </script>
 </body>
