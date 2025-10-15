@@ -711,6 +711,7 @@
 
         .calendar-day:hover {
             background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
         }
 
         .calendar-day.other-month {
@@ -767,69 +768,6 @@
             background: var(--danger);
         }
 
-        /* Inventory Deduction Styles */
-        .inventory-deduction-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .inventory-items-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .inventory-item-select {
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-            padding: 15px;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 1px solid transparent;
-        }
-
-        .inventory-item-select:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .inventory-item-select.selected {
-            border-color: var(--primary);
-            background: rgba(233, 30, 99, 0.1);
-        }
-
-        .inventory-item-select.low-stock {
-            border-color: var(--danger);
-        }
-
-        .inventory-item-select h4 {
-            color: var(--light);
-            margin-bottom: 5px;
-        }
-
-        .inventory-item-select p {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.9em;
-            margin-bottom: 5px;
-        }
-
-        .inventory-quantity-input {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .inventory-quantity-input input {
-            width: 70px;
-            padding: 8px;
-            background: var(--dark);
-            border: 1px solid #30363d;
-            border-radius: 4px;
-            color: var(--light);
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
@@ -883,10 +821,6 @@
             .calendar-event {
                 font-size: 0.7em;
             }
-
-            .inventory-items-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
         }
 
         @media (max-width: 480px) {
@@ -923,10 +857,6 @@
             .calendar-event {
                 font-size: 0.6em;
                 padding: 1px 3px;
-            }
-
-            .inventory-items-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1121,26 +1051,21 @@
                         <h2 class="card-title">
                             <i class="fas fa-calendar-alt"></i> <span data-i18n="appointment_calendar">Appointment Calendar</span>
                         </h2>
-                        <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
-                            <i class="fas fa-plus"></i> <span data-i18n="new_appointment">New Appointment</span>
-                        </button>
-                    </div>
-
-                    <div class="calendar-container">
-                        <div class="calendar-header">
-                            <div class="calendar-nav">
-                                <button class="btn btn-outline" id="prevMonth">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <h3 id="currentMonth">Month Year</h3>
-                                <button class="btn btn-outline" id="nextMonth">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                            </div>
+                        <div class="calendar-nav">
+                            <button class="btn btn-outline btn-sm" id="prevMonth">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <h3 id="currentMonth">Month Year</h3>
+                            <button class="btn btn-outline btn-sm" id="nextMonth">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
                             <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
                                 <i class="fas fa-plus"></i> <span data-i18n="new_appointment">New Appointment</span>
                             </button>
                         </div>
+                    </div>
+
+                    <div class="calendar-container">
                         <div class="calendar-grid" id="calendarGrid">
                             <!-- Calendar will be generated here -->
                         </div>
