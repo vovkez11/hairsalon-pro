@@ -1,4 +1,3 @@
-html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1269,7 +1268,7 @@ html
             appointmentView: 'list', // 'list' or 'calendar'
             deferredPrompt: null,
             
-            // Sample data (in a real app, this would come from a database)
+            // Data storage
             clients: [],
             appointments: [],
             products: [],
@@ -1278,8 +1277,8 @@ html
             init() {
                 console.log("Initializing HairSalon Pro application...");
                 
-                // Load sample data
-                this.loadSampleData();
+                // Load data from localStorage
+                this.loadData();
                 
                 // Set up event listeners
                 this.setupEventListeners();
@@ -1302,56 +1301,32 @@ html
                 console.log("HairSalon Pro application initialized successfully!");
             },
             
-            // Load sample data for demonstration
-            loadSampleData() {
-                // Sample clients
-                this.clients = [
-                    { id: 1, name: 'Emma Johnson', phone: '+1-555-1234', email: 'emma@example.com', notes: 'Prefers organic products' },
-                    { id: 2, name: 'Michael Smith', phone: '+1-555-5678', email: 'michael@example.com', notes: 'Regular customer, every 4 weeks' },
-                    { id: 3, name: 'Sophia Williams', phone: '+1-555-9012', email: 'sophia@example.com', notes: 'Allergic to certain chemicals' }
-                ];
+            // Load data from localStorage
+            loadData() {
+                // Load clients
+                const storedClients = localStorage.getItem('hairsalon-clients');
+                if (storedClients) {
+                    this.clients = JSON.parse(storedClients);
+                }
                 
-                // Sample appointments
-                const today = new Date();
-                const tomorrow = new Date(today);
-                tomorrow.setDate(tomorrow.getDate() + 1);
+                // Load appointments
+                const storedAppointments = localStorage.getItem('hairsalon-appointments');
+                if (storedAppointments) {
+                    this.appointments = JSON.parse(storedAppointments);
+                }
                 
-                this.appointments = [
-                    { 
-                        id: 1, 
-                        clientId: 1, 
-                        date: this.formatDate(today), 
-                        time: '10:00', 
-                        service: 'haircut',
-                        notes: 'Regular trim',
-                        status: 'scheduled'
-                    },
-                    { 
-                        id: 2, 
-                        clientId: 2, 
-                        date: this.formatDate(tomorrow), 
-                        time: '14:30', 
-                        service: 'coloring',
-                        notes: 'Full color with highlights',
-                        status: 'scheduled'
-                    },
-                    { 
-                        id: 3, 
-                        clientId: 3, 
-                        date: this.formatDate(today), 
-                        time: '16:00', 
-                        service: 'styling',
-                        notes: 'Wedding preparation',
-                        status: 'scheduled'
-                    }
-                ];
-                
-                // Sample products
-                this.products = [
-                    { id: 1, name: 'Organic Shampoo', category: 'shampoo', quantity: 15, price: 12.99, notes: 'For sensitive scalp' },
-                    { id: 2, name: 'Hair Color Kit', category: 'color', quantity: 5, price: 25.50, notes: 'Professional grade' },
-                    { id: 3, name: 'Hair Spray', category: 'styling', quantity: 8, price: 8.99, notes: 'Strong hold' }
-                ];
+                // Load products
+                const storedProducts = localStorage.getItem('hairsalon-products');
+                if (storedProducts) {
+                    this.products = JSON.parse(storedProducts);
+                }
+            },
+            
+            // Save data to localStorage
+            saveData() {
+                localStorage.setItem('hairsalon-clients', JSON.stringify(this.clients));
+                localStorage.setItem('hairsalon-appointments', JSON.stringify(this.appointments));
+                localStorage.setItem('hairsalon-products', JSON.stringify(this.products));
             },
             
             // Set up all event listeners
@@ -1603,6 +1578,9 @@ html
                     option.textContent = client.name;
                     dropdown.appendChild(option);
                 });
+                
+                // Apply translations
+                this.applyTranslations();
             },
             
             // Add a new client
@@ -1621,6 +1599,7 @@ html
                 };
                 
                 this.clients.push(newClient);
+                this.saveData();
                 this.closeModal('addClientModal');
                 this.showToast('Client added successfully!', 'success');
                 this.updateDashboard();
@@ -1652,6 +1631,7 @@ html
                 };
                 
                 this.appointments.push(newAppointment);
+                this.saveData();
                 this.closeModal('addAppointmentModal');
                 this.showToast('Appointment scheduled successfully!', 'success');
                 this.updateDashboard();
@@ -1677,6 +1657,7 @@ html
                 };
                 
                 this.products.push(newProduct);
+                this.saveData();
                 this.closeModal('addProductModal');
                 this.showToast('Product added successfully!', 'success');
                 this.updateDashboard();
@@ -2195,6 +2176,7 @@ html
             deleteClient(id) {
                 if (confirm('Are you sure you want to delete this client?')) {
                     this.clients = this.clients.filter(c => c.id !== id);
+                    this.saveData();
                     this.updateDashboard();
                     this.renderClients();
                     this.showToast('Client deleted successfully!', 'success');
@@ -2208,6 +2190,7 @@ html
             deleteAppointment(id) {
                 if (confirm('Are you sure you want to delete this appointment?')) {
                     this.appointments = this.appointments.filter(a => a.id !== id);
+                    this.saveData();
                     this.updateDashboard();
                     this.renderAppointments();
                     this.renderCalendar();
@@ -2222,6 +2205,7 @@ html
             deleteProduct(id) {
                 if (confirm('Are you sure you want to delete this product?')) {
                     this.products = this.products.filter(p => p.id !== id);
+                    this.saveData();
                     this.updateDashboard();
                     this.renderInventory();
                     this.showToast('Product deleted successfully!', 'success');
