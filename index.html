@@ -221,6 +221,11 @@
             box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
         }
 
+        /* Make sure it shows when active */
+        .install-btn:not([style*="display: none"]) {
+            display: inline-flex !important;
+        }
+
         /* Sections */
         .section {
             display: none;
@@ -1439,35 +1444,62 @@
             // Set up service worker for PWA functionality
             setupServiceWorker() {
                 if ('serviceWorker' in navigator) {
+                    // Register the service worker from the root directory
                     navigator.serviceWorker.register('/sw.js')
                         .then(registration => {
                             console.log('Service Worker registered successfully:', registration);
+                            
+                            // Check if the app is already installed
+                            if (!window.matchMedia('(display-mode: standalone)').matches) {
+                                // Listen for the beforeinstallprompt event
+                                window.addEventListener('beforeinstallprompt', (e) => {
+                                    e.preventDefault();
+                                    this.deferredPrompt = e;
+                                    this.showInstallButton();
+                                    
+                                    // Also show the install prompt after a short delay
+                                    setTimeout(() => {
+                                        this.showInstallPrompt();
+                                    }, 5000); // Show after 5 seconds
+                                });
+                            }
                         })
                         .catch(error => {
                             console.log('Service Worker registration failed:', error);
+                            // Fallback: still try to show install button for PWA features
+                            this.showInstallButton();
                         });
+                } else {
+                    console.log('Service Workers are not supported');
                 }
             },
             
             // Set up install prompt
             setupInstallPrompt() {
+                // Check if app is already installed
+                if (window.matchMedia('(display-mode: standalone)').matches) {
+                    console.log('App is already installed');
+                    return;
+                }
+                
+                // Listen for beforeinstallprompt event
                 window.addEventListener('beforeinstallprompt', (e) => {
-                    // Prevent the mini-infobar from appearing on mobile
                     e.preventDefault();
-                    // Stash the event so it can be triggered later
                     this.deferredPrompt = e;
-                    // Update UI to notify the user they can install the PWA
                     this.showInstallButton();
+                    
+                    // Show install prompt after delay
+                    setTimeout(() => {
+                        this.showInstallPrompt();
+                    }, 5000);
                 });
                 
+                // Listen for app installed event
                 window.addEventListener('appinstalled', () => {
-                    // Hide the app-provided install promotion
+                    console.log('App was successfully installed');
                     this.hideInstallButton();
                     this.hideInstallPrompt();
-                    // Clear the deferredPrompt so it can be garbage collected
                     this.deferredPrompt = null;
-                    // Optionally, send analytics event to indicate successful install
-                    console.log('PWA was installed');
                 });
             },
             
@@ -1476,11 +1508,6 @@
                 const installButton = document.getElementById('installButton');
                 installButton.style.display = 'inline-flex';
                 installButton.classList.add('pulse');
-                
-                // Also show install prompt after a delay
-                setTimeout(() => {
-                    this.showInstallPrompt();
-                }, 3000);
             },
             
             // Hide install button
