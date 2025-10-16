@@ -11,9 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="HairSalon Pro">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="manifest" href="manifest.json">
     <style>
-        /* Your existing CSS remains exactly the same */
         :root {
             --primary: #e91e63;
             --primary-dark: #c2185b;
@@ -923,6 +921,44 @@
             font-size: 0.8em;
         }
 
+        /* Usage History Styles */
+        .usage-history {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .usage-history-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .usage-history-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .usage-history-info h4 {
+            color: var(--light);
+            margin-bottom: 4px;
+            font-size: 0.9em;
+        }
+
+        .usage-history-info p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.8em;
+            margin-bottom: 2px;
+        }
+
+        .usage-quantity {
+            font-weight: bold;
+            color: var(--danger);
+        }
+
         /* Mobile Responsive */
         @media (max-width: 1024px) {
             .sidebar {
@@ -1404,6 +1440,16 @@
                     <label class="form-label" for="appointmentPrice" data-i18n="price">Price</label>
                     <input type="number" class="form-control" id="appointmentPrice" step="0.01" required>
                 </div>
+                
+                <!-- Inventory Deduction Section -->
+                <div class="inventory-deduction-section">
+                    <h4><i class="fas fa-box-open"></i> Products Used</h4>
+                    <p>Select products used during this appointment:</p>
+                    <div class="inventory-items-grid" id="appointmentInventoryItems">
+                        <!-- Inventory items will be populated here -->
+                    </div>
+                </div>
+                
                 <div class="form-group">
                     <label class="form-label" for="appointmentNotes" data-i18n="notes">Notes</label>
                     <textarea class="form-control" id="appointmentNotes" rows="3"></textarea>
@@ -1463,6 +1509,24 @@
         </div>
     </div>
 
+    <!-- View Inventory Usage Modal -->
+    <div class="modal" id="viewUsageModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-history"></i>
+                    <span>Product Usage History</span>
+                </div>
+                <button class="close-modal" onclick="HairSalonApp.closeModal('viewUsageModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="usage-history" id="usageHistoryList">
+                <!-- Usage history will be populated here -->
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
@@ -1474,7 +1538,7 @@
     </div>
 
 <script>
-// HairSalon Pro - COMPLETE FIXED VERSION WITH REVENUE STATS
+// HairSalon Pro - COMPLETE FIXED VERSION WITH INVENTORY DEDUCTION SYSTEM
 class HairSalonPro {
     constructor() {
         this.currentLanguage = 'en';
@@ -1497,6 +1561,7 @@ class HairSalonPro {
         this.clients = JSON.parse(localStorage.getItem('hairsalon_clients')) || [];
         this.appointments = JSON.parse(localStorage.getItem('hairsalon_appointments')) || [];
         this.inventory = JSON.parse(localStorage.getItem('hairsalon_inventory')) || [];
+        this.usageHistory = JSON.parse(localStorage.getItem('hairsalon_usage_history')) || [];
         
         // Complete translations - ADDED REVENUE TRANSLATIONS
         this.translations = {
@@ -1579,7 +1644,13 @@ class HairSalonPro {
                 'low_stock_warning': 'Low Stock Warning',
                 'delete': 'Delete',
                 'delete_confirmation': 'Are you sure you want to delete this item?',
-                'item_deleted': 'Item deleted successfully'
+                'item_deleted': 'Item deleted successfully',
+                'products_used': 'Products Used',
+                'view_usage_history': 'View Usage History',
+                'no_usage_history': 'No usage history for this product',
+                'used_in_appointment': 'Used in appointment with',
+                'quantity_used': 'Quantity Used',
+                'insufficient_stock': 'Insufficient stock for product'
             },
             'es': {
                 'app_name': 'HairSalon Pro',
@@ -1660,7 +1731,13 @@ class HairSalonPro {
                 'low_stock_warning': 'Advertencia de Stock Bajo',
                 'delete': 'Eliminar',
                 'delete_confirmation': '¿Está seguro de que desea eliminar este elemento?',
-                'item_deleted': 'Elemento eliminado exitosamente'
+                'item_deleted': 'Elemento eliminado exitosamente',
+                'products_used': 'Productos Utilizados',
+                'view_usage_history': 'Ver Historial de Uso',
+                'no_usage_history': 'No hay historial de uso para este producto',
+                'used_in_appointment': 'Usado en cita con',
+                'quantity_used': 'Cantidad Usada',
+                'insufficient_stock': 'Stock insuficiente para el producto'
             },
             'ru': {
                 'app_name': 'HairSalon Pro',
@@ -1741,7 +1818,13 @@ class HairSalonPro {
                 'low_stock_warning': 'Предупреждение о низком запасе',
                 'delete': 'Удалить',
                 'delete_confirmation': 'Вы уверены, что хотите удалить этот элемент?',
-                'item_deleted': 'Элемент успешно удален'
+                'item_deleted': 'Элемент успешно удален',
+                'products_used': 'Использованные продукты',
+                'view_usage_history': 'Просмотреть историю использования',
+                'no_usage_history': 'Нет истории использования для этого продукта',
+                'used_in_appointment': 'Использовано в записи с',
+                'quantity_used': 'Количество использовано',
+                'insufficient_stock': 'Недостаточно запасов для продукта'
             },
             'he': {
                 'app_name': 'HairSalon Pro',
@@ -1822,7 +1905,13 @@ class HairSalonPro {
                 'low_stock_warning': 'אזהרת מלאי נמוך',
                 'delete': 'מחק',
                 'delete_confirmation': 'האם אתה בטוח שברצונך למחוק פריט זה?',
-                'item_deleted': 'הפריט נמחק בהצלחה'
+                'item_deleted': 'הפריט נמחק בהצלחה',
+                'products_used': 'מוצרים בשימוש',
+                'view_usage_history': 'צפה בהיסטוריית שימוש',
+                'no_usage_history': 'אין היסטוריית שימוש למוצר זה',
+                'used_in_appointment': 'שומש בתור עם',
+                'quantity_used': 'כמות משומשת',
+                'insufficient_stock': 'מלאי לא מספיק למוצר'
             }
         };
         
@@ -1840,7 +1929,7 @@ class HairSalonPro {
         // Register Service Worker for PWA
         this.registerServiceWorker();
         
-        console.log('💇‍♀️ HairSalon Pro - COMPLETE FIXED VERSION WITH REVENUE STATS LOADED');
+        console.log('💇‍♀️ HairSalon Pro - COMPLETE FIXED VERSION WITH INVENTORY DEDUCTION SYSTEM LOADED');
     }
     
     setupEventListeners() {
@@ -2251,6 +2340,9 @@ class HairSalonPro {
                     <button class="btn btn-outline btn-sm" onclick="HairSalonApp.editInventoryItem('${item.id}')">
                         <i class="fas fa-edit"></i>
                     </button>
+                    <button class="btn btn-outline btn-sm" onclick="HairSalonApp.viewUsageHistory('${item.id}')">
+                        <i class="fas fa-history"></i>
+                    </button>
                     <button class="btn btn-danger btn-sm" onclick="HairSalonApp.deleteInventoryItem('${item.id}')">
                         <i class="fas fa-trash"></i>
                     </button>
@@ -2338,6 +2430,7 @@ class HairSalonPro {
         // Populate client dropdown for appointment modal
         if (modalId === 'addAppointmentModal') {
             this.populateClientDropdown();
+            this.populateInventoryForAppointment();
         }
     }
     
@@ -2362,6 +2455,12 @@ class HairSalonPro {
         this.editingClientId = null;
         this.editingInventoryId = null;
         this.editingAppointmentId = null;
+        
+        // Reset inventory selection for appointment modal
+        const inventoryGrid = document.getElementById('appointmentInventoryItems');
+        if (inventoryGrid) {
+            inventoryGrid.innerHTML = '';
+        }
     }
     
     populateClientDropdown() {
@@ -2376,6 +2475,35 @@ class HairSalonPro {
         });
         
         this.translatePage();
+    }
+    
+    populateInventoryForAppointment() {
+        const container = document.getElementById('appointmentInventoryItems');
+        container.innerHTML = '';
+        
+        if (this.inventory.length === 0) {
+            container.innerHTML = '<p>No inventory items available</p>';
+            return;
+        }
+        
+        this.inventory.forEach(item => {
+            const isLowStock = item.quantity <= item.lowStock;
+            const itemElement = document.createElement('div');
+            itemElement.className = `inventory-item-select ${isLowStock ? 'low-stock' : ''}`;
+            itemElement.dataset.id = item.id;
+            
+            itemElement.innerHTML = `
+                <h4>${item.name}</h4>
+                <p>${this.translate(item.category)}</p>
+                <p>Available: ${item.quantity} units</p>
+                <div class="inventory-quantity-input">
+                    <label>Qty:</label>
+                    <input type="number" min="0" max="${item.quantity}" value="0" data-id="${item.id}">
+                </div>
+            `;
+            
+            container.appendChild(itemElement);
+        });
     }
     
     saveClient() {
@@ -2425,6 +2553,35 @@ class HairSalonPro {
         const price = parseFloat(document.getElementById('appointmentPrice').value);
         const notes = document.getElementById('appointmentNotes').value;
         
+        // Get inventory usage
+        const inventoryUsage = [];
+        const quantityInputs = document.querySelectorAll('#appointmentInventoryItems input[type="number"]');
+        let hasInsufficientStock = false;
+        
+        quantityInputs.forEach(input => {
+            const quantity = parseInt(input.value);
+            if (quantity > 0) {
+                const itemId = input.dataset.id;
+                const item = this.inventory.find(i => i.id === itemId);
+                
+                if (item && quantity > item.quantity) {
+                    hasInsufficientStock = true;
+                    this.showToast(`${this.translate('insufficient_stock')}: ${item.name}`);
+                    return;
+                }
+                
+                inventoryUsage.push({
+                    itemId,
+                    itemName: item.name,
+                    quantity
+                });
+            }
+        });
+        
+        if (hasInsufficientStock) {
+            return; // Don't save appointment if insufficient stock
+        }
+        
         if (this.editingAppointmentId) {
             // Update existing appointment
             const appointmentIndex = this.appointments.findIndex(a => a.id === this.editingAppointmentId);
@@ -2436,7 +2593,8 @@ class HairSalonPro {
                     time,
                     service,
                     price,
-                    notes
+                    notes,
+                    inventoryUsage
                 };
             }
             this.showToast(this.translate('appointment_updated'));
@@ -2450,10 +2608,14 @@ class HairSalonPro {
                 service,
                 price,
                 notes,
+                inventoryUsage,
                 createdAt: new Date().toISOString()
             };
             this.appointments.push(newAppointment);
             this.showToast(this.translate('appointment_saved'));
+            
+            // Deduct inventory items
+            this.deductInventory(inventoryUsage, newAppointment.id);
         }
         
         this.saveToLocalStorage();
@@ -2462,6 +2624,36 @@ class HairSalonPro {
         this.renderUpcomingSessions();
         this.updateDashboard();
         this.renderCalendar();
+        this.renderInventory();
+    }
+    
+    deductInventory(inventoryUsage, appointmentId) {
+        const appointment = this.appointments.find(a => a.id === appointmentId);
+        const client = this.clients.find(c => c.id === appointment.clientId);
+        
+        inventoryUsage.forEach(usage => {
+            const itemIndex = this.inventory.findIndex(i => i.id === usage.itemId);
+            if (itemIndex !== -1) {
+                // Deduct the quantity
+                this.inventory[itemIndex].quantity -= usage.quantity;
+                
+                // Record usage history
+                const usageRecord = {
+                    id: this.generateId(),
+                    itemId: usage.itemId,
+                    itemName: usage.itemName,
+                    appointmentId: appointmentId,
+                    clientName: client ? client.name : 'Unknown',
+                    service: appointment.service,
+                    quantity: usage.quantity,
+                    date: new Date().toISOString()
+                };
+                
+                this.usageHistory.push(usageRecord);
+            }
+        });
+        
+        this.saveToLocalStorage();
     }
     
     saveInventoryItem() {
@@ -2531,6 +2723,7 @@ class HairSalonPro {
         const appointment = this.appointments.find(a => a.id === appointmentId);
         if (appointment) {
             this.populateClientDropdown();
+            this.populateInventoryForAppointment();
             
             document.getElementById('appointmentClient').value = appointment.clientId;
             document.getElementById('appointmentDate').value = appointment.date;
@@ -2538,6 +2731,16 @@ class HairSalonPro {
             document.getElementById('appointmentService').value = appointment.service;
             document.getElementById('appointmentPrice').value = appointment.price;
             document.getElementById('appointmentNotes').value = appointment.notes || '';
+            
+            // Pre-fill inventory usage
+            if (appointment.inventoryUsage && appointment.inventoryUsage.length > 0) {
+                appointment.inventoryUsage.forEach(usage => {
+                    const input = document.querySelector(`#appointmentInventoryItems input[data-id="${usage.itemId}"]`);
+                    if (input) {
+                        input.value = usage.quantity;
+                    }
+                });
+            }
             
             this.editingAppointmentId = appointmentId;
             this.openModal('addAppointmentModal');
@@ -2572,6 +2775,47 @@ class HairSalonPro {
             const submitButton = document.querySelector('#addInventoryForm button[type="submit"]');
             submitButton.textContent = this.translate('update_item');
         }
+    }
+    
+    viewUsageHistory(inventoryId) {
+        const item = this.inventory.find(i => i.id === inventoryId);
+        if (!item) return;
+        
+        const container = document.getElementById('usageHistoryList');
+        const itemUsage = this.usageHistory.filter(usage => usage.itemId === inventoryId);
+        
+        container.innerHTML = `
+            <h4>Usage History for: ${item.name}</h4>
+        `;
+        
+        if (itemUsage.length === 0) {
+            container.innerHTML += `
+                <div class="empty-state">
+                    <i class="fas fa-history"></i>
+                    <h3>${this.translate('no_usage_history')}</h3>
+                </div>
+            `;
+        } else {
+            itemUsage.forEach(usage => {
+                const usageElement = document.createElement('div');
+                usageElement.className = 'usage-history-item';
+                
+                usageElement.innerHTML = `
+                    <div class="usage-history-info">
+                        <h4>${this.translate('used_in_appointment')}: ${usage.clientName}</h4>
+                        <p>Service: ${usage.service}</p>
+                        <p>Date: ${new Date(usage.date).toLocaleDateString()}</p>
+                    </div>
+                    <div class="usage-quantity">
+                        -${usage.quantity} units
+                    </div>
+                `;
+                
+                container.appendChild(usageElement);
+            });
+        }
+        
+        this.openModal('viewUsageModal');
     }
     
     deleteClient(clientId) {
@@ -2688,6 +2932,7 @@ class HairSalonPro {
         localStorage.setItem('hairsalon_clients', JSON.stringify(this.clients));
         localStorage.setItem('hairsalon_appointments', JSON.stringify(this.appointments));
         localStorage.setItem('hairsalon_inventory', JSON.stringify(this.inventory));
+        localStorage.setItem('hairsalon_usage_history', JSON.stringify(this.usageHistory));
     }
     
     setupMobileMenu() {
