@@ -1536,7 +1536,7 @@
     </div>
 
 <script>
-// HairSalon Pro - COMPLETELY FIXED VERSION
+// HairSalon Pro - CALENDAR FIXED VERSION
 class HairSalonPro {
     constructor() {
         this.currentLanguage = 'en';
@@ -1924,7 +1924,7 @@ class HairSalonPro {
         this.checkInstallPrompt();
         this.setupMobileMenu();
         
-        console.log('💇‍♀️ HairSalon Pro - COMPLETELY FIXED VERSION LOADED');
+        console.log('💇‍♀️ HairSalon Pro - CALENDAR FIXED VERSION LOADED');
     }
     
     setupEventListeners() {
@@ -2401,8 +2401,11 @@ class HairSalonPro {
             
             // Check for appointments on this day
             const currentDate = new Date(currentYear, currentMonth, day);
-            const dateString = currentDate.toISOString().split('T')[0];
-            const dayAppointments = this.appointments.filter(apt => apt.date === dateString);
+            const dateString = this.formatDateForComparison(currentDate);
+            const dayAppointments = this.appointments.filter(apt => {
+                const aptDate = new Date(apt.date);
+                return this.formatDateForComparison(aptDate) === dateString;
+            });
             
             if (dayAppointments.length > 0) {
                 dayElement.classList.add('has-events');
@@ -2422,6 +2425,14 @@ class HairSalonPro {
         }
     }
     
+    // Helper function to format dates for comparison
+    formatDateForComparison(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+    
     openModal(modalId) {
         document.getElementById(modalId).classList.add('show');
         document.body.style.overflow = 'hidden';
@@ -2430,12 +2441,16 @@ class HairSalonPro {
         if (modalId === 'addAppointmentModal') {
             this.populateClientDropdown();
             this.populateInventoryForAppointment();
-        }
-        
-        // Set today's date as default for appointment date
-        if (modalId === 'addAppointmentModal') {
+            
+            // Set today's date as default for appointment date
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('appointmentDate').value = today;
+            
+            // Set default time to next hour
+            const nextHour = new Date();
+            nextHour.setHours(nextHour.getHours() + 1);
+            nextHour.setMinutes(0);
+            document.getElementById('appointmentTime').value = nextHour.toTimeString().slice(0, 5);
         }
     }
     
