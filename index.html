@@ -1210,12 +1210,10 @@
                             <div class="stat-value" id="lowStockItems">0</div>
                             <div class="stat-label" data-i18n="low_stock_items">Low Stock Items</div>
                         </div>
-                        <!-- ADDED BACK: Month Revenue -->
                         <div class="stat-card">
                             <div class="stat-value" id="monthRevenue">$0</div>
                             <div class="stat-label" data-i18n="month_revenue">Month Revenue</div>
                         </div>
-                        <!-- ADDED BACK: Year Revenue -->
                         <div class="stat-card">
                             <div class="stat-value" id="yearRevenue">$0</div>
                             <div class="stat-label" data-i18n="year_revenue">Year Revenue</div>
@@ -1443,7 +1441,7 @@
                 
                 <!-- Inventory Deduction Section -->
                 <div class="inventory-deduction-section">
-                    <h4><i class="fas fa-box-open"></i> Products Used</h4>
+                    <h4><i class="fas fa-box-open"></i> <span data-i18n="products_used">Products Used</span></h4>
                     <p>Select products used during this appointment:</p>
                     <div class="inventory-items-grid" id="appointmentInventoryItems">
                         <!-- Inventory items will be populated here -->
@@ -1515,7 +1513,7 @@
             <div class="modal-header">
                 <div class="modal-title">
                     <i class="fas fa-history"></i>
-                    <span>Product Usage History</span>
+                    <span data-i18n="view_usage_history">Product Usage History</span>
                 </div>
                 <button class="close-modal" onclick="HairSalonApp.closeModal('viewUsageModal')">
                     <i class="fas fa-times"></i>
@@ -1538,7 +1536,7 @@
     </div>
 
 <script>
-// HairSalon Pro - COMPLETE FIXED VERSION WITH INVENTORY DEDUCTION SYSTEM
+// HairSalon Pro - COMPLETELY FIXED VERSION
 class HairSalonPro {
     constructor() {
         this.currentLanguage = 'en';
@@ -1557,13 +1555,13 @@ class HairSalonPro {
             'he': { symbol: '₪', code: 'ILS', rate: 3.5 }
         };
         
-        // Initialize EMPTY data
+        // Initialize data
         this.clients = JSON.parse(localStorage.getItem('hairsalon_clients')) || [];
         this.appointments = JSON.parse(localStorage.getItem('hairsalon_appointments')) || [];
         this.inventory = JSON.parse(localStorage.getItem('hairsalon_inventory')) || [];
         this.usageHistory = JSON.parse(localStorage.getItem('hairsalon_usage_history')) || [];
         
-        // Complete translations - ADDED REVENUE TRANSLATIONS
+        // Complete translations
         this.translations = {
             'en': {
                 'app_name': 'HairSalon Pro',
@@ -1926,10 +1924,7 @@ class HairSalonPro {
         this.checkInstallPrompt();
         this.setupMobileMenu();
         
-        // Register Service Worker for PWA
-        this.registerServiceWorker();
-        
-        console.log('💇‍♀️ HairSalon Pro - COMPLETE FIXED VERSION WITH INVENTORY DEDUCTION SYSTEM LOADED');
+        console.log('💇‍♀️ HairSalon Pro - COMPLETELY FIXED VERSION LOADED');
     }
     
     setupEventListeners() {
@@ -2035,13 +2030,14 @@ class HairSalonPro {
         this.renderAppointments();
         this.renderUpcomingSessions();
         this.renderInventory();
+        this.renderCalendar();
     }
     
     translatePage() {
         document.querySelectorAll('[data-i18n]').forEach(element => {
             const key = element.getAttribute('data-i18n');
             const translation = this.translate(key);
-            if (translation !== key) { // Only update if translation exists
+            if (translation !== key) {
                 element.textContent = translation;
             }
         });
@@ -2084,6 +2080,9 @@ class HairSalonPro {
                 break;
             case 'inventory':
                 this.renderInventory();
+                break;
+            case 'calendar':
+                this.renderCalendar();
                 break;
         }
     }
@@ -2432,6 +2431,12 @@ class HairSalonPro {
             this.populateClientDropdown();
             this.populateInventoryForAppointment();
         }
+        
+        // Set today's date as default for appointment date
+        if (modalId === 'addAppointmentModal') {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('appointmentDate').value = today;
+        }
     }
     
     closeModal(modalId) {
@@ -2461,6 +2466,9 @@ class HairSalonPro {
         if (inventoryGrid) {
             inventoryGrid.innerHTML = '';
         }
+        
+        // Reset modal titles and buttons
+        this.translatePage();
     }
     
     populateClientDropdown() {
@@ -2785,7 +2793,7 @@ class HairSalonPro {
         const itemUsage = this.usageHistory.filter(usage => usage.itemId === inventoryId);
         
         container.innerHTML = `
-            <h4>Usage History for: ${item.name}</h4>
+            <h4>${this.translate('view_usage_history')}: ${item.name}</h4>
         `;
         
         if (itemUsage.length === 0) {
@@ -2807,7 +2815,7 @@ class HairSalonPro {
                         <p>Date: ${new Date(usage.date).toLocaleDateString()}</p>
                     </div>
                     <div class="usage-quantity">
-                        -${usage.quantity} units
+                        -${usage.quantity} ${this.translate('quantity_used')}
                     </div>
                 `;
                 
@@ -2954,8 +2962,6 @@ class HairSalonPro {
     }
     
     checkInstallPrompt() {
-        // This would typically check if the app is installed or not
-        // For now, we'll just show the install button if deferredPrompt exists
         if (this.deferredPrompt) {
             this.showInstallButton();
         }
@@ -2981,18 +2987,6 @@ class HairSalonPro {
     
     hideInstallPrompt() {
         document.getElementById('installPrompt').classList.remove('show');
-    }
-    
-    registerServiceWorker() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('SW registered: ', registration);
-                })
-                .catch(registrationError => {
-                    console.log('SW registration failed: ', registrationError);
-                });
-        }
     }
 }
 
