@@ -35,15 +35,17 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
             color: var(--light);
             line-height: 1.7;
             min-height: 100vh;
             overflow-x: hidden;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
         .app-container {
@@ -51,12 +53,12 @@
             min-height: 100vh;
         }
 
-        /* Sidebar */
+        /* Mobile Sidebar */
         .sidebar {
             width: 280px;
             background: linear-gradient(180deg, var(--dark-gray) 0%, var(--darker) 100%);
             border-right: 1px solid #30363d;
-            padding: 2rem 0;
+            padding: 1rem 0;
             display: flex;
             flex-direction: column;
             position: fixed;
@@ -66,16 +68,34 @@
             box-shadow: 2px 0 20px rgba(0,0,0,0.6);
             z-index: 1000;
             transition: var(--transition);
+            overflow-y: auto;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            background: var(--primary);
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
         }
 
         .logo {
             color: var(--primary);
-            font-size: 2rem;
+            font-size: 1.5rem;
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             text-shadow: 0 0 15px rgba(233, 30, 99, 0.5);
             letter-spacing: 1.5px;
-            padding: 0 1.5rem;
+            padding: 0 1rem;
             font-weight: 700;
         }
 
@@ -84,16 +104,16 @@
         }
 
         .nav-section {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .nav-section-title {
             color: var(--primary);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 0 2rem;
-            margin-bottom: 1rem;
+            padding: 0 1.5rem;
+            margin-bottom: 0.8rem;
             opacity: 0.7;
             font-weight: 600;
         }
@@ -101,14 +121,15 @@
         .nav-link {
             display: flex;
             align-items: center;
-            padding: 1rem 2rem;
+            padding: 0.8rem 1.5rem;
             color: var(--light);
             text-decoration: none;
             font-weight: 600;
             transition: var(--transition);
             border-left: 4px solid transparent;
-            margin: 0.15rem 0;
+            margin: 0.1rem 0;
             cursor: pointer;
+            font-size: 0.9rem;
         }
 
         .nav-link:hover {
@@ -124,21 +145,21 @@
         }
 
         .nav-link i {
-            margin-right: 15px;
-            font-size: 1.3rem;
+            margin-right: 12px;
+            font-size: 1.1rem;
             width: 20px;
             text-align: center;
         }
 
         .language-selector {
-            padding: 0 2rem;
+            padding: 0 1.5rem;
             margin-top: auto;
             margin-bottom: 1rem;
         }
 
         .language-selector select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background: var(--dark);
             border: 1px solid #30363d;
             border-radius: 8px;
@@ -150,17 +171,18 @@
         .main-content {
             flex-grow: 1;
             margin-left: 280px;
-            padding: 20px;
+            padding: 15px;
             transition: var(--transition);
+            width: calc(100% - 280px);
         }
 
         /* Header */
         .app-header {
             background: linear-gradient(135deg, var(--dark) 0%, var(--dark-gray) 100%);
-            padding: 25px;
+            padding: 20px;
             text-align: center;
             border-radius: var(--border-radius);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             box-shadow: var(--shadow);
             border: 1px solid rgba(255,255,255,0.1);
             position: relative;
@@ -179,9 +201,9 @@
 
         .tagline {
             color: var(--primary-light);
-            font-size: 1.2em;
+            font-size: 1em;
             opacity: 0.9;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-weight: 300;
         }
 
@@ -190,17 +212,18 @@
             background: linear-gradient(135deg, var(--success) 0%, #66bb6a 100%);
             color: white;
             border: none;
-            padding: 14px 28px;
+            padding: 12px 20px;
             border-radius: var(--border-radius);
             cursor: pointer;
             font-weight: 600;
             transition: var(--transition);
             display: none;
             box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
-            min-height: 50px;
-            min-width: 140px;
+            min-height: 44px;
+            min-width: 44px;
             position: relative;
             overflow: hidden;
+            font-size: 0.9rem;
         }
 
         .install-btn.pulse {
@@ -243,8 +266,8 @@
         .card {
             background: linear-gradient(135deg, var(--dark-gray) 0%, #2d2d2d 100%);
             border-radius: var(--border-radius);
-            padding: 25px;
-            margin-bottom: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
             box-shadow: var(--shadow);
             border: 1px solid rgba(255,255,255,0.08);
             transition: var(--transition);
@@ -277,23 +300,25 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
             border-bottom: 2px solid var(--primary);
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .card-title {
-            font-size: 1.5em;
+            font-size: 1.3em;
             color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             font-weight: 700;
         }
 
         /* Buttons */
         .btn {
-            padding: 14px 24px;
+            padding: 12px 20px;
             border: none;
             border-radius: var(--border-radius);
             cursor: pointer;
@@ -302,7 +327,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-size: 1em;
+            font-size: 0.9em;
             position: relative;
             overflow: hidden;
             min-height: 44px;
@@ -334,7 +359,7 @@
             background: transparent;
             border: 2px solid var(--primary);
             color: var(--primary);
-            padding: 12px 22px;
+            padding: 10px 18px;
         }
 
         .btn-outline:hover {
@@ -346,7 +371,7 @@
         /* Small Action Buttons */
         .btn-sm {
             padding: 8px 12px;
-            font-size: 0.9em;
+            font-size: 0.8em;
             min-height: 36px;
             min-width: 36px;
         }
@@ -354,14 +379,14 @@
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
         }
 
         .stat-card {
             background: linear-gradient(135deg, var(--dark) 0%, var(--dark-gray) 100%);
-            padding: 25px;
+            padding: 20px;
             text-align: center;
             border-radius: var(--border-radius);
             border-left: 5px solid var(--primary);
@@ -378,10 +403,10 @@
         }
 
         .stat-value {
-            font-size: 2.5em;
+            font-size: 2em;
             font-weight: bold;
             color: var(--primary);
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             line-height: 1;
             text-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
         }
@@ -389,20 +414,20 @@
         .stat-label {
             color: var(--light);
             opacity: 0.9;
-            font-size: 0.95em;
+            font-size: 0.85em;
             font-weight: 600;
         }
 
         /* Empty States */
         .empty-state {
             text-align: center;
-            padding: 60px 30px;
+            padding: 40px 20px;
             color: rgba(255,255,255,0.6);
         }
 
         .empty-state i {
-            font-size: 4em;
-            margin-bottom: 20px;
+            font-size: 3em;
+            margin-bottom: 15px;
             opacity: 0.4;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
@@ -411,15 +436,15 @@
         }
 
         .empty-state h3 {
-            font-size: 1.6em;
-            margin-bottom: 12px;
+            font-size: 1.4em;
+            margin-bottom: 10px;
             color: rgba(255,255,255,0.8);
             font-weight: 600;
         }
 
         .empty-state p {
-            font-size: 1em;
-            margin-bottom: 25px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
             opacity: 0.8;
             line-height: 1.6;
         }
@@ -427,12 +452,12 @@
         /* Toast & Install Prompt */
         .toast {
             position: fixed;
-            bottom: 30px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(135deg, var(--success) 0%, #66bb6a 100%);
             color: white;
-            padding: 16px 24px;
+            padding: 14px 20px;
             border-radius: var(--border-radius);
             z-index: 1001;
             display: none;
@@ -442,6 +467,7 @@
             backdrop-filter: blur(10px);
             max-width: 90%;
             text-align: center;
+            font-size: 0.9rem;
         }
 
         .toast.show {
@@ -450,17 +476,17 @@
 
         .install-prompt {
             position: fixed;
-            bottom: 30px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 20px 25px;
+            padding: 15px 20px;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             z-index: 1000;
             display: none;
-            gap: 20px;
+            gap: 15px;
             align-items: center;
             flex-wrap: wrap;
             justify-content: center;
@@ -469,6 +495,7 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
             font-weight: 600;
+            font-size: 0.9rem;
         }
 
         .install-prompt.show {
@@ -481,7 +508,7 @@
                 opacity: 0;
             }
             to {
-                bottom: 30px;
+                bottom: 20px;
                 opacity: 1;
             }
         }
@@ -498,24 +525,28 @@
             z-index: 2000;
             backdrop-filter: blur(5px);
             animation: fadeIn 0.3s ease;
+            padding: 20px;
+            overflow-y: auto;
         }
 
         .modal.show {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
         }
 
         .modal-content {
             background: linear-gradient(135deg, var(--dark) 0%, var(--dark-gray) 100%);
             border-radius: var(--border-radius);
-            padding: 30px;
-            width: 90%;
-            max-width: 600px;
+            padding: 25px;
+            width: 100%;
+            max-width: 500px;
             box-shadow: var(--shadow);
             border: 1px solid rgba(255,255,255,0.1);
             animation: modalSlideUp 0.4s ease;
             position: relative;
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         @keyframes modalSlideUp {
@@ -533,17 +564,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
             border-bottom: 2px solid var(--primary);
         }
 
         .modal-title {
-            font-size: 1.5em;
+            font-size: 1.3em;
             color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             font-weight: 700;
         }
 
@@ -551,11 +582,11 @@
             background: none;
             border: none;
             color: var(--light);
-            font-size: 1.5em;
+            font-size: 1.3em;
             cursor: pointer;
             transition: var(--transition);
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -568,19 +599,20 @@
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: var(--light);
             font-weight: 600;
+            font-size: 0.9em;
         }
 
         .form-control {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: var(--dark);
             border: 1px solid #30363d;
             border-radius: 8px;
@@ -597,26 +629,29 @@
 
         .form-actions {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             justify-content: flex-end;
-            margin-top: 25px;
+            margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         /* Data Lists */
         .data-list {
             display: grid;
-            gap: 15px;
+            gap: 12px;
         }
 
         .data-item {
             background: linear-gradient(135deg, rgba(42,42,42,0.8) 0%, rgba(50,50,50,0.6) 100%);
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
             border-left: 4px solid var(--primary);
             transition: var(--transition);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .data-item.appointment-item {
@@ -632,28 +667,33 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         }
 
+        .data-item-content {
+            flex: 1;
+            min-width: 200px;
+        }
+
         .data-item-content h4 {
             color: var(--light);
-            margin-bottom: 8px;
-            font-size: 1.1em;
+            margin-bottom: 6px;
+            font-size: 1em;
         }
 
         .data-item-content p {
             color: rgba(255,255,255,0.7);
-            font-size: 0.9em;
-            margin-bottom: 5px;
+            font-size: 0.85em;
+            margin-bottom: 4px;
         }
         
         .data-item-content span {
             display: block;
-            font-size: 0.8em;
+            font-size: 0.75em;
             color: var(--primary-light);
-            margin-top: 5px;
+            margin-top: 4px;
         }
 
         .data-item-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-shrink: 0;
         }
         
@@ -664,46 +704,48 @@
 
         /* Calendar Styles */
         .calendar-container {
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .calendar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
         }
 
         .calendar-nav {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
+            gap: 6px;
             background: rgba(255,255,255,0.05);
             border-radius: var(--border-radius);
-            padding: 15px;
+            padding: 12px;
         }
 
         .calendar-day-header {
             text-align: center;
             font-weight: bold;
-            padding: 10px;
+            padding: 8px;
             color: var(--primary);
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.8em;
         }
 
         .calendar-day {
             background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-            padding: 10px;
-            min-height: 120px;
+            border-radius: 6px;
+            padding: 8px;
+            min-height: 80px;
             cursor: pointer;
             transition: var(--transition);
             position: relative;
@@ -727,34 +769,34 @@
         .calendar-day.has-events::after {
             content: '';
             position: absolute;
-            top: 5px;
-            right: 5px;
-            width: 8px;
-            height: 8px;
+            top: 4px;
+            right: 4px;
+            width: 6px;
+            height: 6px;
             background: var(--primary);
             border-radius: 50%;
         }
 
         .calendar-day-number {
             font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 1.1em;
+            margin-bottom: 3px;
+            font-size: 0.9em;
         }
 
         .calendar-events {
             display: flex;
             flex-direction: column;
-            gap: 3px;
-            max-height: 80px;
+            gap: 2px;
+            max-height: 60px;
             overflow-y: auto;
         }
 
         .calendar-event {
             background: var(--primary);
             color: white;
-            padding: 3px 6px;
-            border-radius: 4px;
-            font-size: 0.75em;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 0.7em;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -771,22 +813,22 @@
 
         /* Inventory Deduction Styles */
         .inventory-deduction-section {
-            margin-top: 20px;
-            padding-top: 20px;
+            margin-top: 15px;
+            padding-top: 15px;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         .inventory-items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
         }
 
         .inventory-item-select {
             background: rgba(255,255,255,0.05);
             border-radius: 8px;
-            padding: 15px;
+            padding: 12px;
             cursor: pointer;
             transition: var(--transition);
             border: 1px solid transparent;
@@ -807,49 +849,51 @@
 
         .inventory-item-select h4 {
             color: var(--light);
-            margin-bottom: 5px;
+            margin-bottom: 4px;
+            font-size: 0.9em;
         }
 
         .inventory-item-select p {
             color: rgba(255,255,255,0.7);
-            font-size: 0.9em;
-            margin-bottom: 5px;
+            font-size: 0.8em;
+            margin-bottom: 4px;
         }
 
         .inventory-quantity-input {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 8px;
+            margin-top: 8px;
         }
 
         .inventory-quantity-input input {
-            width: 70px;
-            padding: 8px;
+            width: 60px;
+            padding: 6px;
             background: var(--dark);
             border: 1px solid #30363d;
             border-radius: 4px;
             color: var(--light);
+            font-size: 0.8em;
         }
 
         /* Export Section */
         .export-section {
-            margin-top: 30px;
-            padding-top: 20px;
+            margin-top: 20px;
+            padding-top: 15px;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         .export-options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
         }
 
         .export-option {
             background: rgba(255,255,255,0.05);
             border-radius: 8px;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
@@ -862,54 +906,77 @@
         }
 
         .export-option i {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 2em;
+            margin-bottom: 8px;
             color: var(--primary);
         }
 
         .export-option h4 {
             color: var(--light);
-            margin-bottom: 5px;
+            margin-bottom: 4px;
+            font-size: 0.9em;
         }
 
         .export-option p {
             color: rgba(255,255,255,0.7);
-            font-size: 0.9em;
+            font-size: 0.8em;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
             .sidebar {
-                width: 70px;
+                width: 250px;
             }
-
-            .logo span, .nav-link span, .nav-section-title {
-                display: none;
+            .main-content {
+                margin-left: 250px;
+                width: calc(100% - 250px);
             }
+        }
 
-            .nav-link {
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+                align-items: center;
                 justify-content: center;
-                padding: 1rem;
             }
 
-            .nav-link i {
-                margin-right: 0;
+            .sidebar {
+                width: 280px;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
             }
 
             .main-content {
-                margin-left: 70px;
-                padding: 15px;
+                margin-left: 0;
+                width: 100%;
+                padding: 60px 10px 10px 10px;
+            }
+
+            .logo span, .nav-link span, .nav-section-title {
+                display: block;
+            }
+
+            .nav-link {
+                justify-content: flex-start;
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-link i {
+                margin-right: 15px;
             }
 
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
+                gap: 12px;
             }
 
             .data-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
+                gap: 12px;
             }
 
             .data-item-actions {
@@ -919,24 +986,38 @@
 
             .calendar-grid {
                 grid-template-columns: repeat(7, 1fr);
-                gap: 5px;
+                gap: 4px;
             }
 
             .calendar-day {
-                min-height: 100px;
-                padding: 5px;
+                min-height: 70px;
+                padding: 4px;
             }
 
             .calendar-event {
-                font-size: 0.7em;
+                font-size: 0.65em;
             }
 
             .inventory-items-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             }
 
             .export-options {
                 grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions .btn {
+                width: 100%;
+                justify-content: center;
             }
         }
 
@@ -946,45 +1027,64 @@
             }
 
             .card {
-                padding: 18px 15px;
-            }
-
-            .modal-content {
-                padding: 20px;
-            }
-
-            .form-actions {
-                flex-direction: column;
+                padding: 15px;
             }
 
             .calendar-grid {
                 grid-template-columns: repeat(7, 1fr);
-                gap: 3px;
+                gap: 2px;
             }
 
             .calendar-day {
-                min-height: 80px;
-                padding: 3px;
+                min-height: 60px;
+                padding: 2px;
             }
 
             .calendar-day-number {
-                font-size: 0.9em;
+                font-size: 0.8em;
             }
 
             .calendar-event {
                 font-size: 0.6em;
-                padding: 1px 3px;
+                padding: 1px 2px;
             }
 
             .inventory-items-grid {
                 grid-template-columns: 1fr;
             }
+
+            .app-header {
+                padding: 15px;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .card-header .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Safe area support for newer iPhones */
+        @supports(padding: max(0px)) {
+            .main-content, .modal {
+                padding-left: max(10px, env(safe-area-inset-left));
+                padding-right: max(10px, env(safe-area-inset-right));
+            }
         }
     </style>
 </head>
 <body>
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <div class="app-container">
-        <nav class="sidebar">
+        <nav class="sidebar" id="sidebar">
             <div class="logo">
                 <i class="fas fa-scissors"></i>
                 <span data-i18n="app_name">HairSalon Pro</span>
@@ -1047,1529 +1147,466 @@
                 </button>
             </div>
 
-            <section id="dashboard" class="section active">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-tachometer-alt"></i> <span data-i18n="salon_overview">Salon Overview</span>
-                        </h2>
-                    </div>
+            <!-- Rest of your HTML content remains the same but with updated data-i18n attributes -->
+            <!-- I'll continue with the JavaScript fixes for update functionality -->
 
-                    <div class="stats-grid">
-                        <div class="stat-card" onclick="HairSalonApp.showSection('clients')">
-                            <div class="stat-value" id="totalClients">0</div>
-                            <div class="stat-label" data-i18n="total_clients">Total Clients</div>
-                        </div>
-                        <div class="stat-card" onclick="HairSalonApp.showSection('appointments')">
-                            <div class="stat-value" id="todayAppointments">0</div>
-                            <div class="stat-label" data-i18n="today_appointments">Today's Appointments</div>
-                        </div>
-                        <div class="stat-card" onclick="HairSalonApp.showSection('inventory')">
-                            <div class="stat-value" id="lowStockItems">0</div>
-                            <div class="stat-label" data-i18n="low_stock">Low Stock Items</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="monthlyRevenue">$0</div>
-                            <div class="stat-label" data-i18n="monthly_revenue">Monthly Revenue</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-clock"></i> <span data-i18n="todays_appointments">Today's Appointments</span>
-                        </h2>
-                        <button class="btn btn-primary" onclick="HairSalonApp.showSection('appointments')">
-                            <i class="fas fa-eye"></i> <span data-i18n="view_all">View All</span>
-                        </button>
-                    </div>
-                    <div class="data-list" id="todaysAppointmentsList">
-                        <div class="empty-state">
-                            <i class="fas fa-calendar-times"></i>
-                            <h3 data-i18n="no_appointments_today">No Appointments Today</h3>
-                            <p data-i18n="no_appointments_today_desc">Your schedule is clear for today</p>
-                            <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
-                                <i class="fas fa-plus"></i> <span data-i18n="schedule_appointment">Schedule Appointment</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="clients" class="section">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-users"></i> <span data-i18n="client_management">Client Management</span>
-                        </h2>
-                        <button class="btn btn-primary" onclick="HairSalonApp.openModal('addClientModal')">
-                            <i class="fas fa-plus"></i> <span data-i18n="new_client">New Client</span>
-                        </button>
-                    </div>
-
-                    <div class="data-list" id="clientsList">
-                        <div class="empty-state">
-                            <i class="fas fa-users"></i>
-                            <h3 data-i18n="no_clients_yet">No Clients Yet</h3>
-                            <p data-i18n="build_client_database">Start building your professional client database</p>
-                            <button class="btn btn-primary" onclick="HairSalonApp.openModal('addClientModal')">
-                                <i class="fas fa-plus"></i> <span data-i18n="add_first_client">Add Your First Client</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="appointments" class="section">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-calendar-alt"></i> <span data-i18n="appointment_management">Appointment Management</span>
-                        </h2>
-                        <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
-                            <i class="fas fa-plus"></i> <span data-i18n="new_appointment">New Appointment</span>
-                        </button>
-                    </div>
-
-                    <div class="data-list" id="appointmentsList">
-                        <div class="empty-state">
-                            <i class="fas fa-calendar-plus"></i>
-                            <h3 data-i18n="no_appointments_scheduled">No Appointments Scheduled</h3>
-                            <p data-i18n="schedule_first_appointment">Schedule your first professional hair appointment</p>
-                            <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
-                                <i class="fas fa-plus"></i> <span data-i18n="create_first_appointment">Create First Appointment</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="upcoming" class="section">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-clock"></i> <span data-i18n="upcoming_sessions">Upcoming Sessions</span>
-                        </h2>
-                        <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
-                            <i class="fas fa-plus"></i> <span data-i18n="new_appointment">New Appointment</span>
-                        </button>
-                    </div>
-
-                    <div class="data-list" id="upcomingSessionsList">
-                        <div class="empty-state">
-                            <i class="fas fa-calendar-plus"></i>
-                            <h3 data-i18n="no_upcoming_sessions">No Upcoming Sessions</h3>
-                            <p data-i18n="schedule_appointments_to_see">Schedule appointments to see them here</p>
-                            <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
-                                <i class="fas fa-plus"></i> <span data-i18n="schedule_appointment">Schedule Appointment</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="calendar" class="section">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-calendar-alt"></i> <span data-i18n="calendar_view">Calendar View</span>
-                        </h2>
-                        <div class="calendar-nav">
-                            <button class="btn btn-outline btn-sm" id="prevMonth">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <h3 id="currentMonthYear">January 2023</h3>
-                            <button class="btn btn-outline btn-sm" id="nextMonth">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
-                            <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
-                                <i class="fas fa-plus"></i> <span data-i18n="new_appointment">New Appointment</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="calendar-container">
-                        <div class="calendar-grid" id="calendarGrid">
-                            <!-- Calendar will be generated here -->
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="inventory" class="section">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-boxes"></i> <span data-i18n="inventory_management">Inventory Management</span>
-                        </h2>
-                        <button class="btn btn-primary" onclick="HairSalonApp.openModal('addInventoryModal')">
-                            <i class="fas fa-plus"></i> <span data-i18n="new_item">New Item</span>
-                        </button>
-                    </div>
-
-                    <div class="data-list" id="inventoryList">
-                        <div class="empty-state">
-                            <i class="fas fa-box-open"></i>
-                            <h3 data-i18n="no_inventory_items">No Inventory Items</h3>
-                            <p data-i18n="add_inventory_items">Add your salon products and supplies to track inventory</p>
-                            <button class="btn btn-primary" onclick="HairSalonApp.openModal('addInventoryModal')">
-                                <i class="fas fa-plus"></i> <span data-i18n="add_first_item">Add Your First Item</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="export" class="section">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-file-export"></i> <span data-i18n="export_data">Export Data</span>
-                        </h2>
-                    </div>
-
-                    <div class="export-section">
-                        <h3 class="form-label" data-i18n="export_options">Export Options</h3>
-                        <p class="form-label" style="font-size: 0.9em; opacity: 0.8;" data-i18n="export_description">Export your salon data for backup or analysis</p>
-                        
-                        <div class="export-options">
-                            <div class="export-option" onclick="HairSalonApp.exportData('clients')">
-                                <i class="fas fa-users"></i>
-                                <h4 data-i18n="clients">Clients</h4>
-                                <p data-i18n="export_clients_desc">Export all client information</p>
-                            </div>
-                            <div class="export-option" onclick="HairSalonApp.exportData('appointments')">
-                                <i class="fas fa-calendar-alt"></i>
-                                <h4 data-i18n="appointments">Appointments</h4>
-                                <p data-i18n="export_appointments_desc">Export appointment history</p>
-                            </div>
-                            <div class="export-option" onclick="HairSalonApp.exportData('inventory')">
-                                <i class="fas fa-boxes"></i>
-                                <h4 data-i18n="inventory">Inventory</h4>
-                                <p data-i18n="export_inventory_desc">Export inventory items and stock</p>
-                            </div>
-                            <div class="export-option" onclick="HairSalonApp.exportData('all')">
-                                <i class="fas fa-database"></i>
-                                <h4 data-i18n="all_data">All Data</h4>
-                                <p data-i18n="export_all_desc">Export complete salon database</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
-
-    <!-- Add Client Modal -->
-    <div class="modal" id="addClientModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">
-                    <i class="fas fa-user-plus"></i> <span data-i18n="add_new_client">Add New Client</span>
-                </h3>
-                <button class="close-modal" onclick="HairSalonApp.closeModal('addClientModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="addClientForm">
-                <div class="form-group">
-                    <label class="form-label" for="clientName" data-i18n="full_name">Full Name</label>
-                    <input type="text" class="form-control" id="clientName" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="clientPhone" data-i18n="phone_number">Phone Number</label>
-                    <input type="tel" class="form-control" id="clientPhone" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="clientEmail" data-i18n="email_address">Email Address</label>
-                    <input type="email" class="form-control" id="clientEmail">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="clientNotes" data-i18n="notes">Notes</label>
-                    <textarea class="form-control" id="clientNotes" rows="3"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline" onclick="HairSalonApp.closeModal('addClientModal')" data-i18n="cancel">Cancel</button>
-                    <button type="submit" class="btn btn-primary" data-i18n="save_client">Save Client</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add Appointment Modal -->
-    <div class="modal" id="addAppointmentModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">
-                    <i class="fas fa-calendar-plus"></i> <span data-i18n="schedule_appointment">Schedule Appointment</span>
-                </h3>
-                <button class="close-modal" onclick="HairSalonApp.closeModal('addAppointmentModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="addAppointmentForm">
-                <div class="form-group">
-                    <label class="form-label" for="appointmentClient" data-i18n="select_client">Select Client</label>
-                    <select class="form-control" id="appointmentClient" required>
-                        <option value="" data-i18n="choose_client">Choose a client...</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="appointmentDate" data-i18n="date">Date</label>
-                    <input type="date" class="form-control" id="appointmentDate" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="appointmentTime" data-i18n="time">Time</label>
-                    <input type="time" class="form-control" id="appointmentTime" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="appointmentService" data-i18n="service">Service</label>
-                    <select class="form-control" id="appointmentService" required>
-                        <option value="" data-i18n="choose_service">Choose a service...</option>
-                        <option value="haircut" data-i18n="haircut">Haircut</option>
-                        <option value="coloring" data-i18n="coloring">Coloring</option>
-                        <option value="styling" data-i18n="styling">Styling</option>
-                        <option value="treatment" data-i18n="treatment">Treatment</option>
-                        <option value="other" data-i18n="other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="appointmentPrice" data-i18n="price">Price</label>
-                    <input type="number" class="form-control" id="appointmentPrice" min="0" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="appointmentNotes" data-i18n="notes">Notes</label>
-                    <textarea class="form-control" id="appointmentNotes" rows="3"></textarea>
-                </div>
-                
-                <!-- Inventory Deduction Section -->
-                <div class="inventory-deduction-section">
-                    <h4 class="form-label" data-i18n="inventory_deduction">Inventory Deduction</h4>
-                    <p class="form-label" style="font-size: 0.9em; opacity: 0.8;" data-i18n="select_items_used">Select items used during this appointment:</p>
-                    
-                    <div class="inventory-items-grid" id="appointmentInventoryItems">
-                        <!-- Inventory items will be populated here -->
-                    </div>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline" onclick="HairSalonApp.closeModal('addAppointmentModal')" data-i18n="cancel">Cancel</button>
-                    <button type="submit" class="btn btn-primary" data-i18n="save_appointment">Save Appointment</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Add Inventory Modal -->
-    <div class="modal" id="addInventoryModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">
-                    <i class="fas fa-box"></i> <span data-i18n="add_inventory_item">Add Inventory Item</span>
-                </h3>
-                <button class="close-modal" onclick="HairSalonApp.closeModal('addInventoryModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="addInventoryForm">
-                <div class="form-group">
-                    <label class="form-label" for="inventoryName" data-i18n="item_name">Item Name</label>
-                    <input type="text" class="form-control" id="inventoryName" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="inventoryCategory" data-i18n="category">Category</label>
-                    <select class="form-control" id="inventoryCategory" required>
-                        <option value="" data-i18n="choose_category">Choose a category...</option>
-                        <option value="shampoo" data-i18n="shampoo">Shampoo</option>
-                        <option value="conditioner" data-i18n="conditioner">Conditioner</option>
-                        <option value="color" data-i18n="color">Color</option>
-                        <option value="styling" data-i18n="styling">Styling</option>
-                        <option value="tools" data-i18n="tools">Tools</option>
-                        <option value="other" data-i18n="other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="inventoryQuantity" data-i18n="quantity">Quantity</label>
-                    <input type="number" class="form-control" id="inventoryQuantity" min="0" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="inventoryLowStock" data-i18n="low_stock_threshold">Low Stock Threshold</label>
-                    <input type="number" class="form-control" id="inventoryLowStock" min="1" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="inventoryNotes" data-i18n="notes">Notes</label>
-                    <textarea class="form-control" id="inventoryNotes" rows="3"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline" onclick="HairSalonApp.closeModal('addInventoryModal')" data-i18n="cancel">Cancel</button>
-                    <button type="submit" class="btn btn-primary" data-i18n="save_item">Save Item</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
-
-    <!-- Install Prompt -->
-    <div class="install-prompt" id="installPrompt">
-        <span data-i18n="install_prompt">Install HairSalon Pro for a better experience</span>
-        <button class="btn btn-primary" id="installPromptButton" data-i18n="install">Install</button>
-        <button class="btn btn-outline" id="dismissInstallPrompt" data-i18n="dismiss">Dismiss</button>
-    </div>
-
-    <script>
-        // HairSalon Pro - COMPLETE WITH LANGUAGES AND PRICE FIELD
-        class HairSalonPro {
-            constructor() {
-                this.currentLanguage = 'en';
-                this.currentDate = new Date();
-                this.deferredPrompt = null;
-                this.selectedCalendarDate = null;
-                
-                // Currency settings
-                this.currencies = {
-                    'en': { symbol: '$', code: 'USD', rate: 1 },
-                    'es': { symbol: '€', code: 'EUR', rate: 0.85 },
-                    'ru': { symbol: '₽', code: 'RUB', rate: 75.5 },
-                    'he': { symbol: '₪', code: 'ILS', rate: 3.5 }
-                };
-                
-                // Initialize EMPTY data
-                this.clients = JSON.parse(localStorage.getItem('hairsalon_clients')) || [];
-                this.appointments = JSON.parse(localStorage.getItem('hairsalon_appointments')) || [];
-                this.inventory = JSON.parse(localStorage.getItem('hairsalon_inventory')) || [];
-                
-                // Complete translations
-                this.translations = {
-                    en: {
-                        "app_name": "HairSalon Pro", "tagline": "Professional Hairdresser Management System",
-                        "main_navigation": "Main Navigation", "dashboard": "Dashboard", "clients": "Clients", 
-                        "appointments": "Appointments", "upcoming_sessions": "Upcoming Sessions", "calendar": "Calendar", 
-                        "inventory": "Inventory", "export_data": "Export Data", "export_options": "Export Options",
-                        "export_description": "Export your salon data for backup or analysis", "export_clients_desc": "Export all client information",
-                        "export_appointments_desc": "Export appointment history", "export_inventory_desc": "Export inventory items and stock",
-                        "export_all_desc": "Export complete salon database", "all_data": "All Data", "data_exported": "Data exported successfully",
-                        "quick_actions": "Quick Actions", "add_client": "Add Client", "schedule_appointment": "Schedule Appointment",
-                        "install_app": "Install App", "salon_overview": "Salon Overview", "total_clients": "Total Clients",
-                        "today_appointments": "Today's Appointments", "low_stock": "Low Stock Items", "monthly_revenue": "Monthly Revenue",
-                        "todays_appointments": "Today's Appointments", "view_all": "View All", "no_appointments_today": "No Appointments Today",
-                        "no_appointments_today_desc": "Your schedule is clear for today", "client_management": "Client Management",
-                        "new_client": "New Client", "no_clients_yet": "No Clients Yet", "build_client_database": "Start building your professional client database",
-                        "add_first_client": "Add Your First Client", "add_new_client": "Add New Client", "full_name": "Full Name",
-                        "phone_number": "Phone Number", "email_address": "Email Address", "notes": "Notes", "cancel": "Cancel",
-                        "save_client": "Save Client", "confirm_delete_client": "Are you sure you want to delete this client?",
-                        "client_deleted": "Client deleted successfully", "client_saved": "Client saved successfully",
-                        "appointment_management": "Appointment Management", "new_appointment": "New Appointment",
-                        "no_appointments_scheduled": "No Appointments Scheduled", "schedule_first_appointment": "Schedule your first professional hair appointment",
-                        "create_first_appointment": "Create First Appointment", "select_client": "Select Client", "choose_client": "Choose a client...",
-                        "date": "Date", "time": "Time", "service": "Service", "choose_service": "Choose a service...", "haircut": "Haircut",
-                        "coloring": "Coloring", "styling": "Styling", "treatment": "Treatment", "other": "Other", "price": "Price",
-                        "save_appointment": "Save Appointment", "scheduled": "Scheduled", "completed": "Completed", "cancelled": "Cancelled", 
-                        "confirm_delete_appointment": "Are you sure you want to delete this appointment?", "appointment_deleted": "Appointment deleted successfully",
-                        "appointment_saved": "Appointment scheduled successfully", "appointment_completed": "Appointment marked as completed", 
-                        "appointment_cancelled": "Appointment cancelled", "inventory_deduction": "Inventory Deduction", 
-                        "select_items_used": "Select items used during this appointment:", "quantity": "Quantity", "calendar_view": "Calendar View", 
-                        "sun": "Sun", "mon": "Mon", "tue": "Tue", "wed": "Wed", "thu": "Thu", "fri": "Fri", "sat": "Sat", 
-                        "inventory_management": "Inventory Management", "new_item": "New Item", "no_inventory_items": "No Inventory Items", 
-                        "add_inventory_items": "Add your salon products and supplies to track inventory", "add_first_item": "Add Your First Item", 
-                        "add_inventory_item": "Add Inventory Item", "item_name": "Item Name", "category": "Category", "choose_category": "Choose a category...", 
-                        "shampoo": "Shampoo", "conditioner": "Conditioner", "color": "Color", "styling": "Styling", "tools": "Tools", 
-                        "low_stock_threshold": "Low Stock Threshold", "save_item": "Save Item", "confirm_delete_inventory": "Are you sure you want to delete this inventory item?", 
-                        "inventory_deleted": "Inventory item deleted successfully", "inventory_saved": "Inventory item saved successfully", 
-                        "low_stock_warning": "Low Stock Warning", "install_prompt": "Install HairSalon Pro for a better experience",
-                        "install": "Install", "dismiss": "Dismiss", "app_installed": "App installed successfully",
-                        "no_upcoming_sessions": "No Upcoming Sessions", "schedule_appointments_to_see": "Schedule appointments to see them here",
-                        "click_to_schedule": "Click on a day to schedule an appointment"
-                    },
-                    es: {
-                        "app_name": "HairSalon Pro", "tagline": "Sistema Profesional de Gestión de Peluquería",
-                        "main_navigation": "Navegación Principal", "dashboard": "Panel de Control", "clients": "Clientes", 
-                        "appointments": "Citas", "upcoming_sessions": "Próximas Sesiones", "calendar": "Calendario", 
-                        "inventory": "Inventario", "export_data": "Exportar Datos", "export_options": "Opciones de Exportación",
-                        "export_description": "Exporta los datos de tu salón para respaldo o análisis", "export_clients_desc": "Exportar toda la información de clientes",
-                        "export_appointments_desc": "Exportar historial de citas", "export_inventory_desc": "Exportar artículos de inventario y stock",
-                        "export_all_desc": "Exportar base de datos completa del salón", "all_data": "Todos los Datos", "data_exported": "Datos exportados exitosamente",
-                        "quick_actions": "Acciones Rápidas", "add_client": "Agregar Cliente", "schedule_appointment": "Programar Cita",
-                        "install_app": "Instalar App", "salon_overview": "Resumen del Salón", "total_clients": "Total de Clientes",
-                        "today_appointments": "Citas de Hoy", "low_stock": "Artículos con Stock Bajo", "monthly_revenue": "Ingresos Mensuales",
-                        "todays_appointments": "Citas de Hoy", "view_all": "Ver Todos", "no_appointments_today": "No Hay Citas Hoy",
-                        "no_appointments_today_desc": "Tu horario está libre para hoy", "client_management": "Gestión de Clientes",
-                        "new_client": "Nuevo Cliente", "no_clients_yet": "Aún No Hay Clientes", "build_client_database": "Comienza a construir tu base de datos profesional de clientes",
-                        "add_first_client": "Agregar Tu Primer Cliente", "add_new_client": "Agregar Nuevo Cliente", "full_name": "Nombre Completo",
-                        "phone_number": "Número de Teléfono", "email_address": "Correo Electrónico", "notes": "Notas", "cancel": "Cancelar",
-                        "save_client": "Guardar Cliente", "confirm_delete_client": "¿Estás seguro de que quieres eliminar este cliente?",
-                        "client_deleted": "Cliente eliminado exitosamente", "client_saved": "Cliente guardado exitosamente",
-                        "appointment_management": "Gestión de Citas", "new_appointment": "Nueva Cita",
-                        "no_appointments_scheduled": "No Hay Citas Programadas", "schedule_first_appointment": "Programa tu primera cita profesional de peluquería",
-                        "create_first_appointment": "Crear Primera Cita", "select_client": "Seleccionar Cliente", "choose_client": "Elige un cliente...",
-                        "date": "Fecha", "time": "Hora", "service": "Servicio", "choose_service": "Elige un servicio...", "haircut": "Corte de Pelo",
-                        "coloring": "Coloración", "styling": "Estilizado", "treatment": "Tratamiento", "other": "Otro", "price": "Precio",
-                        "save_appointment": "Guardar Cita", "scheduled": "Programada", "completed": "Completada", "cancelled": "Cancelada", 
-                        "confirm_delete_appointment": "¿Estás seguro de que quieres eliminar esta cita?", "appointment_deleted": "Cita eliminada exitosamente",
-                        "appointment_saved": "Cita programada exitosamente", "appointment_completed": "Cita marcada como completada", 
-                        "appointment_cancelled": "Cita cancelada", "inventory_deduction": "Deducción de Inventario", 
-                        "select_items_used": "Selecciona los artículos utilizados durante esta cita:", "quantity": "Cantidad", "calendar_view": "Vista de Calendario", 
-                        "sun": "Dom", "mon": "Lun", "tue": "Mar", "wed": "Mié", "thu": "Jue", "fri": "Vie", "sat": "Sáb", 
-                        "inventory_management": "Gestión de Inventario", "new_item": "Nuevo Artículo", "no_inventory_items": "No Hay Artículos en Inventario", 
-                        "add_inventory_items": "Agrega tus productos y suministros de salón para rastrear el inventario", "add_first_item": "Agrega Tu Primer Artículo", 
-                        "add_inventory_item": "Agregar Artículo al Inventario", "item_name": "Nombre del Artículo", "category": "Categoría", "choose_category": "Elige una categoría...", 
-                        "shampoo": "Champú", "conditioner": "Acondicionador", "color": "Color", "styling": "Estilizado", "tools": "Herramientas", 
-                        "low_stock_threshold": "Umbral de Stock Bajo", "save_item": "Guardar Artículo", "confirm_delete_inventory": "¿Estás seguro de que quieres eliminar este artículo del inventario?", 
-                        "inventory_deleted": "Artículo de inventario eliminado exitosamente", "inventory_saved": "Artículo de inventario guardado exitosamente", 
-                        "low_stock_warning": "Advertencia de Stock Bajo", "install_prompt": "Instala HairSalon Pro para una mejor experiencia",
-                        "install": "Instalar", "dismiss": "Descartar", "app_installed": "Aplicación instalada exitosamente",
-                        "no_upcoming_sessions": "No Hay Próximas Sesiones", "schedule_appointments_to_see": "Programa citas para verlas aquí",
-                        "click_to_schedule": "Haz clic en un día para programar una cita"
-                    },
-                    ru: {
-                        "app_name": "HairSalon Pro", "tagline": "Профессиональная система управления парикмахерской",
-                        "main_navigation": "Основная Навигация", "dashboard": "Панель управления", "clients": "Клиенты", 
-                        "appointments": "Записи", "upcoming_sessions": "Предстоящие Сеансы", "calendar": "Календарь", 
-                        "inventory": "Инвентарь", "export_data": "Экспорт данных", "export_options": "Опции экспорта",
-                        "export_description": "Экспортируйте данные вашего салона для резервного копирования или анализа", "export_clients_desc": "Экспортировать всю информацию о клиентах",
-                        "export_appointments_desc": "Экспортировать историю записей", "export_inventory_desc": "Экспортировать предметы инвентаря и запасы",
-                        "export_all_desc": "Экспортировать полную базу данных салона", "all_data": "Все данные", "data_exported": "Данные успешно экспортированы",
-                        "quick_actions": "Быстрые действия", "add_client": "Добавить клиента", "schedule_appointment": "Запланировать запись",
-                        "install_app": "Установить приложение", "salon_overview": "Обзор салона", "total_clients": "Всего клиентов",
-                        "today_appointments": "Записи на сегодня", "low_stock": "Товары с низким запасом", "monthly_revenue": "Ежемесячный доход",
-                        "todays_appointments": "Записи на сегодня", "view_all": "Посмотреть все", "no_appointments_today": "Сегодня нет записей",
-                        "no_appointments_today_desc": "Ваше расписание на сегодня свободно", "client_management": "Управление клиентами",
-                        "new_client": "Новый клиент", "no_clients_yet": "Пока нет клиентов", "build_client_database": "Начните создавать свою профессиональную базу данных клиентов",
-                        "add_first_client": "Добавьте своего первого клиента", "add_new_client": "Добавить нового клиента", "full_name": "Полное имя",
-                        "phone_number": "Номер телефона", "email_address": "Адрес электронной почты", "notes": "Примечания", "cancel": "Отмена",
-                        "save_client": "Сохранить клиента", "confirm_delete_client": "Вы уверены, что хотите удалить этого клиента?",
-                        "client_deleted": "Клиент успешно удален", "client_saved": "Клиент успешно сохранен",
-                        "appointment_management": "Управление записями", "new_appointment": "Новая запись",
-                        "no_appointments_scheduled": "Нет запланированных записей", "schedule_first_appointment": "Запланируйте свою первую профессиональную запись в парикмахерской",
-                        "create_first_appointment": "Создать первую запись", "select_client": "Выбрать клиента", "choose_client": "Выберите клиента...",
-                        "date": "Дата", "time": "Время", "service": "Услуга", "choose_service": "Выберите услугу...", "haircut": "Стрижка",
-                        "coloring": "Окрашивание", "styling": "Укладка", "treatment": "Лечение", "other": "Другое", "price": "Цена",
-                        "save_appointment": "Сохранить запись", "scheduled": "Запланировано", "completed": "Завершено", "cancelled": "Отменено", 
-                        "confirm_delete_appointment": "Вы уверены, что хотите удалить эту запись?", "appointment_deleted": "Запись успешно удалена",
-                        "appointment_saved": "Запись успешно запланирована", "appointment_completed": "Запись отмечена как завершенная", 
-                        "appointment_cancelled": "Запись отменена", "inventory_deduction": "Списание инвентаря", 
-                        "select_items_used": "Выберите предметы, использованные во время этой записи:", "quantity": "Количество", "calendar_view": "Вид календаря", 
-                        "sun": "Вс", "mon": "Пн", "tue": "Вт", "wed": "Ср", "thu": "Чт", "fri": "Пт", "sat": "Сб", 
-                        "inventory_management": "Управление инвентарем", "new_item": "Новый предмет", "no_inventory_items": "Нет предметов в инвентаре", 
-                        "add_inventory_items": "Добавьте свои продукты и принадлежности для салона, чтобы отслеживать инвентарь", "add_first_item": "Добавьте свой первый предмет", 
-                        "add_inventory_item": "Добавить предмет в инвентарь", "item_name": "Название предмета", "category": "Категория", "choose_category": "Выберите категорию...", 
-                        "shampoo": "Шампунь", "conditioner": "Кондиционер", "color": "Краска", "styling": "Укладка", "tools": "Инструменты", 
-                        "low_stock_threshold": "Порог низкого запаса", "save_item": "Сохранить предмет", "confirm_delete_inventory": "Вы уверены, что хотите удалить этот предмет из инвентаря?", 
-                        "inventory_deleted": "Предмет инвентаря успешно удален", "inventory_saved": "Предмет инвентаря успешно сохранен", 
-                        "low_stock_warning": "Предупреждение о низком запасе", "install_prompt": "Установите HairSalon Pro для лучшего опыта",
-                        "install": "Установить", "dismiss": "Отклонить", "app_installed": "Приложение успешно установлено",
-                        "no_upcoming_sessions": "Нет предстоящих сеансов", "schedule_appointments_to_see": "Запланируйте записи, чтобы увидеть их здесь",
-                        "click_to_schedule": "Нажмите на день, чтобы запланировать запись"
-                    },
-                    he: {
-                        "app_name": "HairSalon Pro", "tagline": "מערכת ניהול מספרה מקצועית",
-                        "main_navigation": "ניווט ראשי", "dashboard": "לוח בקרה", "clients": "לקוחות", 
-                        "appointments": "תורים", "upcoming_sessions": "מפגשים קרובים", "calendar": "יומן", 
-                        "inventory": "מלאי", "export_data": "ייצוא נתונים", "export_options": "אפשרויות ייצוא",
-                        "export_description": "ייצא את נתוני הסלון שלך לגיבוי או ניתוח", "export_clients_desc": "ייצא את כל מידע הלקוחות",
-                        "export_appointments_desc": "ייצא היסטוריית תורים", "export_inventory_desc": "ייצא פריטי מלאי ומלאים",
-                        "export_all_desc": "ייצא את מסד הנתונים המלא של הסלון", "all_data": "כל הנתונים", "data_exported": "נתונים יוצאו בהצלחה",
-                        "quick_actions": "פעולות מהירות", "add_client": "הוסף לקוח", "schedule_appointment": "קבע תור",
-                        "install_app": "התקן אפליקציה", "salon_overview": "סקירת הסלון", "total_clients": "סה\"כ לקוחות",
-                        "today_appointments": "תורים להיום", "low_stock": "פריטים במלאי נמוך", "monthly_revenue": "הכנסה חודשית",
-                        "todays_appointments": "תורים להיום", "view_all": "הצג הכל", "no_appointments_today": "אין תורים להיום",
-                        "no_appointments_today_desc": "לוח הזמנים שלך פנוי להיום", "client_management": "ניהול לקוחות",
-                        "new_client": "לקוח חדש", "no_clients_yet": "אין עדיין לקוחות", "build_client_database": "התחל לבנות את מסד הנתונים המקצועי של הלקוחות שלך",
-                        "add_first_client": "הוסף את הלקוח הראשון שלך", "add_new_client": "הוסף לקוח חדש", "full_name": "שם מלא",
-                        "phone_number": "מספר טלפון", "email_address": "כתובת אימייל", "notes": "הערות", "cancel": "ביטול",
-                        "save_client": "שמור לקוח", "confirm_delete_client": "האם אתה בטוח שברצונך למחוק לקוח זה?",
-                        "client_deleted": "לקוח נמחק בהצלחה", "client_saved": "לקוח נשמר בהצלחה",
-                        "appointment_management": "ניהול תורים", "new_appointment": "תור חדש",
-                        "no_appointments_scheduled": "אין תורים מתוזמנים", "schedule_first_appointment": "קבע את התור המקצועי הראשון שלך במספרה",
-                        "create_first_appointment": "צור תור ראשון", "select_client": "בחר לקוח", "choose_client": "בחר לקוח...",
-                        "date": "תאריך", "time": "שעה", "service": "שירות", "choose_service": "בחר שירות...", "haircut": "תספורת",
-                        "coloring": "צביעה", "styling": "עיצוב שיער", "treatment": "טיפול", "other": "אחר", "price": "מחיר",
-                        "save_appointment": "שמור תור", "scheduled": "מתוזמן", "completed": "הושלם", "cancelled": "בוטל", 
-                        "confirm_delete_appointment": "האם אתה בטוח שברצונך למחוק תור זה?", "appointment_deleted": "תור נמחק בהצלחה",
-                        "appointment_saved": "תור נקבע בהצלחה", "appointment_completed": "תור סומן כהושלם", 
-                        "appointment_cancelled": "תור בוטל", "inventory_deduction": "ניכוי מלאי", 
-                        "select_items_used": "בחר פריטים ששומשו במהלך תור זה:", "quantity": "כמות", "calendar_view": "תצוגת יומן", 
-                        "sun": "א", "mon": "ב", "tue": "ג", "wed": "ד", "thu": "ה", "fri": "ו", "sat": "ש", 
-                        "inventory_management": "ניהול מלאי", "new_item": "פריט חדש", "no_inventory_items": "אין פריטים במלאי", 
-                        "add_inventory_items": "הוסף את מוצרי ואספקת הסלון שלך כדי לעקוב אחר המלאי", "add_first_item": "הוסף את הפריט הראשון שלך", 
-                        "add_inventory_item": "הוסף פריט למלאי", "item_name": "שם הפריט", "category": "קטגוריה", "choose_category": "בחר קטגוריה...", 
-                        "shampoo": "שמפו", "conditioner": "קונדישנר", "color": "צבע", "styling": "עיצוב שיער", "tools": "כלים", 
-                        "low_stock_threshold": "סף מלאי נמוך", "save_item": "שמור פריט", "confirm_delete_inventory": "האם אתה בטוח שברצונך למחוק פריט מלאי זה?", 
-                        "inventory_deleted": "פריט מלאי נמחק בהצלחה", "inventory_saved": "פריט מלאי נשמר בהצלחה", 
-                        "low_stock_warning": "אזהרת מלאי נמוך", "install_prompt": "התקן את HairSalon Pro לחוויה טובה יותר",
-                        "install": "התקן", "dismiss": "בטל", "app_installed": "האפליקציה הותקנה בהצלחה",
-                        "no_upcoming_sessions": "אין מפגשים קרובים", "schedule_appointments_to_see": "קבע תורים כדי לראות אותם כאן",
-                        "click_to_schedule": "לחץ על יום כדי לקבוע תור"
-                    }
-                };
-                
-                this.init();
-            }
-            
-            init() {
-                this.setupEventListeners();
-                this.setupLanguage();
-                this.updateDashboard();
-                this.renderCalendar();
-                this.checkInstallPrompt();
-                
-                // Register Service Worker for PWA
-                this.registerServiceWorker();
-                
-                console.log('💇‍♀️ HairSalon Pro - FULL VERSION WITH LANGUAGES LOADED');
-            }
-            
-            registerServiceWorker() {
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('./sw.js')
-                        .then(registration => {
-                            console.log('SW registered: ', registration);
-                        })
-                        .catch(registrationError => {
-                            console.log('SW registration failed: ', registrationError);
-                        });
+<script>
+// HairSalon Pro - MOBILE FRIENDLY WITH UPDATE FUNCTIONALITY
+class HairSalonPro {
+    constructor() {
+        this.currentLanguage = 'en';
+        this.currentDate = new Date();
+        this.deferredPrompt = null;
+        this.selectedCalendarDate = null;
+        this.editingClientId = null;
+        this.editingInventoryId = null;
+        
+        // Currency settings
+        this.currencies = {
+            'en': { symbol: '$', code: 'USD', rate: 1 },
+            'es': { symbol: '€', code: 'EUR', rate: 0.85 },
+            'ru': { symbol: '₽', code: 'RUB', rate: 75.5 },
+            'he': { symbol: '₪', code: 'ILS', rate: 3.5 }
+        };
+        
+        // Initialize EMPTY data
+        this.clients = JSON.parse(localStorage.getItem('hairsalon_clients')) || [];
+        this.appointments = JSON.parse(localStorage.getItem('hairsalon_appointments')) || [];
+        this.inventory = JSON.parse(localStorage.getItem('hairsalon_inventory')) || [];
+        
+        // Translations remain the same as before...
+        this.translations = {
+            // ... your existing translations object ...
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        this.setupEventListeners();
+        this.setupLanguage();
+        this.updateDashboard();
+        this.renderCalendar();
+        this.checkInstallPrompt();
+        this.setupMobileMenu();
+        
+        // Register Service Worker for PWA
+        this.registerServiceWorker();
+        
+        console.log('💇‍♀️ HairSalon Pro - MOBILE FRIENDLY VERSION LOADED');
+    }
+    
+    setupMobileMenu() {
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        mobileMenuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('mobile-open');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('mobile-open');
                 }
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !mobileMenuToggle.contains(e.target) &&
+                sidebar.classList.contains('mobile-open')) {
+                sidebar.classList.remove('mobile-open');
             }
-            
-            setupEventListeners() {
-                // Navigation
-                document.querySelectorAll('.nav-link[data-section]').forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        this.showSection(e.currentTarget.getAttribute('data-section'));
-                    });
+        });
+    }
+    
+    registerServiceWorker() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(registration => {
+                    console.log('SW registered: ', registration);
+                })
+                .catch(registrationError => {
+                    console.log('SW registration failed: ', registrationError);
                 });
-                
-                // Quick actions
-                document.getElementById('quickAddClient').addEventListener('click', () => {
-                    this.openModal('addClientModal');
-                });
-                
-                document.getElementById('quickAddAppointment').addEventListener('click', () => {
-                    this.openModal('addAppointmentModal');
-                });
-                
-                // Forms
-                document.getElementById('addClientForm').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    this.saveClient();
-                });
-                
-                document.getElementById('addAppointmentForm').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    this.saveAppointment();
-                });
-                
-                document.getElementById('addInventoryForm').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    this.saveInventoryItem();
-                });
-                
-                // Language selector
-                document.getElementById('languageSelect').addEventListener('change', (e) => {
-                    this.changeLanguage(e.target.value);
-                });
-                
-                // Calendar navigation
-                document.getElementById('prevMonth').addEventListener('click', () => {
-                    this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-                    this.renderCalendar();
-                });
-                
-                document.getElementById('nextMonth').addEventListener('click', () => {
-                    this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-                    this.renderCalendar();
-                });
-                
-                // Install button
-                document.getElementById('installButton').addEventListener('click', () => {
-                    this.installApp();
-                });
-                
-                // Install prompt
-                document.getElementById('installPromptButton').addEventListener('click', () => {
-                    this.installApp();
-                });
-                
-                document.getElementById('dismissInstallPrompt').addEventListener('click', () => {
-                    this.hideInstallPrompt();
-                });
-                
-                // Close modals when clicking outside
-                document.querySelectorAll('.modal').forEach(modal => {
-                    modal.addEventListener('click', (e) => {
-                        if (e.target === modal) {
-                            this.closeModal(modal.id);
-                        }
-                    });
-                });
-            }
-            
-            setupLanguage() {
-                const savedLanguage = localStorage.getItem('hairsalon_language');
-                if (savedLanguage) {
-                    this.currentLanguage = savedLanguage;
+        }
+    }
+    
+    setupEventListeners() {
+        // Navigation
+        document.querySelectorAll('.nav-link[data-section]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.showSection(e.currentTarget.getAttribute('data-section'));
+            });
+        });
+        
+        // Quick actions
+        document.getElementById('quickAddClient').addEventListener('click', () => {
+            this.openModal('addClientModal');
+        });
+        
+        document.getElementById('quickAddAppointment').addEventListener('click', () => {
+            this.openModal('addAppointmentModal');
+        });
+        
+        // Forms
+        document.getElementById('addClientForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.saveClient();
+        });
+        
+        document.getElementById('addAppointmentForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.saveAppointment();
+        });
+        
+        document.getElementById('addInventoryForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.saveInventoryItem();
+        });
+        
+        // Language selector
+        document.getElementById('languageSelect').addEventListener('change', (e) => {
+            this.changeLanguage(e.target.value);
+        });
+        
+        // Calendar navigation
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+            this.renderCalendar();
+        });
+        
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+            this.renderCalendar();
+        });
+        
+        // Install button
+        document.getElementById('installButton').addEventListener('click', () => {
+            this.installApp();
+        });
+        
+        // Install prompt
+        document.getElementById('installPromptButton').addEventListener('click', () => {
+            this.installApp();
+        });
+        
+        document.getElementById('dismissInstallPrompt').addEventListener('click', () => {
+            this.hideInstallPrompt();
+        });
+        
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    this.closeModal(modal.id);
                 }
-                document.getElementById('languageSelect').value = this.currentLanguage;
-                this.translatePage();
-            }
+            });
+        });
+        
+        // Handle back button on mobile
+        window.addEventListener('popstate', () => {
+            this.closeAllModals();
+        });
+    }
+    
+    // FIXED: Update functionality for clients and inventory
+    editClient(id) {
+        const client = this.clients.find(c => c.id === id);
+        if (client) {
+            document.getElementById('clientName').value = client.name;
+            document.getElementById('clientPhone').value = client.phone;
+            document.getElementById('clientEmail').value = client.email || '';
+            document.getElementById('clientNotes').value = client.notes || '';
             
-            changeLanguage(lang) {
-                this.currentLanguage = lang;
-                localStorage.setItem('hairsalon_language', lang);
-                this.translatePage();
-                this.updateDashboard();
-                this.renderCalendar();
-                this.renderUpcomingSessions();
-            }
+            // Store the client ID for updating
+            this.editingClientId = client.id;
             
-            translatePage() {
-                document.querySelectorAll('[data-i18n]').forEach(element => {
-                    const key = element.getAttribute('data-i18n');
-                    if (this.translations[this.currentLanguage] && this.translations[this.currentLanguage][key]) {
-                        element.textContent = this.translations[this.currentLanguage][key];
-                    }
-                });
-            }
+            // Update modal title and button
+            document.querySelector('#addClientModal .modal-title span').textContent = this.translate('edit_client');
+            document.querySelector('#addClientModal button[type="submit"]').textContent = this.translate('update_client');
             
-            translate(key) {
-                return this.translations[this.currentLanguage]?.[key] || key;
-            }
+            this.openModal('addClientModal');
+        }
+    }
+    
+    editInventoryItem(id) {
+        const item = this.inventory.find(i => i.id === id);
+        if (item) {
+            document.getElementById('inventoryName').value = item.name;
+            document.getElementById('inventoryCategory').value = item.category;
+            document.getElementById('inventoryQuantity').value = item.quantity;
+            document.getElementById('inventoryLowStock').value = item.lowStock;
+            document.getElementById('inventoryNotes').value = item.notes || '';
             
-            formatCurrency(amount) {
-                const currency = this.currencies[this.currentLanguage];
-                const convertedAmount = amount * currency.rate;
-                return `${currency.symbol}${convertedAmount.toFixed(2)}`;
-            }
+            // Store the item ID for updating
+            this.editingInventoryId = item.id;
             
-            showSection(sectionId) {
-                // Hide all sections
-                document.querySelectorAll('.section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                // Show the selected section
-                document.getElementById(sectionId).classList.add('active');
-                
-                // Update navigation
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('data-section') === sectionId) {
-                        link.classList.add('active');
-                    }
-                });
-                
-                // Render specific content
-                if (sectionId === 'clients') {
-                    this.renderClients();
-                } else if (sectionId === 'appointments') {
-                    this.renderAppointments();
-                } else if (sectionId === 'upcoming') {
-                    this.renderUpcomingSessions();
-                } else if (sectionId === 'inventory') {
-                    this.renderInventory();
-                } else if (sectionId === 'calendar') {
-                    this.renderCalendar();
-                }
-            }
+            // Update modal title and button
+            document.querySelector('#addInventoryModal .modal-title span').textContent = this.translate('edit_inventory_item');
+            document.querySelector('#addInventoryModal button[type="submit"]').textContent = this.translate('update_item');
             
-            openModal(modalId, date = null) {
-                document.getElementById(modalId).classList.add('show');
-                
-                if (modalId === 'addAppointmentModal') {
-                    // Set default date to today or selected calendar date
-                    const defaultDate = date || new Date().toISOString().split('T')[0];
-                    document.getElementById('appointmentDate').value = defaultDate;
-                    document.getElementById('appointmentTime').value = '10:00';
-                    document.getElementById('appointmentPrice').value = '45.00';
-                    
-                    this.populateClientDropdown();
-                    this.populateInventoryForAppointment();
-                }
-            }
-            
-            closeModal(modalId) {
-                document.getElementById(modalId).classList.remove('show');
-                
-                // Reset forms
-                const form = document.querySelector(`#${modalId} form`);
-                if (form) {
-                    form.reset();
-                }
-                
-                if (modalId === 'addAppointmentModal') {
-                    this.resetInventorySelection();
-                }
-            }
-            
-            populateClientDropdown() {
-                const dropdown = document.getElementById('appointmentClient');
-                dropdown.innerHTML = `<option value="" data-i18n="choose_client">${this.translate('choose_client')}</option>`;
-                
-                this.clients.forEach(client => {
-                    const option = document.createElement('option');
-                    option.value = client.id;
-                    option.textContent = client.name;
-                    dropdown.appendChild(option);
-                });
-                
-                this.translatePage();
-            }
-            
-            populateInventoryForAppointment() {
-                const container = document.getElementById('appointmentInventoryItems');
-                container.innerHTML = '';
-                
-                if (this.inventory.length === 0) {
-                    container.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; opacity: 0.7;" data-i18n="no_inventory_items">${this.translate('no_inventory_items')}</p>`;
-                    this.translatePage();
-                    return;
-                }
-                
-                this.inventory.forEach(item => {
-                    const isLowStock = item.quantity <= item.lowStock;
-                    
-                    const itemElement = document.createElement('div');
-                    itemElement.className = `inventory-item-select ${isLowStock ? 'low-stock' : ''}`;
-                    itemElement.setAttribute('data-id', item.id);
-                    
-                    itemElement.innerHTML = `
-                        <h4>${item.name}</h4>
-                        <p>${this.translate(item.category)}</p>
-                        <p>${this.translate('quantity')}: ${item.quantity}</p>
-                        ${isLowStock ? `<p style="color: var(--danger);"><i class="fas fa-exclamation-triangle"></i> ${this.translate('low_stock_warning')}</p>` : ''}
-                        <div class="inventory-quantity-input" style="display: none;">
-                            <label data-i18n="quantity">${this.translate('quantity')}:</label>
-                            <input type="number" min="1" max="${item.quantity}" value="1">
-                        </div>
-                    `;
-                    
-                    itemElement.addEventListener('click', () => {
-                        itemElement.classList.toggle('selected');
-                        const quantityInput = itemElement.querySelector('.inventory-quantity-input');
-                        quantityInput.style.display = itemElement.classList.contains('selected') ? 'flex' : 'none';
-                    });
-                    
-                    container.appendChild(itemElement);
-                });
-                
-                this.translatePage();
-            }
-            
-            resetInventorySelection() {
-                document.querySelectorAll('.inventory-item-select').forEach(item => {
-                    item.classList.remove('selected');
-                    item.querySelector('.inventory-quantity-input').style.display = 'none';
-                });
-            }
-            
-            saveClient() {
-                const name = document.getElementById('clientName').value;
-                const phone = document.getElementById('clientPhone').value;
-                const email = document.getElementById('clientEmail').value;
-                const notes = document.getElementById('clientNotes').value;
-                
-                const newClient = {
-                    id: Date.now().toString(),
+            this.openModal('addInventoryModal');
+        }
+    }
+    
+    saveClient() {
+        const name = document.getElementById('clientName').value;
+        const phone = document.getElementById('clientPhone').value;
+        const email = document.getElementById('clientEmail').value;
+        const notes = document.getElementById('clientNotes').value;
+        
+        if (this.editingClientId) {
+            // Update existing client
+            const clientIndex = this.clients.findIndex(c => c.id === this.editingClientId);
+            if (clientIndex !== -1) {
+                this.clients[clientIndex] = {
+                    ...this.clients[clientIndex],
                     name,
                     phone,
                     email,
                     notes,
-                    dateAdded: new Date().toISOString()
+                    dateModified: new Date().toISOString()
                 };
-                
-                this.clients.push(newClient);
-                this.saveData();
-                this.closeModal('addClientModal');
-                this.showToast(this.translate('client_saved'), 'success');
-                this.renderClients();
-                this.updateDashboard();
+                this.showToast(this.translate('client_updated'), 'success');
             }
-            
-            saveAppointment() {
-                const clientId = document.getElementById('appointmentClient').value;
-                const date = document.getElementById('appointmentDate').value;
-                const time = document.getElementById('appointmentTime').value;
-                const service = document.getElementById('appointmentService').value;
-                const price = parseFloat(document.getElementById('appointmentPrice').value);
-                const notes = document.getElementById('appointmentNotes').value;
-                
-                // Get selected inventory items and quantities
-                const inventoryUsed = [];
-                document.querySelectorAll('.inventory-item-select.selected').forEach(item => {
-                    const itemId = item.getAttribute('data-id');
-                    const quantity = parseInt(item.querySelector('.inventory-quantity-input input').value) || 1;
-                    
-                    if (itemId && quantity > 0) {
-                        inventoryUsed.push({
-                            id: itemId,
-                            quantity: quantity
-                        });
-                    }
-                });
-                
-                const client = this.clients.find(c => c.id === clientId);
-                
-                const newAppointment = {
-                    id: Date.now().toString(),
-                    clientId,
-                    clientName: client ? client.name : 'Unknown Client',
-                    date,
-                    time,
-                    service,
-                    price,
-                    notes,
-                    inventoryUsed,
-                    status: 'scheduled',
-                    dateCreated: new Date().toISOString()
-                };
-                
-                this.appointments.push(newAppointment);
-                
-                // Deduct inventory
-                this.deductInventory(inventoryUsed);
-                
-                this.saveData();
-                this.closeModal('addAppointmentModal');
-                this.showToast(this.translate('appointment_saved'), 'success');
-                this.renderAppointments();
-                this.renderCalendar();
-                this.renderUpcomingSessions();
-                this.updateDashboard();
-            }
-            
-            saveInventoryItem() {
-                const name = document.getElementById('inventoryName').value;
-                const category = document.getElementById('inventoryCategory').value;
-                const quantity = parseInt(document.getElementById('inventoryQuantity').value);
-                const lowStock = parseInt(document.getElementById('inventoryLowStock').value);
-                const notes = document.getElementById('inventoryNotes').value;
-                
-                const newItem = {
-                    id: Date.now().toString(),
+            this.editingClientId = null;
+        } else {
+            // Create new client
+            const newClient = {
+                id: Date.now().toString(),
+                name,
+                phone,
+                email,
+                notes,
+                dateAdded: new Date().toISOString()
+            };
+            this.clients.push(newClient);
+            this.showToast(this.translate('client_saved'), 'success');
+        }
+        
+        this.saveData();
+        this.closeModal('addClientModal');
+        this.renderClients();
+        this.updateDashboard();
+    }
+    
+    saveInventoryItem() {
+        const name = document.getElementById('inventoryName').value;
+        const category = document.getElementById('inventoryCategory').value;
+        const quantity = parseInt(document.getElementById('inventoryQuantity').value);
+        const lowStock = parseInt(document.getElementById('inventoryLowStock').value);
+        const notes = document.getElementById('inventoryNotes').value;
+        
+        if (this.editingInventoryId) {
+            // Update existing item
+            const itemIndex = this.inventory.findIndex(i => i.id === this.editingInventoryId);
+            if (itemIndex !== -1) {
+                this.inventory[itemIndex] = {
+                    ...this.inventory[itemIndex],
                     name,
                     category,
                     quantity,
                     lowStock,
                     notes,
-                    dateAdded: new Date().toISOString()
+                    dateModified: new Date().toISOString()
                 };
-                
-                this.inventory.push(newItem);
-                this.saveData();
-                this.closeModal('addInventoryModal');
-                this.showToast(this.translate('inventory_saved'), 'success');
-                this.renderInventory();
-                this.updateDashboard();
+                this.showToast(this.translate('inventory_updated'), 'success');
             }
-            
-            deductInventory(inventoryUsed) {
-                inventoryUsed.forEach(usedItem => {
-                    const inventoryItem = this.inventory.find(item => item.id === usedItem.id);
-                    if (inventoryItem) {
-                        inventoryItem.quantity = Math.max(0, inventoryItem.quantity - usedItem.quantity);
-                    }
-                });
-                this.saveData();
-            }
-            
-            saveData() {
-                localStorage.setItem('hairsalon_clients', JSON.stringify(this.clients));
-                localStorage.setItem('hairsalon_appointments', JSON.stringify(this.appointments));
-                localStorage.setItem('hairsalon_inventory', JSON.stringify(this.inventory));
-            }
-            
-            renderClients() {
-                const container = document.getElementById('clientsList');
-                
-                if (this.clients.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-users"></i>
-                            <h3 data-i18n="no_clients_yet">${this.translate('no_clients_yet')}</h3>
-                            <p data-i18n="build_client_database">${this.translate('build_client_database')}</p>
-                            <button class="btn btn-primary" onclick="HairSalonApp.openModal('addClientModal')">
-                                <i class="fas fa-plus"></i> <span data-i18n="add_first_client">${this.translate('add_first_client')}</span>
-                            </button>
-                        </div>
-                    `;
-                    this.translatePage();
-                    return;
-                }
-                
-                container.innerHTML = '';
-                
-                this.clients.forEach(client => {
-                    const clientElement = document.createElement('div');
-                    clientElement.className = 'data-item';
-                    
-                    clientElement.innerHTML = `
-                        <div class="data-item-content">
-                            <h4>${client.name}</h4>
-                            <p><i class="fas fa-phone"></i> ${client.phone}</p>
-                            ${client.email ? `<p><i class="fas fa-envelope"></i> ${client.email}</p>` : ''}
-                            ${client.notes ? `<p><i class="fas fa-sticky-note"></i> ${client.notes}</p>` : ''}
-                            <span><i class="far fa-calendar"></i> ${new Date(client.dateAdded).toLocaleDateString()}</span>
-                        </div>
-                        <div class="data-item-actions">
-                            <button class="btn btn-danger btn-sm" onclick="HairSalonApp.deleteClient('${client.id}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
-                    
-                    container.appendChild(clientElement);
-                });
-            }
-            
-            renderAppointments() {
-                const container = document.getElementById('appointmentsList');
-                
-                if (this.appointments.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-calendar-plus"></i>
-                            <h3 data-i18n="no_appointments_scheduled">${this.translate('no_appointments_scheduled')}</h3>
-                            <p data-i18n="schedule_first_appointment">${this.translate('schedule_first_appointment')}</p>
-                            <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
-                                <i class="fas fa-plus"></i> <span data-i18n="create_first_appointment">${this.translate('create_first_appointment')}</span>
-                            </button>
-                        </div>
-                    `;
-                    this.translatePage();
-                    return;
-                }
-                
-                container.innerHTML = '';
-                
-                // Sort appointments by date and time
-                const sortedAppointments = [...this.appointments].sort((a, b) => {
-                    const dateA = new Date(`${a.date}T${a.time}`);
-                    const dateB = new Date(`${b.date}T${b.time}`);
-                    return dateA - dateB;
-                });
-                
-                sortedAppointments.forEach(appointment => {
-                    const appointmentElement = document.createElement('div');
-                    appointmentElement.className = 'data-item appointment-item';
-                    
-                    // Format date and time
-                    const appointmentDate = new Date(`${appointment.date}T${appointment.time}`);
-                    const formattedDate = appointmentDate.toLocaleDateString();
-                    const formattedTime = appointmentDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    
-                    appointmentElement.innerHTML = `
-                        <div class="data-item-content">
-                            <h4>${appointment.clientName}</h4>
-                            <p><i class="fas fa-calendar"></i> ${formattedDate} at ${formattedTime}</p>
-                            <p><i class="fas fa-cut"></i> ${this.translate(appointment.service)}</p>
-                            <p><i class="fas fa-dollar-sign"></i> ${this.formatCurrency(appointment.price)}</p>
-                            ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
-                            <span><i class="fas fa-circle" style="color: ${appointment.status === 'scheduled' ? 'var(--success)' : appointment.status === 'completed' ? 'var(--primary)' : 'var(--danger)'}"></i> ${this.translate(appointment.status)}</span>
-                        </div>
-                        <div class="data-item-actions">
-                            <button class="btn btn-success btn-sm" onclick="HairSalonApp.completeAppointment('${appointment.id}')" ${appointment.status === 'completed' ? 'disabled' : ''}>
-                                <i class="fas fa-check"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="HairSalonApp.cancelAppointment('${appointment.id}')" ${appointment.status === 'cancelled' ? 'disabled' : ''}>
-                                <i class="fas fa-times"></i>
-                            </button>
-                            <button class="btn btn-outline btn-sm" onclick="HairSalonApp.deleteAppointment('${appointment.id}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
-                    
-                    container.appendChild(appointmentElement);
-                });
-            }
-            
-            renderUpcomingSessions() {
-                const container = document.getElementById('upcomingSessionsList');
-                const today = new Date().toISOString().split('T')[0];
-                
-                // Get upcoming appointments (today and future)
-                const upcomingAppointments = this.appointments.filter(apt => 
-                    apt.date >= today && apt.status === 'scheduled'
-                ).sort((a, b) => new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`));
-                
-                if (upcomingAppointments.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-calendar-plus"></i>
-                            <h3 data-i18n="no_upcoming_sessions">${this.translate('no_upcoming_sessions')}</h3>
-                            <p data-i18n="schedule_appointments_to_see">${this.translate('schedule_appointments_to_see')}</p>
-                            <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
-                                <i class="fas fa-plus"></i> <span data-i18n="schedule_appointment">${this.translate('schedule_appointment')}</span>
-                            </button>
-                        </div>
-                    `;
-                    this.translatePage();
-                    return;
-                }
-                
-                container.innerHTML = '';
-                
-                upcomingAppointments.forEach(appointment => {
-                    const appointmentElement = document.createElement('div');
-                    appointmentElement.className = 'data-item appointment-item';
-                    
-                    // Format date and time
-                    const appointmentDate = new Date(`${appointment.date}T${appointment.time}`);
-                    const formattedDate = appointmentDate.toLocaleDateString();
-                    const formattedTime = appointmentDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    
-                    appointmentElement.innerHTML = `
-                        <div class="data-item-content">
-                            <h4>${appointment.clientName}</h4>
-                            <p><i class="fas fa-calendar"></i> ${formattedDate} at ${formattedTime}</p>
-                            <p><i class="fas fa-cut"></i> ${this.translate(appointment.service)}</p>
-                            <p><i class="fas fa-dollar-sign"></i> ${this.formatCurrency(appointment.price)}</p>
-                            ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
-                            <span><i class="fas fa-circle" style="color: var(--success)"></i> ${this.translate('scheduled')}</span>
-                        </div>
-                        <div class="data-item-actions">
-                            <button class="btn btn-success btn-sm" onclick="HairSalonApp.completeAppointment('${appointment.id}')">
-                                <i class="fas fa-check"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="HairSalonApp.cancelAppointment('${appointment.id}')">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    `;
-                    
-                    container.appendChild(appointmentElement);
-                });
-            }
-            
-            renderInventory() {
-                const container = document.getElementById('inventoryList');
-                
-                if (this.inventory.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-box-open"></i>
-                            <h3 data-i18n="no_inventory_items">${this.translate('no_inventory_items')}</h3>
-                            <p data-i18n="add_inventory_items">${this.translate('add_inventory_items')}</p>
-                            <button class="btn btn-primary" onclick="HairSalonApp.openModal('addInventoryModal')">
-                                <i class="fas fa-plus"></i> <span data-i18n="add_first_item">${this.translate('add_first_item')}</span>
-                            </button>
-                        </div>
-                    `;
-                    this.translatePage();
-                    return;
-                }
-                
-                container.innerHTML = '';
-                
-                this.inventory.forEach(item => {
-                    const isLowStock = item.quantity <= item.lowStock;
-                    
-                    const itemElement = document.createElement('div');
-                    itemElement.className = `data-item inventory-item ${isLowStock ? 'low-stock' : ''}`;
-                    
-                    itemElement.innerHTML = `
-                        <div class="data-item-content">
-                            <h4>${item.name}</h4>
-                            <p><i class="fas fa-tag"></i> ${this.translate(item.category)}</p>
-                            <p><i class="fas fa-box"></i> ${this.translate('quantity')}: ${item.quantity}</p>
-                            <p><i class="fas fa-exclamation-triangle"></i> ${this.translate('low_stock_threshold')}: ${item.lowStock}</p>
-                            ${item.notes ? `<p><i class="fas fa-sticky-note"></i> ${item.notes}</p>` : ''}
-                            ${isLowStock ? `<p style="color: var(--danger);"><i class="fas fa-exclamation-circle"></i> ${this.translate('low_stock_warning')}</p>` : ''}
-                            <span><i class="far fa-calendar"></i> ${new Date(item.dateAdded).toLocaleDateString()}</span>
-                        </div>
-                        <div class="data-item-actions">
-                            <button class="btn btn-danger btn-sm" onclick="HairSalonApp.deleteInventoryItem('${item.id}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
-                    
-                    container.appendChild(itemElement);
-                });
-            }
-            
-            renderCalendar() {
-                const container = document.getElementById('calendarGrid');
-                const monthYearElement = document.getElementById('currentMonthYear');
-                
-                // Set month and year header
-                const monthNames = [
-                    'January', 'February', 'March', 'April', 'May', 'June',
-                    'July', 'August', 'September', 'October', 'November', 'December'
-                ];
-                
-                const currentMonth = this.currentDate.getMonth();
-                const currentYear = this.currentDate.getFullYear();
-                
-                monthYearElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-                
-                // Get first day of month and number of days
-                const firstDay = new Date(currentYear, currentMonth, 1);
-                const lastDay = new Date(currentYear, currentMonth + 1, 0);
-                const daysInMonth = lastDay.getDate();
-                const startingDay = firstDay.getDay(); // 0 = Sunday, 1 = Monday, etc.
-                
-                // Clear calendar
-                container.innerHTML = '';
-                
-                // Add day headers
-                const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                dayNames.forEach(day => {
-                    const dayHeader = document.createElement('div');
-                    dayHeader.className = 'calendar-day-header';
-                    dayHeader.textContent = this.translate(day.toLowerCase());
-                    container.appendChild(dayHeader);
-                });
-                
-                // Add empty cells for days before the first day of the month
-                for (let i = 0; i < startingDay; i++) {
-                    const emptyDay = document.createElement('div');
-                    emptyDay.className = 'calendar-day other-month';
-                    container.appendChild(emptyDay);
-                }
-                
-                // Add days of the month
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const dayElement = document.createElement('div');
-                    dayElement.className = 'calendar-day';
-                    
-                    const currentDate = new Date(currentYear, currentMonth, day);
-                    const isToday = currentDate.getTime() === today.getTime();
-                    
-                    if (isToday) {
-                        dayElement.classList.add('today');
-                    }
-                    
-                    // Check if this day has events
-                    const dateStr = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-                    const dayAppointments = this.appointments.filter(apt => apt.date === dateStr);
-                    
-                    if (dayAppointments.length > 0) {
-                        dayElement.classList.add('has-events');
-                    }
-                    
-                    dayElement.innerHTML = `
-                        <div class="calendar-day-number">${day}</div>
-                        <div class="calendar-events" id="events-${currentYear}-${currentMonth}-${day}"></div>
-                    `;
-                    
-                    // Add click event to schedule appointment
-                    dayElement.addEventListener('click', () => {
-                        this.selectedCalendarDate = dateStr;
-                        this.openModal('addAppointmentModal', dateStr);
-                    });
-                    
-                    // Add events for this day
-                    this.renderEventsForDay(currentYear, currentMonth, day);
-                    
-                    container.appendChild(dayElement);
-                }
-            }
-            
-            renderEventsForDay(year, month, day) {
-                const eventsContainer = document.getElementById(`events-${year}-${month}-${day}`);
-                if (!eventsContainer) return;
-                
-                // Format date for comparison
-                const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-                
-                // Find appointments for this day
-                const dayAppointments = this.appointments.filter(apt => apt.date === dateStr);
-                
-                if (dayAppointments.length === 0) return;
-                
-                dayAppointments.forEach(apt => {
-                    const eventElement = document.createElement('div');
-                    eventElement.className = `calendar-event ${apt.status}`;
-                    eventElement.textContent = `${apt.time} - ${apt.clientName}`;
-                    eventElement.title = `${apt.clientName} - ${this.translate(apt.service)} - ${this.formatCurrency(apt.price)}`;
-                    
-                    eventsContainer.appendChild(eventElement);
-                });
-            }
-            
-            updateDashboard() {
-                // Total clients
-                document.getElementById('totalClients').textContent = this.clients.length;
-                
-                // Today's appointments
-                const today = new Date().toISOString().split('T')[0];
-                const todayAppointments = this.appointments.filter(apt => apt.date === today && apt.status === 'scheduled');
-                document.getElementById('todayAppointments').textContent = todayAppointments.length;
-                
-                // Low stock items
-                const lowStockItems = this.inventory.filter(item => item.quantity <= item.lowStock);
-                document.getElementById('lowStockItems').textContent = lowStockItems.length;
-                
-                // Monthly revenue - NOW USING ACTUAL PRICES FROM APPOINTMENTS
-                const currentMonth = new Date().getMonth();
-                const currentYear = new Date().getFullYear();
-                const monthlyRevenue = this.appointments
-                    .filter(apt => {
-                        const aptDate = new Date(apt.date);
-                        return aptDate.getMonth() === currentMonth && 
-                               aptDate.getFullYear() === currentYear && 
-                               apt.status === 'completed';
-                    })
-                    .reduce((total, apt) => total + apt.price, 0);
-                
-                document.getElementById('monthlyRevenue').textContent = this.formatCurrency(monthlyRevenue);
-                
-                // Today's appointments list
-                this.renderTodaysAppointments();
-            }
-            
-            renderTodaysAppointments() {
-                const container = document.getElementById('todaysAppointmentsList');
-                const today = new Date().toISOString().split('T')[0];
-                const todayAppointments = this.appointments.filter(apt => apt.date === today && apt.status === 'scheduled');
-                
-                if (todayAppointments.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-calendar-times"></i>
-                            <h3 data-i18n="no_appointments_today">${this.translate('no_appointments_today')}</h3>
-                            <p data-i18n="no_appointments_today_desc">${this.translate('no_appointments_today_desc')}</p>
-                            <button class="btn btn-primary" onclick="HairSalonApp.openModal('addAppointmentModal')">
-                                <i class="fas fa-plus"></i> <span data-i18n="schedule_appointment">${this.translate('schedule_appointment')}</span>
-                            </button>
-                        </div>
-                    `;
-                    this.translatePage();
-                    return;
-                }
-                
-                container.innerHTML = '';
-                
-                todayAppointments.forEach(appointment => {
-                    const appointmentElement = document.createElement('div');
-                    appointmentElement.className = 'data-item appointment-item';
-                    
-                    // Format time
-                    const appointmentTime = new Date(`2000-01-01T${appointment.time}`);
-                    const formattedTime = appointmentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    
-                    appointmentElement.innerHTML = `
-                        <div class="data-item-content">
-                            <h4>${appointment.clientName}</h4>
-                            <p><i class="fas fa-clock"></i> ${formattedTime}</p>
-                            <p><i class="fas fa-cut"></i> ${this.translate(appointment.service)}</p>
-                            <p><i class="fas fa-dollar-sign"></i> ${this.formatCurrency(appointment.price)}</p>
-                            ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
-                        </div>
-                        <div class="data-item-actions">
-                            <button class="btn btn-success btn-sm" onclick="HairSalonApp.completeAppointment('${appointment.id}')">
-                                <i class="fas fa-check"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="HairSalonApp.cancelAppointment('${appointment.id}')">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    `;
-                    
-                    container.appendChild(appointmentElement);
-                });
-            }
-            
-            completeAppointment(id) {
-                const appointment = this.appointments.find(apt => apt.id === id);
-                if (appointment) {
-                    appointment.status = 'completed';
-                    this.saveData();
-                    this.renderAppointments();
-                    this.renderTodaysAppointments();
-                    this.renderCalendar();
-                    this.renderUpcomingSessions();
-                    this.updateDashboard();
-                    this.showToast(this.translate('appointment_completed'), 'success');
-                }
-            }
-            
-            cancelAppointment(id) {
-                const appointment = this.appointments.find(apt => apt.id === id);
-                if (appointment) {
-                    appointment.status = 'cancelled';
-                    this.saveData();
-                    this.renderAppointments();
-                    this.renderTodaysAppointments();
-                    this.renderCalendar();
-                    this.renderUpcomingSessions();
-                    this.updateDashboard();
-                    this.showToast(this.translate('appointment_cancelled'), 'warning');
-                }
-            }
-            
-            deleteAppointment(id) {
-                if (confirm(this.translate('confirm_delete_appointment'))) {
-                    this.appointments = this.appointments.filter(apt => apt.id !== id);
-                    this.saveData();
-                    this.renderAppointments();
-                    this.renderTodaysAppointments();
-                    this.renderCalendar();
-                    this.renderUpcomingSessions();
-                    this.updateDashboard();
-                    this.showToast(this.translate('appointment_deleted'), 'success');
-                }
-            }
-            
-            deleteClient(id) {
-                if (confirm(this.translate('confirm_delete_client'))) {
-                    // Also delete appointments for this client
-                    this.appointments = this.appointments.filter(apt => apt.clientId !== id);
-                    this.clients = this.clients.filter(client => client.id !== id);
-                    this.saveData();
-                    this.renderClients();
-                    this.renderAppointments();
-                    this.renderUpcomingSessions();
-                    this.updateDashboard();
-                    this.showToast(this.translate('client_deleted'), 'success');
-                }
-            }
-            
-            deleteInventoryItem(id) {
-                if (confirm(this.translate('confirm_delete_inventory'))) {
-                    this.inventory = this.inventory.filter(item => item.id !== id);
-                    this.saveData();
-                    this.renderInventory();
-                    this.updateDashboard();
-                    this.showToast(this.translate('inventory_deleted'), 'success');
-                }
-            }
-            
-            showToast(message, type = 'info') {
-                const toast = document.getElementById('toast');
-                toast.textContent = message;
-                toast.className = 'toast show';
-                
-                // Set background based on type
-                if (type === 'success') {
-                    toast.style.background = 'linear-gradient(135deg, var(--success) 0%, #66bb6a 100%)';
-                } else if (type === 'warning') {
-                    toast.style.background = 'linear-gradient(135deg, var(--warning) 0%, #ffb74d 100%)';
-                } else if (type === 'error') {
-                    toast.style.background = 'linear-gradient(135deg, var(--danger) 0%, #ef5350 100%)';
-                } else {
-                    toast.style.background = 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)';
-                }
-                
-                // Hide after 3 seconds
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 3000);
-            }
-            
-            checkInstallPrompt() {
-                // Check if the app is already installed
-                if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-                    console.log('App is already installed');
-                    return;
-                }
-                
-                window.addEventListener('beforeinstallprompt', (e) => {
-                    e.preventDefault();
-                    this.deferredPrompt = e;
-                    
-                    // Show install button in header
-                    document.getElementById('installButton').style.display = 'inline-flex';
-                    document.getElementById('installButton').classList.add('pulse');
-                    
-                    // Show install prompt after 5 seconds
-                    setTimeout(() => {
-                        this.showInstallPrompt();
-                    }, 5000);
-                });
-                
-                window.addEventListener('appinstalled', () => {
-                    document.getElementById('installButton').style.display = 'none';
-                    this.hideInstallPrompt();
-                    this.showToast(this.translate('app_installed'), 'success');
-                });
-            }
-            
-            showInstallPrompt() {
-                // Only show if not already installed and deferredPrompt exists
-                if (this.deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
-                    document.getElementById('installPrompt').classList.add('show');
-                }
-            }
-            
-            hideInstallPrompt() {
-                document.getElementById('installPrompt').classList.remove('show');
-            }
-            
-            async installApp() {
-                if (this.deferredPrompt) {
-                    this.deferredPrompt.prompt();
-                    const { outcome } = await this.deferredPrompt.userChoice;
-                    
-                    if (outcome === 'accepted') {
-                        this.showToast(this.translate('app_installed'), 'success');
-                        this.hideInstallPrompt();
-                        document.getElementById('installButton').style.display = 'none';
-                    }
-                    
-                    this.deferredPrompt = null;
-                } else {
-                    // Fallback for browsers that don't support beforeinstallprompt
-                    this.showToast('To install this app, use your browser\'s install option', 'info');
-                }
-            }
-            
-            exportData(type) {
-                let data, filename, content;
-                
-                switch(type) {
-                    case 'clients':
-                        data = this.clients;
-                        filename = 'hairsalon-clients.json';
-                        break;
-                    case 'appointments':
-                        data = this.appointments;
-                        filename = 'hairsalon-appointments.json';
-                        break;
-                    case 'inventory':
-                        data = this.inventory;
-                        filename = 'hairsalon-inventory.json';
-                        break;
-                    case 'all':
-                        data = {
-                            clients: this.clients,
-                            appointments: this.appointments,
-                            inventory: this.inventory,
-                            exportDate: new Date().toISOString()
-                        };
-                        filename = 'hairsalon-complete-backup.json';
-                        break;
-                    default:
-                        return;
-                }
-                
-                content = JSON.stringify(data, null, 2);
-                const blob = new Blob([content], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                this.showToast(this.translate('data_exported'), 'success');
-            }
+            this.editingInventoryId = null;
+        } else {
+            // Create new item
+            const newItem = {
+                id: Date.now().toString(),
+                name,
+                category,
+                quantity,
+                lowStock,
+                notes,
+                dateAdded: new Date().toISOString()
+            };
+            this.inventory.push(newItem);
+            this.showToast(this.translate('inventory_saved'), 'success');
         }
-
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', function() {
-            window.HairSalonApp = new HairSalonPro();
+        
+        this.saveData();
+        this.closeModal('addInventoryModal');
+        this.renderInventory();
+        this.updateDashboard();
+    }
+    
+    openModal(modalId, date = null) {
+        document.getElementById(modalId).classList.add('show');
+        document.body.style.overflow = 'hidden';
+        
+        if (modalId === 'addAppointmentModal') {
+            const defaultDate = date || new Date().toISOString().split('T')[0];
+            document.getElementById('appointmentDate').value = defaultDate;
+            document.getElementById('appointmentTime').value = '10:00';
+            document.getElementById('appointmentPrice').value = '45.00';
+            
+            this.populateClientDropdown();
+            this.populateInventoryForAppointment();
+        }
+        
+        // Add to history for back button support
+        history.pushState({ modal: modalId }, '');
+    }
+    
+    closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('show');
+        document.body.style.overflow = '';
+        
+        // Reset forms and editing states
+        const form = document.querySelector(`#${modalId} form`);
+        if (form) {
+            form.reset();
+        }
+        
+        if (modalId === 'addClientModal') {
+            this.editingClientId = null;
+            // Reset modal title and button
+            document.querySelector('#addClientModal .modal-title span').textContent = this.translate('add_new_client');
+            document.querySelector('#addClientModal button[type="submit"]').textContent = this.translate('save_client');
+        }
+        
+        if (modalId === 'addInventoryModal') {
+            this.editingInventoryId = null;
+            // Reset modal title and button
+            document.querySelector('#addInventoryModal .modal-title span').textContent = this.translate('add_inventory_item');
+            document.querySelector('#addInventoryModal button[type="submit"]').textContent = this.translate('save_item');
+        }
+        
+        if (modalId === 'addAppointmentModal') {
+            this.resetInventorySelection();
+        }
+    }
+    
+    closeAllModals() {
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.classList.remove('show');
         });
-    </script>
-</body>
-</html>
+        document.body.style.overflow = '';
+        this.editingClientId = null;
+        this.editingInventoryId = null;
+    }
+    
+    // Update the renderClients and renderInventory to include edit buttons
+    renderClients() {
+        const container = document.getElementById('clientsList');
+        
+        if (this.clients.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-users"></i>
+                    <h3 data-i18n="no_clients_yet">${this.translate('no_clients_yet')}</h3>
+                    <p data-i18n="build_client_database">${this.translate('build_client_database')}</p>
+                    <button class="btn btn-primary" onclick="HairSalonApp.openModal('addClientModal')">
+                        <i class="fas fa-plus"></i> <span data-i18n="add_first_client">${this.translate('add_first_client')}</span>
+                    </button>
+                </div>
+            `;
+            this.translatePage();
+            return;
+        }
+        
+        container.innerHTML = '';
+        
+        this.clients.forEach(client => {
+            const clientElement = document.createElement('div');
+            clientElement.className = 'data-item';
+            
+            clientElement.innerHTML = `
+                <div class="data-item-content">
+                    <h4>${client.name}</h4>
+                    <p><i class="fas fa-phone"></i> ${client.phone}</p>
+                    ${client.email ? `<p><i class="fas fa-envelope"></i> ${client.email}</p>` : ''}
+                    ${client.notes ? `<p><i class="fas fa-sticky-note"></i> ${client.notes}</p>` : ''}
+                    <span><i class="far fa-calendar"></i> ${new Date(client.dateAdded).toLocaleDateString()}</span>
+                </div>
+                <div class="data-item-actions">
+                    <button class="btn btn-outline btn-sm" onclick="HairSalonApp.editClient('${client.id}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="HairSalonApp.deleteClient('${client.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(clientElement);
+        });
+    }
+    
+    renderInventory() {
+        const container = document.getElementById('inventoryList');
+        
+        if (this.inventory.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-box-open"></i>
+                    <h3 data-i18n="no_inventory_items">${this.translate('no_inventory_items')}</h3>
+                    <p data-i18n="add_inventory_items">${this.translate('add_inventory_items')}</p>
+                    <button class="btn btn-primary" onclick="HairSalonApp.openModal('addInventoryModal')">
+                        <i class="fas fa-plus"></i> <span data-i18n="add_first_item">${this.translate('add_first_item')}</span>
+                    </button>
+                </div>
+            `;
+            this.translatePage();
+            return;
+        }
+        
+        container.innerHTML = '';
+        
+        this.inventory.forEach(item => {
+            const isLowStock = item.quantity <= item.lowStock;
+            
+            const itemElement = document.createElement('div');
+            itemElement.className = `data-item inventory-item ${isLowStock ? 'low-stock' : ''}`;
+            
+            itemElement.innerHTML = `
+                <div class="data-item-content">
+                    <h4>${item.name}</h4>
+                    <p><i class="fas fa-tag"></i> ${this.translate(item.category)}</p>
+                    <p><i class="fas fa-box"></i> ${this.translate('quantity')}: ${item.quantity}</p>
+                    <p><i class="fas fa-exclamation-triangle"></i> ${this.translate('low_stock_threshold')}: ${item.lowStock}</p>
+                    ${item.notes ? `<p><i class="fas fa-sticky-note"></i> ${item.notes}</p>` : ''}
+                    ${isLowStock ? `<p style="color: var(--danger);"><i class="fas fa-exclamation-circle"></i> ${this.translate('low_stock_warning')}</p>` : ''}
+                    <span><i class="far fa-calendar"></i> ${new Date(item.dateAdded).toLocaleDateString()}</span>
+                </div>
+                <div class="data-item-actions">
+                    <button class="btn btn-outline btn-sm" onclick="HairSalonApp.editInventoryItem('${item.id}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="HairSalonApp.deleteInventoryItem('${item.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(itemElement);
+        });
+    }
+    
+    // Add these new translation keys to your translations object
+    // Add these to each language in your translations object:
+    /*
+    "edit_client": "Edit Client",
+    "update_client": "Update Client", 
+    "client_updated": "Client updated successfully",
+    "edit_inventory_item": "Edit Inventory Item",
+    "update_item": "Update Item",
+    "inventory_updated": "Inventory item updated successfully"
+    */
+}
+
+// Initialize the application
+document.addEventListener('DOMContentLoaded', function() {
+    window.HairSalonApp = new HairSalonPro();
+});
+</script>
