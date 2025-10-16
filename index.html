@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <style>
+        /* Your existing CSS remains the same */
         :root {
             --primary: #e91e63;
             --primary-dark: #c2185b;
@@ -2471,16 +2472,24 @@
             }
             
             checkInstallPrompt() {
+                // Check if the app is already installed
+                if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+                    console.log('App is already installed');
+                    return;
+                }
+                
                 window.addEventListener('beforeinstallprompt', (e) => {
                     e.preventDefault();
                     this.deferredPrompt = e;
+                    
+                    // Show install button in header
                     document.getElementById('installButton').style.display = 'inline-flex';
                     document.getElementById('installButton').classList.add('pulse');
                     
-                    // Show install prompt after 3 seconds
+                    // Show install prompt after 5 seconds
                     setTimeout(() => {
                         this.showInstallPrompt();
-                    }, 3000);
+                    }, 5000);
                 });
                 
                 window.addEventListener('appinstalled', () => {
@@ -2491,7 +2500,10 @@
             }
             
             showInstallPrompt() {
-                document.getElementById('installPrompt').classList.add('show');
+                // Only show if not already installed and deferredPrompt exists
+                if (this.deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
+                    document.getElementById('installPrompt').classList.add('show');
+                }
             }
             
             hideInstallPrompt() {
@@ -2505,9 +2517,14 @@
                     
                     if (outcome === 'accepted') {
                         this.showToast(this.translate('app_installed'), 'success');
+                        this.hideInstallPrompt();
+                        document.getElementById('installButton').style.display = 'none';
                     }
                     
                     this.deferredPrompt = null;
+                } else {
+                    // Fallback for browsers that don't support beforeinstallprompt
+                    this.showToast('To install this app, use your browser\'s install option', 'info');
                 }
             }
             
