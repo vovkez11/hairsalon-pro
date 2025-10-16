@@ -1211,11 +1211,11 @@
                             <div class="stat-label" data-i18n="low_stock_items">Low Stock Items</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value" id="monthRevenue">$0</div>
+                            <div class="stat-value" id="monthRevenue">0</div>
                             <div class="stat-label" data-i18n="month_revenue">Month Revenue</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value" id="yearRevenue">$0</div>
+                            <div class="stat-value" id="yearRevenue">0</div>
                             <div class="stat-label" data-i18n="year_revenue">Year Revenue</div>
                         </div>
                     </div>
@@ -1536,7 +1536,7 @@
     </div>
 
 <script>
-// HairSalon Pro - COMPLETELY FIXED VERSION
+// HairSalon Pro - NO CURRENCY VERSION
 class HairSalonPro {
     constructor() {
         this.currentLanguage = 'en';
@@ -1547,12 +1547,12 @@ class HairSalonPro {
         this.editingInventoryId = null;
         this.editingAppointmentId = null;
         
-        // Currency settings
+        // No currency settings - just numbers
         this.currencies = {
-            'en': { symbol: '$', code: 'USD', rate: 1 },
-            'es': { symbol: '€', code: 'EUR', rate: 0.85 },
-            'ru': { symbol: '₽', code: 'RUB', rate: 75.5 },
-            'he': { symbol: '₪', code: 'ILS', rate: 3.5 }
+            'en': { symbol: '', code: '', rate: 1 },
+            'es': { symbol: '', code: '', rate: 1 },
+            'ru': { symbol: '', code: '', rate: 1 },
+            'he': { symbol: '', code: '', rate: 1 }
         };
         
         // Initialize data
@@ -1932,7 +1932,7 @@ class HairSalonPro {
         this.checkInstallPrompt();
         this.setupMobileMenu();
         
-        console.log('💇‍♀️ HairSalon Pro - COMPLETELY FIXED VERSION LOADED');
+        console.log('💇‍♀️ HairSalon Pro - NO CURRENCY VERSION LOADED');
     }
     
     setupEventListeners() {
@@ -2119,7 +2119,7 @@ class HairSalonPro {
                 const aptDate = new Date(apt.date);
                 return aptDate.getMonth() === currentMonth && aptDate.getFullYear() === currentYear;
             })
-            .reduce((total, apt) => total + (apt.price * this.currencies[this.currentLanguage].rate), 0);
+            .reduce((total, apt) => total + apt.price, 0);
         
         // Calculate year revenue
         const yearRevenue = this.appointments
@@ -2127,11 +2127,11 @@ class HairSalonPro {
                 const aptDate = new Date(apt.date);
                 return aptDate.getFullYear() === currentYear;
             })
-            .reduce((total, apt) => total + (apt.price * this.currencies[this.currentLanguage].rate), 0);
+            .reduce((total, apt) => total + apt.price, 0);
         
-        // Update revenue displays
-        document.getElementById('monthRevenue').textContent = this.currencies[this.currentLanguage].symbol + monthRevenue.toFixed(2);
-        document.getElementById('yearRevenue').textContent = this.currencies[this.currentLanguage].symbol + yearRevenue.toFixed(2);
+        // Update revenue displays - NO CURRENCY SYMBOLS
+        document.getElementById('monthRevenue').textContent = monthRevenue.toFixed(2);
+        document.getElementById('yearRevenue').textContent = yearRevenue.toFixed(2);
         
         // Update recent appointments
         this.renderRecentAppointments();
@@ -2169,7 +2169,7 @@ class HairSalonPro {
                     <h4>${appointment.service}</h4>
                     <p><i class="fas fa-user"></i> ${client ? client.name : 'Unknown Client'}</p>
                     <p><i class="fas fa-calendar"></i> ${new Date(appointment.date).toLocaleDateString()} at ${appointment.time}</p>
-                    <p><i class="fas fa-tag"></i> ${this.currencies[this.currentLanguage].symbol}${(appointment.price * this.currencies[this.currentLanguage].rate).toFixed(2)}</p>
+                    <p><i class="fas fa-tag"></i> ${appointment.price.toFixed(2)}</p>
                     ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
                 </div>
             `;
@@ -2253,7 +2253,7 @@ class HairSalonPro {
                         <h4>${appointment.service}</h4>
                         <p><i class="fas fa-user"></i> ${client ? client.name : 'Unknown Client'}</p>
                         <p><i class="fas fa-calendar"></i> ${new Date(appointment.date).toLocaleDateString()} at ${appointment.time}</p>
-                        <p><i class="fas fa-tag"></i> ${this.currencies[this.currentLanguage].symbol}${(appointment.price * this.currencies[this.currentLanguage].rate).toFixed(2)}</p>
+                        <p><i class="fas fa-tag"></i> ${appointment.price.toFixed(2)}</p>
                         ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
                     </div>
                     <div class="data-item-actions">
@@ -2301,7 +2301,7 @@ class HairSalonPro {
                     <h4>${appointment.service}</h4>
                     <p><i class="fas fa-user"></i> ${client ? client.name : 'Unknown Client'}</p>
                     <p><i class="fas fa-calendar"></i> ${new Date(appointment.date).toLocaleDateString()} at ${appointment.time}</p>
-                    <p><i class="fas fa-tag"></i> ${this.currencies[this.currentLanguage].symbol}${(appointment.price * this.currencies[this.currentLanguage].rate).toFixed(2)}</p>
+                    <p><i class="fas fa-tag"></i> ${appointment.price.toFixed(2)}</p>
                     ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
                 </div>
             `;
