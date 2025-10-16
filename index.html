@@ -1536,7 +1536,7 @@
     </div>
 
 <script>
-// HairSalon Pro - CALENDAR FIXED VERSION
+// HairSalon Pro - COMPLETELY FIXED VERSION
 class HairSalonPro {
     constructor() {
         this.currentLanguage = 'en';
@@ -1648,7 +1648,9 @@ class HairSalonPro {
                 'no_usage_history': 'No usage history for this product',
                 'used_in_appointment': 'Used in appointment with',
                 'quantity_used': 'Quantity Used',
-                'insufficient_stock': 'Insufficient stock for product'
+                'insufficient_stock': 'Insufficient stock for product',
+                'click_to_create_session': 'Click to create session on this date',
+                'create_appointment_for': 'Create Appointment for'
             },
             'es': {
                 'app_name': 'HairSalon Pro',
@@ -1735,7 +1737,9 @@ class HairSalonPro {
                 'no_usage_history': 'No hay historial de uso para este producto',
                 'used_in_appointment': 'Usado en cita con',
                 'quantity_used': 'Cantidad Usada',
-                'insufficient_stock': 'Stock insuficiente para el producto'
+                'insufficient_stock': 'Stock insuficiente para el producto',
+                'click_to_create_session': 'Haga clic para crear sesión en esta fecha',
+                'create_appointment_for': 'Crear cita para'
             },
             'ru': {
                 'app_name': 'HairSalon Pro',
@@ -1822,7 +1826,9 @@ class HairSalonPro {
                 'no_usage_history': 'Нет истории использования для этого продукта',
                 'used_in_appointment': 'Использовано в записи с',
                 'quantity_used': 'Количество использовано',
-                'insufficient_stock': 'Недостаточно запасов для продукта'
+                'insufficient_stock': 'Недостаточно запасов для продукта',
+                'click_to_create_session': 'Нажмите, чтобы создать сеанс на эту дату',
+                'create_appointment_for': 'Создать запись на'
             },
             'he': {
                 'app_name': 'HairSalon Pro',
@@ -1909,7 +1915,9 @@ class HairSalonPro {
                 'no_usage_history': 'אין היסטוריית שימוש למוצר זה',
                 'used_in_appointment': 'שומש בתור עם',
                 'quantity_used': 'כמות משומשת',
-                'insufficient_stock': 'מלאי לא מספיק למוצר'
+                'insufficient_stock': 'מלאי לא מספיק למוצר',
+                'click_to_create_session': 'לחץ כדי ליצור פגישה בתאריך זה',
+                'create_appointment_for': 'צור תור עבור'
             }
         };
         
@@ -1924,7 +1932,7 @@ class HairSalonPro {
         this.checkInstallPrompt();
         this.setupMobileMenu();
         
-        console.log('💇‍♀️ HairSalon Pro - CALENDAR FIXED VERSION LOADED');
+        console.log('💇‍♀️ HairSalon Pro - COMPLETELY FIXED VERSION LOADED');
     }
     
     setupEventListeners() {
@@ -2401,11 +2409,8 @@ class HairSalonPro {
             
             // Check for appointments on this day
             const currentDate = new Date(currentYear, currentMonth, day);
-            const dateString = this.formatDateForComparison(currentDate);
-            const dayAppointments = this.appointments.filter(apt => {
-                const aptDate = new Date(apt.date);
-                return this.formatDateForComparison(aptDate) === dateString;
-            });
+            const dateString = currentDate.toISOString().split('T')[0];
+            const dayAppointments = this.appointments.filter(apt => apt.date === dateString);
             
             if (dayAppointments.length > 0) {
                 dayElement.classList.add('has-events');
@@ -2421,16 +2426,28 @@ class HairSalonPro {
                 </div>
             `;
             
+            // Add click event to create appointment
+            dayElement.addEventListener('click', () => {
+                this.createAppointmentForDate(dateString);
+            });
+            
+            // Add tooltip
+            dayElement.title = this.translate('click_to_create_session');
+            
             calendarGrid.appendChild(dayElement);
         }
     }
     
-    // Helper function to format dates for comparison
-    formatDateForComparison(date) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+    createAppointmentForDate(dateString) {
+        this.selectedCalendarDate = dateString;
+        this.openModal('addAppointmentModal');
+        
+        // Set the date in the appointment form
+        document.getElementById('appointmentDate').value = dateString;
+        
+        // Update modal title to show selected date
+        const modalTitle = document.querySelector('#addAppointmentModal .modal-title span');
+        modalTitle.textContent = `${this.translate('create_appointment_for')} ${new Date(dateString).toLocaleDateString()}`;
     }
     
     openModal(modalId) {
@@ -2441,16 +2458,12 @@ class HairSalonPro {
         if (modalId === 'addAppointmentModal') {
             this.populateClientDropdown();
             this.populateInventoryForAppointment();
-            
-            // Set today's date as default for appointment date
+        }
+        
+        // Set today's date as default for appointment date if no date selected from calendar
+        if (modalId === 'addAppointmentModal' && !this.selectedCalendarDate) {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('appointmentDate').value = today;
-            
-            // Set default time to next hour
-            const nextHour = new Date();
-            nextHour.setHours(nextHour.getHours() + 1);
-            nextHour.setMinutes(0);
-            document.getElementById('appointmentTime').value = nextHour.toTimeString().slice(0, 5);
         }
     }
     
@@ -2475,6 +2488,7 @@ class HairSalonPro {
         this.editingClientId = null;
         this.editingInventoryId = null;
         this.editingAppointmentId = null;
+        this.selectedCalendarDate = null;
         
         // Reset inventory selection for appointment modal
         const inventoryGrid = document.getElementById('appointmentInventoryItems');
