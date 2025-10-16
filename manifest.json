@@ -7,7 +7,7 @@
   "background_color": "#0d1117",
   "theme_color": "#e91e63",
   "orientation": "portrait",
-  "scope": "/",
+  "scope": ".",
   "categories": ["business", "productivity"],
   "lang": "en",
   "icons": [
@@ -18,7 +18,7 @@
       "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "icons/icon-512.png", 
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
