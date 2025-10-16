@@ -1464,7 +1464,7 @@
     </div>
 
 <script>
-// HairSalon Pro - COMPLETE FIXED VERSION
+// HairSalon Pro - COMPLETE FIXED VERSION WITH WORKING LANGUAGES
 class HairSalonPro {
     constructor() {
         this.currentLanguage = 'en';
@@ -1899,7 +1899,7 @@ class HairSalonPro {
             this.saveInventoryItem();
         });
         
-        // Language selector
+        // Language selector - FIXED: Added proper event listener
         document.getElementById('languageSelect').addEventListener('change', (e) => {
             this.changeLanguage(e.target.value);
         });
@@ -1961,13 +1961,21 @@ class HairSalonPro {
         this.currentLanguage = lang;
         localStorage.setItem('hairsalon_language', lang);
         this.translatePage();
+        
+        // Update all dynamic content that might have been rendered
+        this.updateDashboard();
+        this.renderClients();
+        this.renderAppointments();
+        this.renderUpcomingSessions();
+        this.renderInventory();
     }
     
     translatePage() {
         document.querySelectorAll('[data-i18n]').forEach(element => {
             const key = element.getAttribute('data-i18n');
-            if (this.translations[this.currentLanguage] && this.translations[this.currentLanguage][key]) {
-                element.textContent = this.translations[this.currentLanguage][key];
+            const translation = this.translate(key);
+            if (translation !== key) { // Only update if translation exists
+                element.textContent = translation;
             }
         });
     }
