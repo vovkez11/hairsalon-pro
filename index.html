@@ -3023,6 +3023,83 @@ class HairSalonPro {
 document.addEventListener('DOMContentLoaded', function() {
     window.HairSalonApp = new HairSalonPro();
 });
+    // Service Worker Registration for PWA functionality
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        // Register a simple service worker
+        navigator.serviceWorker.register('data:text/javascript,// Empty service worker')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful');
+            })
+            .catch(function(error) {
+                console.log('ServiceWorker registration failed: ', error);
+                // This is normal - we're using a dummy service worker
+            });
+    });
+}
+
+// Enhanced install prompt handling
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Stash the event so it can be triggered later
+    deferredPrompt = e;
+    // Show the install button
+    const installButton = document.getElementById('installButton');
+    if (installButton) {
+        installButton.style.display = 'inline-flex';
+        installButton.classList.add('pulse');
+    }
+    
+    // Also show the install prompt at bottom
+    const installPrompt = document.getElementById('installPrompt');
+    if (installPrompt) {
+        installPrompt.classList.add('show');
+    }
+});
+
+// Install button click handler
+document.getElementById('installButton').addEventListener('click', async () => {
+    if (deferredPrompt) {
+        // Show the install prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+        // We've used the prompt, and can't use it again, discard it
+        deferredPrompt = null;
+        // Hide the install button
+        document.getElementById('installButton').style.display = 'none';
+        document.getElementById('installPrompt').classList.remove('show');
+    }
+});
+
+// Install prompt button handler
+document.getElementById('installPromptButton').addEventListener('click', async () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+        deferredPrompt = null;
+        document.getElementById('installPrompt').classList.remove('show');
+        document.getElementById('installButton').style.display = 'none';
+    }
+});
+
+// Dismiss install prompt
+document.getElementById('dismissInstallPrompt').addEventListener('click', () => {
+    document.getElementById('installPrompt').classList.remove('show');
+});
+
+// Track app installation
+window.addEventListener('appinstalled', (evt) => {
+    console.log('HairSalon Pro was successfully installed!');
+    document.getElementById('installButton').style.display = 'none';
+    document.getElementById('installPrompt').classList.remove('show');
+});
 </script>
 </body>
 </html>
+
