@@ -12,6 +12,7 @@
     <meta name="apple-mobile-web-app-title" content="HairSalon Pro">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* All your existing CSS remains the same */
         :root {
             --primary: #e91e63;
             --primary-dark: #c2185b;
@@ -624,6 +625,18 @@
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.2);
+        }
+
+        /* FIXED: Time input styling */
+        input[type="time"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
         }
 
         .form-actions {
@@ -1536,7 +1549,7 @@
     </div>
 
 <script>
-// HairSalon Pro - FIXED VERSION
+// HairSalon Pro - FIXED TIME SELECTION VERSION
 class HairSalonPro {
     constructor() {
         this.currentLanguage = 'en';
@@ -1932,7 +1945,7 @@ class HairSalonPro {
         this.checkInstallPrompt();
         this.setupMobileMenu();
         
-        console.log('💇‍♀️ HairSalon Pro - FIXED VERSION LOADED');
+        console.log('💇‍♀️ HairSalon Pro - TIME SELECTION FIXED VERSION LOADED');
     }
     
     setupEventListeners() {
@@ -2462,6 +2475,13 @@ class HairSalonPro {
         if (modalId === 'addAppointmentModal') {
             this.populateClientDropdown();
             this.populateInventoryForAppointment();
+            
+            // Set default time to current time + 1 hour
+            const now = new Date();
+            now.setHours(now.getHours() + 1);
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('appointmentTime').value = `${hours}:${minutes}`;
         }
         
         // Set today's date as default for appointment date if no date selected from calendar
@@ -2593,6 +2613,12 @@ class HairSalonPro {
         const service = document.getElementById('appointmentService').value;
         const price = parseFloat(document.getElementById('appointmentPrice').value);
         const notes = document.getElementById('appointmentNotes').value;
+        
+        // Validate time input
+        if (!time) {
+            this.showToast('Please select a time for the appointment');
+            return;
+        }
         
         // Get inventory usage
         const inventoryUsage = [];
