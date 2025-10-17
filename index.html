@@ -5,11 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HairSalon Pro - Professional Hairdresser Management</title>
     <meta name="description" content="Complete hairdresser salon management system">
+    
+    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#e91e63">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="HairSalon Pro">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -1536,7 +1546,7 @@
     </div>
 
 <script>
-// HairSalon Pro - NO CURRENCY VERSION
+// HairSalon Pro - PWA READY VERSION
 class HairSalonPro {
     constructor() {
         this.currentLanguage = 'en';
@@ -1929,10 +1939,9 @@ class HairSalonPro {
         this.setupLanguage();
         this.updateDashboard();
         this.renderCalendar();
-        this.checkInstallPrompt();
         this.setupMobileMenu();
         
-        console.log('💇‍♀️ HairSalon Pro - NO CURRENCY VERSION LOADED');
+        console.log('💇‍♀️ HairSalon Pro - PWA READY VERSION LOADED');
     }
     
     setupEventListeners() {
@@ -1985,20 +1994,6 @@ class HairSalonPro {
             this.renderCalendar();
         });
         
-        // Install button
-        document.getElementById('installButton').addEventListener('click', () => {
-            this.installApp();
-        });
-        
-        // Install prompt
-        document.getElementById('installPromptButton').addEventListener('click', () => {
-            this.installApp();
-        });
-        
-        document.getElementById('dismissInstallPrompt').addEventListener('click', () => {
-            this.hideInstallPrompt();
-        });
-        
         // Close modals when clicking outside
         document.querySelectorAll('.modal').forEach(modal => {
             modal.addEventListener('click', (e) => {
@@ -2011,13 +2006,6 @@ class HairSalonPro {
         // Handle back button on mobile
         window.addEventListener('popstate', () => {
             this.closeAllModals();
-        });
-        
-        // Before install prompt
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            this.deferredPrompt = e;
-            this.showInstallButton();
         });
     }
     
@@ -2932,7 +2920,7 @@ class HairSalonPro {
                 case 'appointments':
                     row = [item.clientName, item.service, item.date, item.time, item.price, `"${item.notes}"`, item.createdAt];
                     break;
-                case 'inventory':
+            case 'inventory':
                     row = [item.name, item.category, item.quantity, item.lowStock, `"${item.notes}"`, item.createdAt];
                     break;
             }
@@ -2989,75 +2977,31 @@ class HairSalonPro {
             });
         });
     }
-    
-    checkInstallPrompt() {
-        if (this.deferredPrompt) {
-            this.showInstallButton();
-        }
-    }
-    
-    showInstallButton() {
-        document.getElementById('installButton').style.display = 'inline-flex';
-    }
-    
-    installApp() {
-        if (this.deferredPrompt) {
-            this.deferredPrompt.prompt();
-            this.deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
-                } else {
-                    console.log('User dismissed the install prompt');
-                }
-                this.deferredPrompt = null;
-            });
-        }
-    }
-    
-    hideInstallPrompt() {
-        document.getElementById('installPrompt').classList.remove('show');
-    }
 }
 
-// Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
-    window.HairSalonApp = new HairSalonPro();
-});
-    // Service Worker Registration for PWA functionality
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        // Register a simple service worker
-        navigator.serviceWorker.register('data:text/javascript,// Empty service worker')
-            .then(function(registration) {
-                console.log('ServiceWorker registration successful');
-            })
-            .catch(function(error) {
-                console.log('ServiceWorker registration failed: ', error);
-                // This is normal - we're using a dummy service worker
-            });
-    });
-}
-
-// Enhanced install prompt handling
+// PWA Installation Handling
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent the mini-infobar from appearing on mobile
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
     e.preventDefault();
     // Stash the event so it can be triggered later
     deferredPrompt = e;
-    // Show the install button
+    
+    // Show install button
     const installButton = document.getElementById('installButton');
+    const installPrompt = document.getElementById('installPrompt');
+    
     if (installButton) {
         installButton.style.display = 'inline-flex';
         installButton.classList.add('pulse');
     }
     
-    // Also show the install prompt at bottom
-    const installPrompt = document.getElementById('installPrompt');
     if (installPrompt) {
         installPrompt.classList.add('show');
     }
+    
+    console.log('PWA installation available');
 });
 
 // Install button click handler
@@ -3093,13 +3037,32 @@ document.getElementById('dismissInstallPrompt').addEventListener('click', () => 
     document.getElementById('installPrompt').classList.remove('show');
 });
 
-// Track app installation
+// Track successful installation
 window.addEventListener('appinstalled', (evt) => {
     console.log('HairSalon Pro was successfully installed!');
     document.getElementById('installButton').style.display = 'none';
     document.getElementById('installPrompt').classList.remove('show');
 });
+
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        // Register a simple service worker
+        navigator.serviceWorker.register('data:text/javascript,// Empty service worker')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful');
+            })
+            .catch(function(error) {
+                console.log('ServiceWorker registration failed: ', error);
+                // This is normal - we're using a dummy service worker
+            });
+    });
+}
+
+// Initialize the application
+document.addEventListener('DOMContentLoaded', function() {
+    window.HairSalonApp = new HairSalonPro();
+});
 </script>
 </body>
 </html>
-
