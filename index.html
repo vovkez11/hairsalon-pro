@@ -741,6 +741,27 @@
             outline: 2px solid var(--primary);
             outline-offset: 2px;
         }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+        }
+        
+        .pagination button {
+            min-width: 44px;
+            min-height: 44px;
+        }
+        
+        .pagination-info {
+            color: var(--light);
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
 
         /* FIXED: Time input styling */
         input[type="time"] {
@@ -2928,6 +2949,11 @@ class HairSalonPro {
             return;
         }
         
+        if (!this.validateDateTime(date, time)) {
+            this.showToast('Please select a valid date (today or future)');
+            return;
+        }
+        
         // Get inventory usage
         const inventoryUsage = [];
         const quantityInputs = document.querySelectorAll('#appointmentInventoryItems input[type="number"]');
@@ -3477,6 +3503,25 @@ class HairSalonPro {
     }
     
     /**
+     * Validate date is not in the past
+     * @param {string} date - Date in YYYY-MM-DD format
+     * @param {string} time - Time in HH:MM format
+     * @returns {boolean} - True if valid
+     */
+    validateDateTime(date, time) {
+        if (!date || !time) return false;
+        
+        const appointmentDateTime = new Date(`${date}T${time}`);
+        const now = new Date();
+        
+        // Allow appointments from today onwards
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const appointmentDate = new Date(appointmentDateTime.getFullYear(), appointmentDateTime.getMonth(), appointmentDateTime.getDate());
+        
+        return appointmentDate >= today;
+    }
+    
+    /**
      * Debounce function to limit the rate at which a function can fire
      * @param {Function} func - The function to debounce
      * @param {number} wait - The delay in milliseconds
@@ -3712,6 +3757,58 @@ class HairSalonPro {
         };
         
         modal.addEventListener('keydown', handleTabKey);
+    }
+    
+    /**
+     * Get statistics for the dashboard
+     * @returns {Object} - Statistics object
+     */
+    getStatistics() {
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+        
+        return {
+            totalClients: this.clients.length,
+            totalAppointments: this.appointments.length,
+            upcomingAppointments: this.appointments.filter(apt => 
+                new Date(apt.date + ' ' + apt.time) > new Date()
+            ).length,
+            lowStockItems: this.inventory.filter(item => item.quantity <= item.lowStock).length,
+            monthRevenue: this.appointments
+                .filter(apt => {
+                    const aptDate = new Date(apt.date);
+                    return aptDate.getMonth() === currentMonth && aptDate.getFullYear() === currentYear;
+                })
+                .reduce((total, apt) => total + apt.price, 0),
+            yearRevenue: this.appointments
+                .filter(apt => {
+                    const aptDate = new Date(apt.date);
+                    return aptDate.getFullYear() === currentYear;
+                })
+                .reduce((total, apt) => total + apt.price, 0)
+        };
+    }
+    
+    /**
+     * Format currency value (no symbol, just number)
+     * @param {number} value - The value to format
+     * @returns {string} - Formatted value
+     */
+    formatCurrency(value) {
+        return value.toFixed(2);
+    }
+    
+    /**
+     * Format date for display
+     * @param {string} dateString - Date string
+     * @returns {string} - Formatted date
+     */
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString(this.currentLanguage === 'en' ? 'en-US' : 
+                                      this.currentLanguage === 'es' ? 'es-ES' : 
+                                      this.currentLanguage === 'ru' ? 'ru-RU' : 'he-IL');
     }
 }
 
