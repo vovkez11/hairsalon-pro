@@ -90,6 +90,8 @@ All data is stored locally in your browser's localStorage:
 - `hairsalon_usage_history`: Product usage tracking
 - `hairsalon_language`: Language preference
 
+**Security Note**: This is a client-side-only application that stores data in the browser's localStorage. The data is not encrypted at rest, which is acceptable for this use case as it's meant for personal/local business use. For sensitive business information or multi-user scenarios, consider implementing server-side storage with proper encryption.
+
 ## Browser Support
 
 - Chrome/Edge: ✅ Fully supported

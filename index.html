@@ -1738,6 +1738,11 @@ class HairSalonPro {
         this.editingInventoryId = null;
         this.editingAppointmentId = null;
         
+        // Search debounce timeouts
+        this.clientSearchTimeout = null;
+        this.appointmentSearchTimeout = null;
+        this.inventorySearchTimeout = null;
+        
         // No currency settings - just numbers
         this.currencies = {
             'en': { symbol: '', code: '', rate: 1 },
@@ -3522,54 +3527,42 @@ class HairSalonPro {
     }
     
     /**
-     * Debounce function to limit the rate at which a function can fire
-     * @param {Function} func - The function to debounce
-     * @param {number} wait - The delay in milliseconds
-     * @returns {Function} - Debounced function
-     */
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-    
-    /**
-     * Filter clients by search query
+     * Filter clients by search query with debouncing
      * @param {string} query - The search query
      */
     filterClients(query) {
-        const debouncedFilter = this.debounce(() => {
+        if (this.clientSearchTimeout) {
+            clearTimeout(this.clientSearchTimeout);
+        }
+        this.clientSearchTimeout = setTimeout(() => {
             this.renderClients(query.toLowerCase());
         }, 300);
-        debouncedFilter();
     }
     
     /**
-     * Filter appointments by search query
+     * Filter appointments by search query with debouncing
      * @param {string} query - The search query
      */
     filterAppointments(query) {
-        const debouncedFilter = this.debounce(() => {
+        if (this.appointmentSearchTimeout) {
+            clearTimeout(this.appointmentSearchTimeout);
+        }
+        this.appointmentSearchTimeout = setTimeout(() => {
             this.renderAppointments(query.toLowerCase());
         }, 300);
-        debouncedFilter();
     }
     
     /**
-     * Filter inventory by search query
+     * Filter inventory by search query with debouncing
      * @param {string} query - The search query
      */
     filterInventory(query) {
-        const debouncedFilter = this.debounce(() => {
+        if (this.inventorySearchTimeout) {
+            clearTimeout(this.inventorySearchTimeout);
+        }
+        this.inventorySearchTimeout = setTimeout(() => {
             this.renderInventory(query.toLowerCase());
         }, 300);
-        debouncedFilter();
     }
     
     saveToLocalStorage() {
