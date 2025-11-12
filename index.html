@@ -691,6 +691,56 @@
                 opacity: 1;
             }
         }
+        
+        /* Confirmation Dialog */
+        .confirm-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-gray) 100%);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 2001;
+            max-width: 400px;
+            width: 90%;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .confirm-dialog.show {
+            display: flex;
+            animation: modalSlideUp 0.4s ease;
+        }
+        
+        .confirm-dialog h3 {
+            color: var(--primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .confirm-dialog p {
+            color: var(--light);
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        .confirm-dialog-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        /* Focus visible for better keyboard navigation */
+        *:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
 
         /* FIXED: Time input styling */
         input[type="time"] {
@@ -1482,19 +1532,19 @@
             <form id="addClientForm">
                 <div class="form-group">
                     <label class="form-label" for="clientName" data-i18n="client_name">Client Name</label>
-                    <input type="text" class="form-control" id="clientName" required aria-required="true" aria-label="Client Name">
+                    <input type="text" class="form-control" id="clientName" required aria-required="true" aria-label="Client Name" placeholder="Enter client full name">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="clientPhone" data-i18n="phone_number">Phone Number</label>
-                    <input type="tel" class="form-control" id="clientPhone" required aria-required="true" aria-label="Phone Number">
+                    <input type="tel" class="form-control" id="clientPhone" required aria-required="true" aria-label="Phone Number" placeholder="+1 234 567 8900">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="clientEmail" data-i18n="email_address">Email Address</label>
-                    <input type="email" class="form-control" id="clientEmail" aria-label="Email Address">
+                    <label class="form-label" for="clientEmail" data-i18n="email_address">Email Address (Optional)</label>
+                    <input type="email" class="form-control" id="clientEmail" aria-label="Email Address" placeholder="client@example.com">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="clientNotes" data-i18n="notes">Notes</label>
-                    <textarea class="form-control" id="clientNotes" rows="3" aria-label="Notes"></textarea>
+                    <label class="form-label" for="clientNotes" data-i18n="notes">Notes (Optional)</label>
+                    <textarea class="form-control" id="clientNotes" rows="3" aria-label="Notes" placeholder="Hair preferences, allergies, etc."></textarea>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-outline" onclick="HairSalonApp.closeModal('addClientModal')" data-i18n="cancel">Cancel</button>
@@ -1641,6 +1691,19 @@
         <i class="fas fa-wifi-slash"></i>
         <span>You are offline</span>
     </div>
+    
+    <!-- Confirmation Dialog -->
+    <div class="confirm-dialog" id="confirmDialog">
+        <h3><i class="fas fa-exclamation-triangle"></i> <span id="confirmTitle">Confirm Action</span></h3>
+        <p id="confirmMessage">Are you sure?</p>
+        <div class="confirm-dialog-actions">
+            <button class="btn btn-outline" id="confirmCancel">Cancel</button>
+            <button class="btn btn-danger" id="confirmOk">Delete</button>
+        </div>
+    </div>
+    
+    <!-- Modal backdrop for confirmation -->
+    <div class="modal" id="confirmBackdrop" style="display: none;"></div>
 
 <script>
 // HairSalon Pro - FIXED TIME SELECTION VERSION
@@ -2138,6 +2201,32 @@ class HairSalonPro {
         
         window.addEventListener('offline', () => {
             this.updateOnlineStatus();
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Only trigger if no modal is open and not in an input field
+            if (document.querySelector('.modal.show') || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                return;
+            }
+            
+            // Ctrl/Cmd + N = New Client
+            if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+                e.preventDefault();
+                this.openModal('addClientModal');
+            }
+            
+            // Ctrl/Cmd + A = New Appointment
+            if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+                e.preventDefault();
+                this.openModal('addAppointmentModal');
+            }
+            
+            // Ctrl/Cmd + I = New Inventory Item
+            if ((e.ctrlKey || e.metaKey) && e.key === 'i') {
+                e.preventDefault();
+                this.openModal('addInventoryModal');
+            }
         });
     }
     
@@ -2639,7 +2728,8 @@ class HairSalonPro {
     }
     
     openModal(modalId) {
-        document.getElementById(modalId).classList.add('show');
+        const modal = document.getElementById(modalId);
+        modal.classList.add('show');
         document.body.style.overflow = 'hidden';
         
         // Populate client dropdown for appointment modal
@@ -2660,6 +2750,17 @@ class HairSalonPro {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('appointmentDate').value = today;
         }
+        
+        // Focus on first input field
+        setTimeout(() => {
+            const firstInput = modal.querySelector('input:not([type="hidden"]), textarea, select');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        }, 100);
+        
+        // Trap focus within modal
+        this.trapFocus(modal);
     }
     
     closeModal(modalId) {
@@ -3109,35 +3210,56 @@ class HairSalonPro {
     }
     
     deleteClient(clientId) {
-        if (confirm(this.translate('delete_confirmation'))) {
-            this.clients = this.clients.filter(c => c.id !== clientId);
-            this.saveToLocalStorage();
-            this.renderClients();
-            this.updateDashboard();
-            this.showToast(this.translate('item_deleted'));
-        }
+        const client = this.clients.find(c => c.id === clientId);
+        if (!client) return;
+        
+        this.showConfirmDialog(
+            'Delete Client',
+            `Are you sure you want to delete ${client.name}? This action cannot be undone.`,
+            () => {
+                this.clients = this.clients.filter(c => c.id !== clientId);
+                this.saveToLocalStorage();
+                this.renderClients();
+                this.updateDashboard();
+                this.showToast(this.translate('item_deleted'));
+            }
+        );
     }
     
     deleteAppointment(appointmentId) {
-        if (confirm(this.translate('delete_confirmation'))) {
-            this.appointments = this.appointments.filter(a => a.id !== appointmentId);
-            this.saveToLocalStorage();
-            this.renderAppointments();
-            this.renderUpcomingSessions();
-            this.updateDashboard();
-            this.renderCalendar();
-            this.showToast(this.translate('item_deleted'));
-        }
+        const appointment = this.appointments.find(a => a.id === appointmentId);
+        if (!appointment) return;
+        
+        this.showConfirmDialog(
+            'Delete Appointment',
+            `Are you sure you want to delete this appointment for ${appointment.service}? This action cannot be undone.`,
+            () => {
+                this.appointments = this.appointments.filter(a => a.id !== appointmentId);
+                this.saveToLocalStorage();
+                this.renderAppointments();
+                this.renderUpcomingSessions();
+                this.updateDashboard();
+                this.renderCalendar();
+                this.showToast(this.translate('item_deleted'));
+            }
+        );
     }
     
     deleteInventoryItem(inventoryId) {
-        if (confirm(this.translate('delete_confirmation'))) {
-            this.inventory = this.inventory.filter(i => i.id !== inventoryId);
-            this.saveToLocalStorage();
-            this.renderInventory();
-            this.updateDashboard();
-            this.showToast(this.translate('item_deleted'));
-        }
+        const item = this.inventory.find(i => i.id === inventoryId);
+        if (!item) return;
+        
+        this.showConfirmDialog(
+            'Delete Inventory Item',
+            `Are you sure you want to delete ${item.name}? This action cannot be undone.`,
+            () => {
+                this.inventory = this.inventory.filter(i => i.id !== inventoryId);
+                this.saveToLocalStorage();
+                this.renderInventory();
+                this.updateDashboard();
+                this.showToast(this.translate('item_deleted'));
+            }
+        );
     }
     
     exportData(type) {
@@ -3242,9 +3364,20 @@ class HairSalonPro {
     restoreData(file) {
         if (!file) return;
         
-        if (!confirm('This will replace all current data. Are you sure you want to continue?')) {
-            return;
-        }
+        this.showConfirmDialog(
+            'Restore Data',
+            'This will replace all current data with the backup. Are you sure you want to continue? This action cannot be undone.',
+            () => {
+                this.performRestore(file);
+            }
+        );
+    }
+    
+    /**
+     * Perform the actual restore operation
+     * @param {File} file - The backup file to restore from
+     */
+    performRestore(file) {
         
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -3482,6 +3615,103 @@ class HairSalonPro {
         } else {
             offlineIndicator.classList.add('show');
         }
+    }
+    
+    /**
+     * Show confirmation dialog
+     * @param {string} title - Dialog title
+     * @param {string} message - Dialog message
+     * @param {Function} onConfirm - Callback function when confirmed
+     */
+    showConfirmDialog(title, message, onConfirm) {
+        const dialog = document.getElementById('confirmDialog');
+        const backdrop = document.getElementById('confirmBackdrop');
+        const confirmTitle = document.getElementById('confirmTitle');
+        const confirmMessage = document.getElementById('confirmMessage');
+        const confirmOk = document.getElementById('confirmOk');
+        const confirmCancel = document.getElementById('confirmCancel');
+        
+        confirmTitle.textContent = title;
+        confirmMessage.textContent = message;
+        
+        dialog.classList.add('show');
+        backdrop.style.display = 'flex';
+        backdrop.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus on cancel button for safety
+        confirmCancel.focus();
+        
+        // Remove previous event listeners
+        const newConfirmOk = confirmOk.cloneNode(true);
+        const newConfirmCancel = confirmCancel.cloneNode(true);
+        confirmOk.parentNode.replaceChild(newConfirmOk, confirmOk);
+        confirmCancel.parentNode.replaceChild(newConfirmCancel, confirmCancel);
+        
+        // Add new event listeners
+        newConfirmOk.addEventListener('click', () => {
+            this.hideConfirmDialog();
+            onConfirm();
+        });
+        
+        newConfirmCancel.addEventListener('click', () => {
+            this.hideConfirmDialog();
+        });
+        
+        // ESC key to cancel
+        const escHandler = (e) => {
+            if (e.key === 'Escape') {
+                this.hideConfirmDialog();
+                document.removeEventListener('keydown', escHandler);
+            }
+        };
+        document.addEventListener('keydown', escHandler);
+    }
+    
+    /**
+     * Hide confirmation dialog
+     */
+    hideConfirmDialog() {
+        const dialog = document.getElementById('confirmDialog');
+        const backdrop = document.getElementById('confirmBackdrop');
+        
+        dialog.classList.remove('show');
+        backdrop.classList.remove('show');
+        backdrop.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    
+    /**
+     * Trap focus within a modal for accessibility
+     * @param {HTMLElement} modal - The modal element
+     */
+    trapFocus(modal) {
+        const focusableElements = modal.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        
+        if (focusableElements.length === 0) return;
+        
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+        
+        const handleTabKey = (e) => {
+            if (e.key !== 'Tab') return;
+            
+            if (e.shiftKey) {
+                if (document.activeElement === firstFocusable) {
+                    e.preventDefault();
+                    lastFocusable.focus();
+                }
+            } else {
+                if (document.activeElement === lastFocusable) {
+                    e.preventDefault();
+                    firstFocusable.focus();
+                }
+            }
+        };
+        
+        modal.addEventListener('keydown', handleTabKey);
     }
 }
 
