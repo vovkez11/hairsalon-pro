@@ -2095,6 +2095,10 @@ class HairSalonPro {
         // Current inventory category filter
         this.currentInventoryCategory = 'all';
         
+        // Navigation history for back button management
+        this.currentSection = 'dashboard';
+        this.navigationHistory = [];
+        
         // No currency settings - just numbers
         this.currencies = {
             'en': { symbol: '', code: '', rate: 1 },
@@ -2567,6 +2571,7 @@ class HairSalonPro {
         this.checkInstallPrompt();
         this.setupMobileMenu();
         this.updateOnlineStatus();
+        this.setupBackButtonPrevention();
         
         console.log('💇‍♀️ HairSalon Pro - Enhanced Version Loaded');
     }
@@ -2659,8 +2664,8 @@ class HairSalonPro {
         });
         
         // Handle back button on mobile
-        window.addEventListener('popstate', () => {
-            this.closeAllModals();
+        window.addEventListener('popstate', (event) => {
+            this.handleBackButton(event);
         });
         
         // Before install prompt
@@ -2740,7 +2745,7 @@ class HairSalonPro {
         return this.translations[this.currentLanguage]?.[key] || key;
     }
     
-    showSection(sectionId) {
+    showSection(sectionId, skipHistory = false) {
         // Hide all sections
         document.querySelectorAll('.section').forEach(section => {
             section.classList.remove('active');
@@ -2756,6 +2761,14 @@ class HairSalonPro {
         
         // Add active class to clicked nav link
         document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+        
+        // Push history state for navigation (unless we're navigating via back button)
+        if (!skipHistory && sectionId !== this.currentSection) {
+            history.pushState({ section: sectionId }, '', `#${sectionId}`);
+        }
+        
+        // Update current section
+        this.currentSection = sectionId;
         
         // Update section-specific content
         switch(sectionId) {
@@ -2781,6 +2794,38 @@ class HairSalonPro {
                 this.loadSettings();
                 break;
         }
+    }
+    
+    /**
+     * Setup back button prevention to keep app from closing on Android
+     */
+    setupBackButtonPrevention() {
+        // Push initial state to history
+        history.pushState({ section: 'dashboard' }, '', '#dashboard');
+    }
+    
+    /**
+     * Handle back button press
+     * @param {PopStateEvent} event - The popstate event
+     */
+    handleBackButton(event) {
+        // First, check if any modals are open and close them
+        const openModal = document.querySelector('.modal.show');
+        if (openModal) {
+            this.closeAllModals();
+            // Push current section back to history so we stay in the app
+            history.pushState({ section: this.currentSection }, '', `#${this.currentSection}`);
+            return;
+        }
+        
+        // If we're not on dashboard, navigate to dashboard
+        if (this.currentSection !== 'dashboard') {
+            this.showSection('dashboard', true);
+            return;
+        }
+        
+        // If we're on dashboard, push state again to prevent app from closing
+        history.pushState({ section: 'dashboard' }, '', '#dashboard');
     }
     
     updateDashboard() {
