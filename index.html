@@ -102,6 +102,42 @@
         body.light-mode input[type="time"]::-webkit-calendar-picker-indicator {
             filter: invert(0);
         }
+        
+        /* Light mode text visibility fixes */
+        body.light-mode .card-title {
+            color: var(--primary);
+        }
+        
+        body.light-mode .stat-label,
+        body.light-mode .form-label,
+        body.light-mode .data-item-content h4,
+        body.light-mode .data-item-content p,
+        body.light-mode .empty-state h3,
+        body.light-mode .empty-state p,
+        body.light-mode select,
+        body.light-mode .calendar-day-number,
+        body.light-mode .pagination-info,
+        body.light-mode .search-box input::placeholder {
+            color: #212121;
+        }
+        
+        body.light-mode .data-item-content p {
+            color: rgba(0,0,0,0.7);
+        }
+        
+        body.light-mode .search-box i {
+            color: rgba(0,0,0,0.5);
+        }
+        
+        body.light-mode .usage-history-info h4,
+        body.light-mode .usage-history-info p {
+            color: #212121;
+        }
+        
+        body.light-mode .inventory-item-select h4,
+        body.light-mode .inventory-item-select p {
+            color: #212121;
+        }
 
         * {
             margin: 0;
@@ -728,6 +764,64 @@
             top: 50%;
             transform: translateY(-50%);
             color: rgba(255,255,255,0.5);
+        }
+        
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: var(--border-radius);
+        }
+        
+        .category-tab {
+            padding: 10px 18px;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            color: var(--light);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 44px;
+        }
+        
+        .category-tab:hover {
+            background: rgba(255,255,255,0.12);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .category-tab.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.3);
+        }
+        
+        body.light-mode .category-tabs {
+            background: rgba(0,0,0,0.05);
+        }
+        
+        body.light-mode .category-tab {
+            background: rgba(0,0,0,0.08);
+            color: #212121;
+        }
+        
+        body.light-mode .category-tab:hover {
+            background: rgba(0,0,0,0.12);
+        }
+        
+        body.light-mode .category-tab.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
         }
         
         /* Offline Indicator */
@@ -1557,6 +1651,32 @@
                             <i class="fas fa-plus"></i> <span data-i18n="add_inventory_item">Add Inventory Item</span>
                         </button>
                     </div>
+                    <div class="category-tabs" id="inventoryTabs">
+                        <div class="category-tab active" data-category="all" onclick="HairSalonApp.filterInventoryByCategory('all')">
+                            <i class="fas fa-th"></i>
+                            <span data-i18n="all_items">All Items</span>
+                        </div>
+                        <div class="category-tab" data-category="hair_products" onclick="HairSalonApp.filterInventoryByCategory('hair_products')">
+                            <i class="fas fa-spray-can"></i>
+                            <span data-i18n="hair_products">Hair Products</span>
+                        </div>
+                        <div class="category-tab" data-category="styling_tools" onclick="HairSalonApp.filterInventoryByCategory('styling_tools')">
+                            <i class="fas fa-tools"></i>
+                            <span data-i18n="styling_tools">Styling Tools</span>
+                        </div>
+                        <div class="category-tab" data-category="color_products" onclick="HairSalonApp.filterInventoryByCategory('color_products')">
+                            <i class="fas fa-palette"></i>
+                            <span data-i18n="color_products">Color Products</span>
+                        </div>
+                        <div class="category-tab" data-category="accessories" onclick="HairSalonApp.filterInventoryByCategory('accessories')">
+                            <i class="fas fa-gem"></i>
+                            <span data-i18n="accessories">Accessories</span>
+                        </div>
+                        <div class="category-tab" data-category="other" onclick="HairSalonApp.filterInventoryByCategory('other')">
+                            <i class="fas fa-ellipsis-h"></i>
+                            <span data-i18n="other">Other</span>
+                        </div>
+                    </div>
                     <div class="search-box">
                         <i class="fas fa-search"></i>
                         <input type="text" id="inventorySearch" placeholder="Search inventory by name or category..." onkeyup="HairSalonApp.filterInventory(this.value)">
@@ -1949,6 +2069,9 @@ class HairSalonPro {
         this.appointmentSearchTimeout = null;
         this.inventorySearchTimeout = null;
         
+        // Current inventory category filter
+        this.currentInventoryCategory = 'all';
+        
         // No currency settings - just numbers
         this.currencies = {
             'en': { symbol: '', code: '', rate: 1 },
@@ -2051,6 +2174,7 @@ class HairSalonPro {
                 'quantity': 'Quantity',
                 'low_stock_threshold': 'Low Stock Threshold',
                 'save_item': 'Save Item',
+                'all_items': 'All Items',
                 'hair_products': 'Hair Products',
                 'styling_tools': 'Styling Tools',
                 'color_products': 'Color Products',
@@ -2151,6 +2275,7 @@ class HairSalonPro {
                 'quantity': 'Cantidad',
                 'low_stock_threshold': 'Umbral de Stock Bajo',
                 'save_item': 'Guardar Artículo',
+                'all_items': 'Todos los Artículos',
                 'hair_products': 'Productos para el Cabello',
                 'styling_tools': 'Herramientas de Estilismo',
                 'color_products': 'Productos de Color',
@@ -2251,6 +2376,7 @@ class HairSalonPro {
                 'quantity': 'Количество',
                 'low_stock_threshold': 'Порог низкого запаса',
                 'save_item': 'Сохранить товар',
+                'all_items': 'Все товары',
                 'hair_products': 'Средства для волос',
                 'styling_tools': 'Инструменты для укладки',
                 'color_products': 'Красящие средства',
@@ -2351,6 +2477,7 @@ class HairSalonPro {
                 'quantity': 'כמות',
                 'low_stock_threshold': 'סף מלאי נמוך',
                 'save_item': 'שמור פריט',
+                'all_items': 'כל הפריטים',
                 'hair_products': 'מוצרי שיער',
                 'styling_tools': 'כלי עיצוב',
                 'color_products': 'מוצרי צבע',
@@ -2892,13 +3019,20 @@ class HairSalonPro {
         });
     }
     
-    renderInventory(searchQuery = '') {
+    renderInventory(searchQuery = '', category = 'all') {
         const container = document.getElementById('inventoryList');
         
-        // Filter inventory based on search query
+        // Filter inventory based on category and search query
         let filteredInventory = this.inventory;
+        
+        // Apply category filter
+        if (category !== 'all') {
+            filteredInventory = filteredInventory.filter(item => item.category === category);
+        }
+        
+        // Apply search filter
         if (searchQuery) {
-            filteredInventory = this.inventory.filter(item => 
+            filteredInventory = filteredInventory.filter(item => 
                 item.name.toLowerCase().includes(searchQuery) ||
                 item.category.toLowerCase().includes(searchQuery)
             );
@@ -2920,11 +3054,14 @@ class HairSalonPro {
         }
         
         if (filteredInventory.length === 0) {
+            const message = category !== 'all' 
+                ? `No items found in ${this.translate(category)} category` 
+                : 'No inventory items found';
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-search"></i>
-                    <h3>No inventory items found</h3>
-                    <p>Try adjusting your search query</p>
+                    <h3>${message}</h3>
+                    <p>Try adjusting your search query or selecting a different category</p>
                 </div>
             `;
             return;
@@ -4023,6 +4160,32 @@ class HairSalonPro {
     }
     
     /**
+     * Filter inventory by category
+     * @param {string} category - The category to filter by
+     */
+    filterInventoryByCategory(category) {
+        this.currentInventoryCategory = category;
+        
+        // Update active tab
+        const tabs = document.querySelectorAll('.category-tab');
+        tabs.forEach(tab => {
+            if (tab.dataset.category === category) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+        
+        // Clear search input and render with category filter
+        const searchInput = document.getElementById('inventorySearch');
+        if (searchInput) {
+            searchInput.value = '';
+        }
+        
+        this.renderInventory('', category);
+    }
+    
+    /**
      * Filter inventory by search query with debouncing
      * @param {string} query - The search query
      */
@@ -4031,7 +4194,7 @@ class HairSalonPro {
             clearTimeout(this.inventorySearchTimeout);
         }
         this.inventorySearchTimeout = setTimeout(() => {
-            this.renderInventory(query.toLowerCase());
+            this.renderInventory(query.toLowerCase(), this.currentInventoryCategory);
         }, 300);
     }
     
