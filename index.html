@@ -2023,6 +2023,29 @@
         </div>
     </div>
 
+    <!-- View Date Appointments Modal -->
+    <div class="modal" id="viewDateAppointmentsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-calendar-day"></i>
+                    <span id="dateAppointmentsTitle">Appointments for Date</span>
+                </div>
+                <button class="close-modal" onclick="HairSalonApp.closeModal('viewDateAppointmentsModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="card-header" style="border: none; padding: 0; margin-bottom: 15px;">
+                <button class="btn btn-primary" onclick="HairSalonApp.addAppointmentForSelectedDate()">
+                    <i class="fas fa-plus"></i> <span data-i18n="add_appointment">Add Appointment</span>
+                </button>
+            </div>
+            <div class="data-list" id="dateAppointmentsList">
+                <!-- Appointments for selected date will be populated here -->
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
@@ -2213,7 +2236,10 @@ class HairSalonPro {
                 'quantity_used': 'Quantity Used',
                 'insufficient_stock': 'Insufficient stock for product',
                 'click_to_create_session': 'Click to create session on this date',
-                'create_appointment_for': 'Create Appointment for'
+                'click_to_view_appointments': 'Click to view appointments on this date',
+                'create_appointment_for': 'Create Appointment for',
+                'appointments_for': 'Appointments for',
+                'add_appointment': 'Add Appointment'
             },
             'es': {
                 'app_name': 'HairSalon Pro',
@@ -2314,7 +2340,10 @@ class HairSalonPro {
                 'quantity_used': 'Cantidad Usada',
                 'insufficient_stock': 'Stock insuficiente para el producto',
                 'click_to_create_session': 'Haga clic para crear sesión en esta fecha',
-                'create_appointment_for': 'Crear cita para'
+                'click_to_view_appointments': 'Haga clic para ver las citas en esta fecha',
+                'create_appointment_for': 'Crear cita para',
+                'appointments_for': 'Citas para',
+                'add_appointment': 'Agregar Cita'
             },
             'ru': {
                 'app_name': 'HairSalon Pro',
@@ -2415,7 +2444,10 @@ class HairSalonPro {
                 'quantity_used': 'Количество использовано',
                 'insufficient_stock': 'Недостаточно запасов для продукта',
                 'click_to_create_session': 'Нажмите, чтобы создать сеанс на эту дату',
-                'create_appointment_for': 'Создать запись на'
+                'click_to_view_appointments': 'Нажмите, чтобы просмотреть записи на эту дату',
+                'create_appointment_for': 'Создать запись на',
+                'appointments_for': 'Записи на',
+                'add_appointment': 'Добавить запись'
             },
             'he': {
                 'app_name': 'HairSalon Pro',
@@ -2516,7 +2548,10 @@ class HairSalonPro {
                 'quantity_used': 'כמות משומשת',
                 'insufficient_stock': 'מלאי לא מספיק למוצר',
                 'click_to_create_session': 'לחץ כדי ליצור פגישה בתאריך זה',
-                'create_appointment_for': 'צור תור עבור'
+                'click_to_view_appointments': 'לחץ כדי לצפות בתורים בתאריך זה',
+                'create_appointment_for': 'צור תור עבור',
+                'appointments_for': 'תורים עבור',
+                'add_appointment': 'הוסף תור'
             }
         };
         
@@ -2824,6 +2859,14 @@ class HairSalonPro {
                     <p><i class="fas fa-calendar"></i> ${new Date(appointment.date).toLocaleDateString()} at ${appointment.time}</p>
                     <p><i class="fas fa-tag"></i> ${appointment.price.toFixed(2)}</p>
                     ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
+                </div>
+                <div class="data-item-actions">
+                    <button class="btn btn-outline btn-sm" onclick="HairSalonApp.editAppointment('${appointment.id}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="HairSalonApp.deleteAppointment('${appointment.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
             `;
             
@@ -3165,13 +3208,21 @@ class HairSalonPro {
                 </div>
             `;
             
-            // Add click event to create appointment
+            // Add click event - show appointments if they exist, otherwise create new
             dayElement.addEventListener('click', () => {
-                this.createAppointmentForDate(dateString);
+                if (dayAppointments.length > 0) {
+                    this.showDateAppointments(dateString, dayAppointments);
+                } else {
+                    this.createAppointmentForDate(dateString);
+                }
             });
             
             // Add tooltip
-            dayElement.title = this.translate('click_to_create_session');
+            if (dayAppointments.length > 0) {
+                dayElement.title = this.translate('click_to_view_appointments');
+            } else {
+                dayElement.title = this.translate('click_to_create_session');
+            }
             
             calendarGrid.appendChild(dayElement);
         }
@@ -3187,6 +3238,58 @@ class HairSalonPro {
         // Update modal title to show selected date
         const modalTitle = document.querySelector('#addAppointmentModal .modal-title span');
         modalTitle.textContent = `${this.translate('create_appointment_for')} ${new Date(dateString).toLocaleDateString()}`;
+    }
+    
+    showDateAppointments(dateString, appointments) {
+        this.selectedCalendarDate = dateString;
+        
+        // Update modal title
+        const title = document.getElementById('dateAppointmentsTitle');
+        title.textContent = `${this.translate('appointments_for')} ${new Date(dateString).toLocaleDateString()}`;
+        
+        // Render appointments
+        const container = document.getElementById('dateAppointmentsList');
+        container.innerHTML = '';
+        
+        appointments
+            .sort((a, b) => a.time.localeCompare(b.time))
+            .forEach(appointment => {
+                const client = this.clients.find(c => c.id === appointment.clientId);
+                const appointmentElement = document.createElement('div');
+                appointmentElement.className = 'data-item appointment-item';
+                
+                appointmentElement.innerHTML = `
+                    <div class="data-item-content">
+                        <h4>${appointment.service}</h4>
+                        <p><i class="fas fa-user"></i> ${client ? client.name : 'Unknown Client'}</p>
+                        <p><i class="fas fa-clock"></i> ${appointment.time}</p>
+                        <p><i class="fas fa-tag"></i> ${appointment.price.toFixed(2)}</p>
+                        ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
+                        ${appointment.inventoryUsage && appointment.inventoryUsage.length > 0 ? 
+                            `<p><i class="fas fa-box-open"></i> Products used: ${appointment.inventoryUsage.map(item => `${item.itemName} (${item.quantity})`).join(', ')}</p>` : ''}
+                    </div>
+                    <div class="data-item-actions">
+                        <button class="btn btn-outline btn-sm" onclick="HairSalonApp.editAppointment('${appointment.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="HairSalonApp.deleteAppointment('${appointment.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(appointmentElement);
+            });
+        
+        // Open the modal
+        this.openModal('viewDateAppointmentsModal');
+    }
+    
+    addAppointmentForSelectedDate() {
+        // Close the date appointments modal
+        this.closeModal('viewDateAppointmentsModal');
+        // Open the add appointment modal with the selected date
+        this.createAppointmentForDate(this.selectedCalendarDate);
     }
     
     openModal(modalId) {
