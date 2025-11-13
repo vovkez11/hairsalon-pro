@@ -1299,6 +1299,9 @@
                 <a class="nav-link" data-section="export">
                     <i class="fas fa-file-export"></i> <span data-i18n="export_data">Export Data</span>
                 </a>
+                <a class="nav-link" data-section="settings">
+                    <i class="fas fa-cog"></i> <span data-i18n="settings">Settings</span>
+                </a>
             </div>
 
             <div class="nav-section">
@@ -1535,6 +1538,99 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Settings Section -->
+            <div class="section" id="settings">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-cog"></i>
+                            <span data-i18n="settings">Settings</span>
+                        </div>
+                    </div>
+                    
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label class="form-label" for="settingsBusinessName" data-i18n="business_name">Business Name</label>
+                            <input type="text" class="form-control" id="settingsBusinessName" placeholder="Enter your salon name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="settingsCurrency" data-i18n="currency_symbol">Currency Symbol</label>
+                            <input type="text" class="form-control" id="settingsCurrency" placeholder="$ or € or £" maxlength="3">
+                            <small style="color: rgba(255,255,255,0.6); margin-top: 5px; display: block;">Leave empty for no currency symbol</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="settingsDefaultDuration" data-i18n="default_appointment_duration">Default Appointment Duration (minutes)</label>
+                            <input type="number" class="form-control" id="settingsDefaultDuration" min="15" max="480" step="15" value="60">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="settingsLowStockDefault" data-i18n="default_low_stock_threshold">Default Low Stock Threshold</label>
+                            <input type="number" class="form-control" id="settingsLowStockDefault" min="0" max="100" value="5">
+                            <small style="color: rgba(255,255,255,0.6); margin-top: 5px; display: block;">Applied when adding new inventory items</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="business_hours">Business Hours</label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                <div>
+                                    <label class="form-label" for="settingsOpenTime" style="font-size: 0.85em;">Opening Time</label>
+                                    <input type="time" class="form-control" id="settingsOpenTime" value="09:00">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="settingsCloseTime" style="font-size: 0.85em;">Closing Time</label>
+                                    <input type="time" class="form-control" id="settingsCloseTime" value="18:00">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="working_days">Working Days</label>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-top: 10px;">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                    <input type="checkbox" id="workingDayMon" checked style="width: 20px; height: 20px; cursor: pointer;">
+                                    <span>Monday</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                    <input type="checkbox" id="workingDayTue" checked style="width: 20px; height: 20px; cursor: pointer;">
+                                    <span>Tuesday</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                    <input type="checkbox" id="workingDayWed" checked style="width: 20px; height: 20px; cursor: pointer;">
+                                    <span>Wednesday</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                    <input type="checkbox" id="workingDayThu" checked style="width: 20px; height: 20px; cursor: pointer;">
+                                    <span>Thursday</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                    <input type="checkbox" id="workingDayFri" checked style="width: 20px; height: 20px; cursor: pointer;">
+                                    <span>Friday</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                    <input type="checkbox" id="workingDaySat" style="width: 20px; height: 20px; cursor: pointer;">
+                                    <span>Saturday</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                    <input type="checkbox" id="workingDaySun" style="width: 20px; height: 20px; cursor: pointer;">
+                                    <span>Sunday</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline" onclick="HairSalonApp.resetSettings()">
+                                <i class="fas fa-undo"></i> <span data-i18n="reset_defaults">Reset to Defaults</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> <span data-i18n="save_settings">Save Settings</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1757,6 +1853,25 @@ class HairSalonPro {
         this.inventory = [];
         this.usageHistory = [];
         
+        // Initialize settings with defaults
+        this.settings = {
+            businessName: 'HairSalon Pro',
+            currencySymbol: '',
+            defaultDuration: 60,
+            lowStockDefault: 5,
+            openTime: '09:00',
+            closeTime: '18:00',
+            workingDays: {
+                mon: true,
+                tue: true,
+                wed: true,
+                thu: true,
+                fri: true,
+                sat: false,
+                sun: false
+            }
+        };
+        
         // Load data from localStorage with error handling
         this.loadFromLocalStorage();
         
@@ -1772,6 +1887,17 @@ class HairSalonPro {
                 'calendar': 'Calendar',
                 'inventory': 'Inventory',
                 'export_data': 'Export Data',
+                'settings': 'Settings',
+                'business_name': 'Business Name',
+                'currency_symbol': 'Currency Symbol',
+                'default_appointment_duration': 'Default Appointment Duration',
+                'default_low_stock_threshold': 'Default Low Stock Threshold',
+                'business_hours': 'Business Hours',
+                'working_days': 'Working Days',
+                'reset_defaults': 'Reset to Defaults',
+                'save_settings': 'Save Settings',
+                'settings_saved': 'Settings saved successfully',
+                'settings_reset': 'Settings reset to defaults',
                 'main_navigation': 'Main Navigation',
                 'quick_actions': 'Quick Actions',
                 'add_client': 'Add Client',
@@ -1861,6 +1987,17 @@ class HairSalonPro {
                 'calendar': 'Calendario',
                 'inventory': 'Inventario',
                 'export_data': 'Exportar Datos',
+                'settings': 'Configuración',
+                'business_name': 'Nombre del Negocio',
+                'currency_symbol': 'Símbolo de Moneda',
+                'default_appointment_duration': 'Duración Predeterminada de Cita',
+                'default_low_stock_threshold': 'Umbral Predeterminado de Stock Bajo',
+                'business_hours': 'Horario de Negocio',
+                'working_days': 'Días Laborables',
+                'reset_defaults': 'Restablecer Valores Predeterminados',
+                'save_settings': 'Guardar Configuración',
+                'settings_saved': 'Configuración guardada con éxito',
+                'settings_reset': 'Configuración restablecida',
                 'main_navigation': 'Navegación Principal',
                 'quick_actions': 'Acciones Rápidas',
                 'add_client': 'Agregar Cliente',
@@ -1950,6 +2087,17 @@ class HairSalonPro {
                 'calendar': 'Календарь',
                 'inventory': 'Инвентарь',
                 'export_data': 'Экспорт данных',
+                'settings': 'Настройки',
+                'business_name': 'Название бизнеса',
+                'currency_symbol': 'Символ валюты',
+                'default_appointment_duration': 'Продолжительность записи по умолчанию',
+                'default_low_stock_threshold': 'Порог низкого запаса по умолчанию',
+                'business_hours': 'Часы работы',
+                'working_days': 'Рабочие дни',
+                'reset_defaults': 'Сбросить по умолчанию',
+                'save_settings': 'Сохранить настройки',
+                'settings_saved': 'Настройки сохранены успешно',
+                'settings_reset': 'Настройки сброшены',
                 'main_navigation': 'Основная навигация',
                 'quick_actions': 'Быстрые действия',
                 'add_client': 'Добавить клиента',
@@ -2039,6 +2187,17 @@ class HairSalonPro {
                 'calendar': 'לוח שנה',
                 'inventory': 'מלאי',
                 'export_data': 'ייצוא נתונים',
+                'settings': 'הגדרות',
+                'business_name': 'שם העסק',
+                'currency_symbol': 'סמל מטבע',
+                'default_appointment_duration': 'משך תור ברירת מחדל',
+                'default_low_stock_threshold': 'סף מלאי נמוך ברירת מחדל',
+                'business_hours': 'שעות פעילות',
+                'working_days': 'ימי עבודה',
+                'reset_defaults': 'אפס להגדרות ברירת מחדל',
+                'save_settings': 'שמור הגדרות',
+                'settings_saved': 'ההגדרות נשמרו בהצלחה',
+                'settings_reset': 'ההגדרות אופסו',
                 'main_navigation': 'ניווט ראשי',
                 'quick_actions': 'פעולות מהירות',
                 'add_client': 'הוסף לקוח',
@@ -2167,6 +2326,11 @@ class HairSalonPro {
         document.getElementById('addInventoryForm').addEventListener('submit', (e) => {
             e.preventDefault();
             this.saveInventoryItem();
+        });
+        
+        document.getElementById('settingsForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.saveSettings();
         });
         
         // Language selector
@@ -2326,6 +2490,9 @@ class HairSalonPro {
                 break;
             case 'calendar':
                 this.renderCalendar();
+                break;
+            case 'settings':
+                this.loadSettings();
                 break;
         }
     }
@@ -3144,9 +3311,10 @@ class HairSalonPro {
     editAppointment(appointmentId) {
         const appointment = this.appointments.find(a => a.id === appointmentId);
         if (appointment) {
-            this.populateClientDropdown();
-            this.populateInventoryForAppointment();
+            this.editingAppointmentId = appointmentId;
+            this.openModal('addAppointmentModal');
             
+            // Set form values after modal is opened
             document.getElementById('appointmentClient').value = appointment.clientId;
             document.getElementById('appointmentDate').value = appointment.date;
             document.getElementById('appointmentTime').value = appointment.time;
@@ -3154,7 +3322,7 @@ class HairSalonPro {
             document.getElementById('appointmentPrice').value = appointment.price;
             document.getElementById('appointmentNotes').value = appointment.notes || '';
             
-            // Pre-fill inventory usage
+            // Pre-fill inventory usage after modal inventory items are populated
             if (appointment.inventoryUsage && appointment.inventoryUsage.length > 0) {
                 appointment.inventoryUsage.forEach(usage => {
                     const input = document.querySelector(`#appointmentInventoryItems input[data-id="${usage.itemId}"]`);
@@ -3163,9 +3331,6 @@ class HairSalonPro {
                     }
                 });
             }
-            
-            this.editingAppointmentId = appointmentId;
-            this.openModal('addAppointmentModal');
             
             // Update modal title
             const modalTitle = document.querySelector('#addAppointmentModal .modal-title span');
@@ -3289,6 +3454,101 @@ class HairSalonPro {
                 this.renderInventory();
                 this.updateDashboard();
                 this.showToast(this.translate('item_deleted'));
+            }
+        );
+    }
+    
+    /**
+     * Load settings into the form
+     */
+    loadSettings() {
+        document.getElementById('settingsBusinessName').value = this.settings.businessName;
+        document.getElementById('settingsCurrency').value = this.settings.currencySymbol;
+        document.getElementById('settingsDefaultDuration').value = this.settings.defaultDuration;
+        document.getElementById('settingsLowStockDefault').value = this.settings.lowStockDefault;
+        document.getElementById('settingsOpenTime').value = this.settings.openTime;
+        document.getElementById('settingsCloseTime').value = this.settings.closeTime;
+        
+        // Load working days
+        document.getElementById('workingDayMon').checked = this.settings.workingDays.mon;
+        document.getElementById('workingDayTue').checked = this.settings.workingDays.tue;
+        document.getElementById('workingDayWed').checked = this.settings.workingDays.wed;
+        document.getElementById('workingDayThu').checked = this.settings.workingDays.thu;
+        document.getElementById('workingDayFri').checked = this.settings.workingDays.fri;
+        document.getElementById('workingDaySat').checked = this.settings.workingDays.sat;
+        document.getElementById('workingDaySun').checked = this.settings.workingDays.sun;
+    }
+    
+    /**
+     * Save settings from the form
+     */
+    saveSettings() {
+        this.settings.businessName = this.sanitizeInput(document.getElementById('settingsBusinessName').value.trim()) || 'HairSalon Pro';
+        this.settings.currencySymbol = this.sanitizeInput(document.getElementById('settingsCurrency').value.trim());
+        this.settings.defaultDuration = parseInt(document.getElementById('settingsDefaultDuration').value) || 60;
+        this.settings.lowStockDefault = parseInt(document.getElementById('settingsLowStockDefault').value) || 5;
+        this.settings.openTime = document.getElementById('settingsOpenTime').value;
+        this.settings.closeTime = document.getElementById('settingsCloseTime').value;
+        
+        // Save working days
+        this.settings.workingDays = {
+            mon: document.getElementById('workingDayMon').checked,
+            tue: document.getElementById('workingDayTue').checked,
+            wed: document.getElementById('workingDayWed').checked,
+            thu: document.getElementById('workingDayThu').checked,
+            fri: document.getElementById('workingDayFri').checked,
+            sat: document.getElementById('workingDaySat').checked,
+            sun: document.getElementById('workingDaySun').checked
+        };
+        
+        // Save to localStorage
+        localStorage.setItem('hairsalon_settings', JSON.stringify(this.settings));
+        
+        // Update the app name in header if changed
+        const headerLogo = document.querySelector('.app-header .logo span');
+        if (headerLogo) {
+            headerLogo.textContent = this.settings.businessName;
+        }
+        
+        this.showToast(this.translate('settings_saved'));
+    }
+    
+    /**
+     * Reset settings to defaults
+     */
+    resetSettings() {
+        this.showConfirmDialog(
+            'Reset Settings',
+            'Are you sure you want to reset all settings to their default values?',
+            () => {
+                this.settings = {
+                    businessName: 'HairSalon Pro',
+                    currencySymbol: '',
+                    defaultDuration: 60,
+                    lowStockDefault: 5,
+                    openTime: '09:00',
+                    closeTime: '18:00',
+                    workingDays: {
+                        mon: true,
+                        tue: true,
+                        wed: true,
+                        thu: true,
+                        fri: true,
+                        sat: false,
+                        sun: false
+                    }
+                };
+                
+                localStorage.setItem('hairsalon_settings', JSON.stringify(this.settings));
+                this.loadSettings();
+                
+                // Update the app name in header
+                const headerLogo = document.querySelector('.app-header .logo span');
+                if (headerLogo) {
+                    headerLogo.textContent = this.settings.businessName;
+                }
+                
+                this.showToast(this.translate('settings_reset'));
             }
         );
     }
@@ -3586,11 +3846,13 @@ class HairSalonPro {
             const appointments = localStorage.getItem('hairsalon_appointments');
             const inventory = localStorage.getItem('hairsalon_inventory');
             const usageHistory = localStorage.getItem('hairsalon_usage_history');
+            const settings = localStorage.getItem('hairsalon_settings');
             
             if (clients) this.clients = JSON.parse(clients);
             if (appointments) this.appointments = JSON.parse(appointments);
             if (inventory) this.inventory = JSON.parse(inventory);
             if (usageHistory) this.usageHistory = JSON.parse(usageHistory);
+            if (settings) this.settings = JSON.parse(settings);
         } catch (error) {
             console.error('Failed to load from localStorage:', error);
             this.showToast('Failed to load saved data. Starting fresh.');
