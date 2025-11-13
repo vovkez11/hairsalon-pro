@@ -1427,6 +1427,84 @@
                 padding-right: max(10px, env(safe-area-inset-right));
             }
         }
+        
+        /* Bottom Navigation Tabs */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, var(--dark-gray) 0%, var(--darker) 100%);
+            border-top: 1px solid #30363d;
+            padding: 8px 0;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.6);
+            z-index: 999;
+        }
+        
+        body.light-mode .bottom-nav {
+            background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .bottom-nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            min-width: 60px;
+            min-height: 56px;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        body.light-mode .bottom-nav-item {
+            color: rgba(0,0,0,0.6);
+        }
+        
+        .bottom-nav-item i {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+        
+        .bottom-nav-item span {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .bottom-nav-item.active {
+            color: var(--primary);
+            background: rgba(233, 30, 99, 0.1);
+        }
+        
+        .bottom-nav-item:active {
+            transform: scale(0.95);
+        }
+        
+        @media (max-width: 768px) {
+            .bottom-nav {
+                display: block;
+            }
+            
+            .main-content {
+                padding-bottom: 80px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1568,7 +1646,7 @@
                     </div>
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="clientSearch" placeholder="Search clients by name, phone or email..." onkeyup="HairSalonApp.filterClients(this.value)">
+                        <input type="text" id="clientSearch" data-i18n-placeholder="search_clients_placeholder" onkeyup="HairSalonApp.filterClients(this.value)">
                     </div>
                     <div class="data-list" id="clientsList">
                         <!-- Clients will be populated here -->
@@ -1590,7 +1668,7 @@
                     </div>
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="appointmentSearch" placeholder="Search appointments by client, service..." onkeyup="HairSalonApp.filterAppointments(this.value)">
+                        <input type="text" id="appointmentSearch" data-i18n-placeholder="search_appointments_placeholder" onkeyup="HairSalonApp.filterAppointments(this.value)">
                     </div>
                     <div class="data-list" id="appointmentsList">
                         <!-- Appointments will be populated here -->
@@ -1679,7 +1757,7 @@
                     </div>
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="inventorySearch" placeholder="Search inventory by name or category..." onkeyup="HairSalonApp.filterInventory(this.value)">
+                        <input type="text" id="inventorySearch" data-i18n-placeholder="search_inventory_placeholder" onkeyup="HairSalonApp.filterInventory(this.value)">
                     </div>
                     <div class="data-list" id="inventoryList">
                         <!-- Inventory items will be populated here -->
@@ -1716,13 +1794,13 @@
                             </div>
                             <div class="export-option" onclick="HairSalonApp.backupAllData()">
                                 <i class="fas fa-download"></i>
-                                <h4>Backup All Data</h4>
-                                <p>JSON format</p>
+                                <h4 data-i18n="backup_all_data">Backup All Data</h4>
+                                <p data-i18n="json_format">JSON format</p>
                             </div>
                             <div class="export-option" onclick="document.getElementById('restoreFileInput').click()">
                                 <i class="fas fa-upload"></i>
-                                <h4>Restore Data</h4>
-                                <p>From backup file</p>
+                                <h4 data-i18n="restore_data">Restore Data</h4>
+                                <p data-i18n="from_backup_file">From backup file</p>
                             </div>
                         </div>
                         <input type="file" id="restoreFileInput" accept=".json" style="display: none;" onchange="HairSalonApp.restoreData(this.files[0])">
@@ -1743,13 +1821,13 @@
                     <form id="settingsForm">
                         <div class="form-group">
                             <label class="form-label" for="settingsBusinessName" data-i18n="business_name">Business Name</label>
-                            <input type="text" class="form-control" id="settingsBusinessName" placeholder="Enter your salon name">
+                            <input type="text" class="form-control" id="settingsBusinessName" data-i18n-placeholder="enter_salon_name_placeholder">
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label" for="settingsCurrency" data-i18n="currency_symbol">Currency Symbol</label>
-                            <input type="text" class="form-control" id="settingsCurrency" placeholder="$ or € or £" maxlength="3">
-                            <small style="color: rgba(255,255,255,0.6); margin-top: 5px; display: block;">Leave empty for no currency symbol</small>
+                            <input type="text" class="form-control" id="settingsCurrency" data-i18n-placeholder="currency_placeholder" maxlength="3">
+                            <small style="color: rgba(255,255,255,0.6); margin-top: 5px; display: block;" data-i18n="leave_empty_currency">Leave empty for no currency symbol</small>
                         </div>
                         
                         <div class="form-group">
@@ -1760,18 +1838,18 @@
                         <div class="form-group">
                             <label class="form-label" for="settingsLowStockDefault" data-i18n="default_low_stock_threshold">Default Low Stock Threshold</label>
                             <input type="number" class="form-control" id="settingsLowStockDefault" min="0" max="100" value="5">
-                            <small style="color: rgba(255,255,255,0.6); margin-top: 5px; display: block;">Applied when adding new inventory items</small>
+                            <small style="color: rgba(255,255,255,0.6); margin-top: 5px; display: block;" data-i18n="applied_new_inventory">Applied when adding new inventory items</small>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label" data-i18n="business_hours">Business Hours</label>
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                                 <div>
-                                    <label class="form-label" for="settingsOpenTime" style="font-size: 0.85em;">Opening Time</label>
+                                    <label class="form-label" for="settingsOpenTime" style="font-size: 0.85em;" data-i18n="opening_time">Opening Time</label>
                                     <input type="time" class="form-control" id="settingsOpenTime" value="09:00">
                                 </div>
                                 <div>
-                                    <label class="form-label" for="settingsCloseTime" style="font-size: 0.85em;">Closing Time</label>
+                                    <label class="form-label" for="settingsCloseTime" style="font-size: 0.85em;" data-i18n="closing_time">Closing Time</label>
                                     <input type="time" class="form-control" id="settingsCloseTime" value="18:00">
                                 </div>
                             </div>
@@ -1782,31 +1860,31 @@
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-top: 10px;">
                                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                                     <input type="checkbox" id="workingDayMon" checked style="width: 20px; height: 20px; cursor: pointer;">
-                                    <span>Monday</span>
+                                    <span data-i18n="monday">Monday</span>
                                 </label>
                                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                                     <input type="checkbox" id="workingDayTue" checked style="width: 20px; height: 20px; cursor: pointer;">
-                                    <span>Tuesday</span>
+                                    <span data-i18n="tuesday">Tuesday</span>
                                 </label>
                                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                                     <input type="checkbox" id="workingDayWed" checked style="width: 20px; height: 20px; cursor: pointer;">
-                                    <span>Wednesday</span>
+                                    <span data-i18n="wednesday">Wednesday</span>
                                 </label>
                                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                                     <input type="checkbox" id="workingDayThu" checked style="width: 20px; height: 20px; cursor: pointer;">
-                                    <span>Thursday</span>
+                                    <span data-i18n="thursday">Thursday</span>
                                 </label>
                                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                                     <input type="checkbox" id="workingDayFri" checked style="width: 20px; height: 20px; cursor: pointer;">
-                                    <span>Friday</span>
+                                    <span data-i18n="friday">Friday</span>
                                 </label>
                                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                                     <input type="checkbox" id="workingDaySat" style="width: 20px; height: 20px; cursor: pointer;">
-                                    <span>Saturday</span>
+                                    <span data-i18n="saturday">Saturday</span>
                                 </label>
                                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                                     <input type="checkbox" id="workingDaySun" style="width: 20px; height: 20px; cursor: pointer;">
-                                    <span>Sunday</span>
+                                    <span data-i18n="sunday">Sunday</span>
                                 </label>
                             </div>
                         </div>
@@ -1816,11 +1894,11 @@
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 10px;">
                                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 2px solid transparent;" id="themeDarkLabel">
                                     <input type="radio" name="theme" id="themeDark" value="dark" checked style="width: 20px; height: 20px; cursor: pointer;">
-                                    <span><i class="fas fa-moon"></i> Dark Mode</span>
+                                    <span><i class="fas fa-moon"></i> <span data-i18n="dark_mode">Dark Mode</span></span>
                                 </label>
                                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 2px solid transparent;" id="themeLightLabel">
                                     <input type="radio" name="theme" id="themeLight" value="light" style="width: 20px; height: 20px; cursor: pointer;">
-                                    <span><i class="fas fa-sun"></i> Light Mode</span>
+                                    <span><i class="fas fa-sun"></i> <span data-i18n="light_mode">Light Mode</span></span>
                                 </label>
                             </div>
                         </div>
@@ -1828,8 +1906,8 @@
                         <div class="form-group">
                             <label class="form-label" for="settingsTimeFormat" data-i18n="time_format">Time Format</label>
                             <select class="form-control" id="settingsTimeFormat">
-                                <option value="12">12-hour (AM/PM)</option>
-                                <option value="24">24-hour</option>
+                                <option value="12" data-i18n="12_hour">12-hour (AM/PM)</option>
+                                <option value="24" data-i18n="24_hour">24-hour</option>
                             </select>
                         </div>
                         
@@ -1846,7 +1924,7 @@
                             <label class="form-label" data-i18n="notifications">Notifications</label>
                             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 10px;">
                                 <input type="checkbox" id="settingsShowToasts" checked style="width: 20px; height: 20px; cursor: pointer;">
-                                <span>Show toast notifications</span>
+                                <span data-i18n="show_toast_notifications">Show toast notifications</span>
                             </label>
                         </div>
                         
@@ -1879,19 +1957,19 @@
             <form id="addClientForm">
                 <div class="form-group">
                     <label class="form-label" for="clientName" data-i18n="client_name">Client Name</label>
-                    <input type="text" class="form-control" id="clientName" required aria-required="true" aria-label="Client Name" placeholder="Enter client full name">
+                    <input type="text" class="form-control" id="clientName" required aria-required="true" aria-label="Client Name" data-i18n-placeholder="enter_client_name_placeholder">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="clientPhone" data-i18n="phone_number">Phone Number</label>
-                    <input type="tel" class="form-control" id="clientPhone" required aria-required="true" aria-label="Phone Number" placeholder="+1 234 567 8900">
+                    <input type="tel" class="form-control" id="clientPhone" required aria-required="true" aria-label="Phone Number" data-i18n-placeholder="phone_placeholder">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="clientEmail" data-i18n="email_address">Email Address (Optional)</label>
-                    <input type="email" class="form-control" id="clientEmail" aria-label="Email Address" placeholder="client@example.com">
+                    <input type="email" class="form-control" id="clientEmail" aria-label="Email Address" data-i18n-placeholder="email_placeholder">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="clientNotes" data-i18n="notes">Notes (Optional)</label>
-                    <textarea class="form-control" id="clientNotes" rows="3" aria-label="Notes" placeholder="Hair preferences, allergies, etc."></textarea>
+                    <textarea class="form-control" id="clientNotes" rows="3" aria-label="Notes" data-i18n-placeholder="notes_placeholder"></textarea>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-outline" onclick="HairSalonApp.closeModal('addClientModal')" data-i18n="cancel">Cancel</button>
@@ -1940,7 +2018,7 @@
                 <!-- Inventory Deduction Section -->
                 <div class="inventory-deduction-section">
                     <h4><i class="fas fa-box-open"></i> <span data-i18n="products_used">Products Used</span></h4>
-                    <p>Select products used during this appointment:</p>
+                    <p data-i18n="select_products_used">Select products used during this appointment:</p>
                     <div class="inventory-items-grid" id="appointmentInventoryItems">
                         <!-- Inventory items will be populated here -->
                     </div>
@@ -2059,8 +2137,34 @@
     <!-- Offline Indicator -->
     <div class="offline-indicator" id="offlineIndicator">
         <i class="fas fa-wifi-slash"></i>
-        <span>You are offline</span>
+        <span data-i18n="offline_message">You are offline</span>
     </div>
+    
+    <!-- Bottom Navigation (Mobile Only) -->
+    <nav class="bottom-nav" id="bottomNav">
+        <div class="bottom-nav-items">
+            <a class="bottom-nav-item active" data-section="dashboard">
+                <i class="fas fa-home"></i>
+                <span data-i18n="dashboard">Dashboard</span>
+            </a>
+            <a class="bottom-nav-item" data-section="clients">
+                <i class="fas fa-users"></i>
+                <span data-i18n="clients">Clients</span>
+            </a>
+            <a class="bottom-nav-item" data-section="appointments">
+                <i class="fas fa-calendar"></i>
+                <span data-i18n="appointments">Appointments</span>
+            </a>
+            <a class="bottom-nav-item" data-section="calendar">
+                <i class="fas fa-calendar-alt"></i>
+                <span data-i18n="calendar">Calendar</span>
+            </a>
+            <a class="bottom-nav-item" data-section="settings">
+                <i class="fas fa-cog"></i>
+                <span data-i18n="settings">Settings</span>
+            </a>
+        </div>
+    </nav>
     
     <!-- Confirmation Dialog -->
     <div class="confirm-dialog" id="confirmDialog">
@@ -2249,7 +2353,65 @@ class HairSalonPro {
                 'appearance': 'Appearance',
                 'time_format': 'Time Format',
                 'date_format': 'Date Format',
-                'notifications': 'Notifications'
+                'notifications': 'Notifications',
+                'search_clients_placeholder': 'Search clients by name, phone or email...',
+                'search_appointments_placeholder': 'Search appointments by client, service...',
+                'search_inventory_placeholder': 'Search inventory by name or category...',
+                'enter_salon_name_placeholder': 'Enter your salon name',
+                'currency_placeholder': '$ or € or £',
+                'enter_client_name_placeholder': 'Enter client full name',
+                'phone_placeholder': '+1 234 567 8900',
+                'email_placeholder': 'client@example.com',
+                'notes_placeholder': 'Hair preferences, allergies, etc.',
+                'leave_empty_currency': 'Leave empty for no currency symbol',
+                'applied_new_inventory': 'Applied when adding new inventory items',
+                'opening_time': 'Opening Time',
+                'closing_time': 'Closing Time',
+                'monday': 'Monday',
+                'tuesday': 'Tuesday',
+                'wednesday': 'Wednesday',
+                'thursday': 'Thursday',
+                'friday': 'Friday',
+                'saturday': 'Saturday',
+                'sunday': 'Sunday',
+                'dark_mode': 'Dark Mode',
+                'light_mode': 'Light Mode',
+                '12_hour': '12-hour (AM/PM)',
+                '24_hour': '24-hour',
+                'show_toast_notifications': 'Show toast notifications',
+                'backup_all_data': 'Backup All Data',
+                'json_format': 'JSON format',
+                'restore_data': 'Restore Data',
+                'from_backup_file': 'From backup file',
+                'select_products_used': 'Select products used during this appointment:',
+                'available_units': 'Available',
+                'units': 'units',
+                'qty_label': 'Qty:',
+                'no_data_to_export': 'No data to export',
+                'data_exported_successfully': 'Data exported successfully',
+                'backup_created_successfully': 'Backup created successfully',
+                'data_restored_successfully': 'Data restored successfully',
+                'failed_to_restore': 'Failed to restore backup. Invalid file format.',
+                'failed_to_save': 'Failed to save data. Storage might be full.',
+                'products_used_label': '${this.translate('products_used_label')}',
+                'try_adjusting_search': 'Try adjusting your search query',
+                'try_adjusting_search_category': 'Try adjusting your search query or selecting a different category',
+                'no_items_found_in': 'No items found in',
+                'category_word': 'category',
+                'no_inventory_available': 'No inventory items available',
+                'offline_message': 'You are offline',
+                'please_enter_client_name': 'Please enter a client name',
+                'please_enter_valid_phone': 'Please enter a valid phone number',
+                'please_enter_valid_email': 'Please enter a valid email address',
+                'please_select_client': 'Please select a client',
+                'please_select_date': 'Please select a date',
+                'please_select_time': 'Please select a time for the appointment',
+                'please_enter_service': 'Please enter a service name',
+                'please_enter_valid_price': 'Please enter a valid price',
+                'please_select_valid_date': 'Please select a valid date (today or future)',
+                'please_enter_item_name': 'Please enter an item name',
+                'please_enter_valid_quantity': 'Please enter a valid quantity',
+                'please_enter_valid_threshold': 'Please enter a valid low stock threshold'
             },
             'es': {
                 'app_name': 'HairSalon Pro',
@@ -2359,7 +2521,65 @@ class HairSalonPro {
                 'appearance': 'Apariencia',
                 'time_format': 'Formato de Hora',
                 'date_format': 'Formato de Fecha',
-                'notifications': 'Notificaciones'
+                'notifications': 'Notificaciones',
+                'search_clients_placeholder': 'Buscar clientes por nombre, teléfono o correo...',
+                'search_appointments_placeholder': 'Buscar citas por cliente, servicio...',
+                'search_inventory_placeholder': 'Buscar inventario por nombre o categoría...',
+                'enter_salon_name_placeholder': 'Ingrese el nombre de su salón',
+                'currency_placeholder': '$ o € o £',
+                'enter_client_name_placeholder': 'Ingrese el nombre completo del cliente',
+                'phone_placeholder': '+1 234 567 8900',
+                'email_placeholder': 'cliente@ejemplo.com',
+                'notes_placeholder': 'Preferencias de cabello, alergias, etc.',
+                'leave_empty_currency': 'Dejar vacío para ningún símbolo de moneda',
+                'applied_new_inventory': 'Aplicado al agregar nuevos artículos de inventario',
+                'opening_time': 'Hora de Apertura',
+                'closing_time': 'Hora de Cierre',
+                'monday': 'Lunes',
+                'tuesday': 'Martes',
+                'wednesday': 'Miércoles',
+                'thursday': 'Jueves',
+                'friday': 'Viernes',
+                'saturday': 'Sábado',
+                'sunday': 'Domingo',
+                'dark_mode': 'Modo Oscuro',
+                'light_mode': 'Modo Claro',
+                '12_hour': '12 horas (AM/PM)',
+                '24_hour': '24 horas',
+                'show_toast_notifications': 'Mostrar notificaciones emergentes',
+                'backup_all_data': 'Respaldar Todos los Datos',
+                'json_format': 'Formato JSON',
+                'restore_data': 'Restaurar Datos',
+                'from_backup_file': 'Desde archivo de respaldo',
+                'select_products_used': 'Seleccione los productos utilizados durante esta cita:',
+                'available_units': 'Disponible',
+                'units': 'unidades',
+                'qty_label': 'Cant:',
+                'no_data_to_export': 'No hay datos para exportar',
+                'data_exported_successfully': 'Datos exportados con éxito',
+                'backup_created_successfully': 'Respaldo creado con éxito',
+                'data_restored_successfully': 'Datos restaurados con éxito',
+                'failed_to_restore': 'Error al restaurar respaldo. Formato de archivo inválido.',
+                'failed_to_save': 'Error al guardar datos. El almacenamiento puede estar lleno.',
+                'products_used_label': 'Productos utilizados:',
+                'try_adjusting_search': 'Intente ajustar su consulta de búsqueda',
+                'try_adjusting_search_category': 'Intente ajustar su búsqueda o seleccionar una categoría diferente',
+                'no_items_found_in': 'No se encontraron elementos en',
+                'category_word': 'categoría',
+                'no_inventory_available': 'No hay artículos de inventario disponibles',
+                'offline_message': 'Estás desconectado',
+                'please_enter_client_name': 'Por favor ingrese un nombre de cliente',
+                'please_enter_valid_phone': 'Por favor ingrese un número de teléfono válido',
+                'please_enter_valid_email': 'Por favor ingrese una dirección de correo válida',
+                'please_select_client': 'Por favor seleccione un cliente',
+                'please_select_date': 'Por favor seleccione una fecha',
+                'please_select_time': 'Por favor seleccione una hora para la cita',
+                'please_enter_service': 'Por favor ingrese un nombre de servicio',
+                'please_enter_valid_price': 'Por favor ingrese un precio válido',
+                'please_select_valid_date': 'Por favor seleccione una fecha válida (hoy o futuro)',
+                'please_enter_item_name': 'Por favor ingrese un nombre de artículo',
+                'please_enter_valid_quantity': 'Por favor ingrese una cantidad válida',
+                'please_enter_valid_threshold': 'Por favor ingrese un umbral de stock bajo válido'
             },
             'ru': {
                 'app_name': 'HairSalon Pro',
@@ -2469,7 +2689,65 @@ class HairSalonPro {
                 'appearance': 'Внешний вид',
                 'time_format': 'Формат времени',
                 'date_format': 'Формат даты',
-                'notifications': 'Уведомления'
+                'notifications': 'Уведомления',
+                'search_clients_placeholder': 'Поиск клиентов по имени, телефону или email...',
+                'search_appointments_placeholder': 'Поиск записей по клиенту, услуге...',
+                'search_inventory_placeholder': 'Поиск в инвентаре по названию или категории...',
+                'enter_salon_name_placeholder': 'Введите название вашего салона',
+                'currency_placeholder': '₽ или $ или €',
+                'enter_client_name_placeholder': 'Введите полное имя клиента',
+                'phone_placeholder': '+7 900 123 45 67',
+                'email_placeholder': 'клиент@пример.ру',
+                'notes_placeholder': 'Предпочтения по прическе, аллергии и т.д.',
+                'leave_empty_currency': 'Оставьте пустым для отсутствия символа валюты',
+                'applied_new_inventory': 'Применяется при добавлении новых товаров в инвентарь',
+                'opening_time': 'Время открытия',
+                'closing_time': 'Время закрытия',
+                'monday': 'Понедельник',
+                'tuesday': 'Вторник',
+                'wednesday': 'Среда',
+                'thursday': 'Четверг',
+                'friday': 'Пятница',
+                'saturday': 'Суббота',
+                'sunday': 'Воскресенье',
+                'dark_mode': 'Темный режим',
+                'light_mode': 'Светлый режим',
+                '12_hour': '12-часовой (AM/PM)',
+                '24_hour': '24-часовой',
+                'show_toast_notifications': 'Показывать всплывающие уведомления',
+                'backup_all_data': 'Резервная копия всех данных',
+                'json_format': 'Формат JSON',
+                'restore_data': 'Восстановить данные',
+                'from_backup_file': 'Из файла резервной копии',
+                'select_products_used': 'Выберите продукты, использованные во время этой записи:',
+                'available_units': 'Доступно',
+                'units': 'единиц',
+                'qty_label': 'Кол-во:',
+                'no_data_to_export': 'Нет данных для экспорта',
+                'data_exported_successfully': 'Данные успешно экспортированы',
+                'backup_created_successfully': 'Резервная копия успешно создана',
+                'data_restored_successfully': 'Данные успешно восстановлены',
+                'failed_to_restore': 'Не удалось восстановить резервную копию. Неверный формат файла.',
+                'failed_to_save': 'Не удалось сохранить данные. Возможно, хранилище заполнено.',
+                'products_used_label': 'Использованные продукты:',
+                'try_adjusting_search': 'Попробуйте изменить поисковый запрос',
+                'try_adjusting_search_category': 'Попробуйте изменить запрос или выбрать другую категорию',
+                'no_items_found_in': 'Товары не найдены в категории',
+                'category_word': 'категория',
+                'no_inventory_available': 'Нет доступных товаров в инвентаре',
+                'offline_message': 'Вы не в сети',
+                'please_enter_client_name': 'Пожалуйста, введите имя клиента',
+                'please_enter_valid_phone': 'Пожалуйста, введите действительный номер телефона',
+                'please_enter_valid_email': 'Пожалуйста, введите действительный адрес электронной почты',
+                'please_select_client': 'Пожалуйста, выберите клиента',
+                'please_select_date': 'Пожалуйста, выберите дату',
+                'please_select_time': 'Пожалуйста, выберите время для записи',
+                'please_enter_service': 'Пожалуйста, введите название услуги',
+                'please_enter_valid_price': 'Пожалуйста, введите действительную цену',
+                'please_select_valid_date': 'Пожалуйста, выберите действительную дату (сегодня или будущее)',
+                'please_enter_item_name': 'Пожалуйста, введите название товара',
+                'please_enter_valid_quantity': 'Пожалуйста, введите действительное количество',
+                'please_enter_valid_threshold': 'Пожалуйста, введите действительный порог низкого запаса'
             },
             'he': {
                 'app_name': 'HairSalon Pro',
@@ -2579,7 +2857,65 @@ class HairSalonPro {
                 'appearance': 'מראה',
                 'time_format': 'פורמט שעה',
                 'date_format': 'פורמט תאריך',
-                'notifications': 'התראות'
+                'notifications': 'התראות',
+                'search_clients_placeholder': 'חפש לקוחות לפי שם, טלפון או אימייל...',
+                'search_appointments_placeholder': 'חפש תורים לפי לקוח, שירות...',
+                'search_inventory_placeholder': 'חפש במלאי לפי שם או קטגוריה...',
+                'enter_salon_name_placeholder': 'הזן את שם הסלון שלך',
+                'currency_placeholder': '₪ או $ או €',
+                'enter_client_name_placeholder': 'הזן את השם המלא של הלקוח',
+                'phone_placeholder': '+972 50 123 4567',
+                'email_placeholder': 'לקוח@דוגמה.com',
+                'notes_placeholder': 'העדפות שיער, אלרגיות וכו\'.',
+                'leave_empty_currency': 'השאר ריק ללא סמל מטבע',
+                'applied_new_inventory': 'מוחל בעת הוספת פריטי מלאי חדשים',
+                'opening_time': 'שעת פתיחה',
+                'closing_time': 'שעת סגירה',
+                'monday': 'שני',
+                'tuesday': 'שלישי',
+                'wednesday': 'רביעי',
+                'thursday': 'חמישי',
+                'friday': 'שישי',
+                'saturday': 'שבת',
+                'sunday': 'ראשון',
+                'dark_mode': 'מצב כהה',
+                'light_mode': 'מצב בהיר',
+                '12_hour': '12 שעות (AM/PM)',
+                '24_hour': '24 שעות',
+                'show_toast_notifications': 'הצג התראות קופצות',
+                'backup_all_data': 'גיבוי כל הנתונים',
+                'json_format': 'פורמט JSON',
+                'restore_data': 'שחזר נתונים',
+                'from_backup_file': 'מקובץ גיבוי',
+                'select_products_used': 'בחר מוצרים בשימוש במהלך תור זה:',
+                'available_units': 'זמין',
+                'units': 'יחידות',
+                'qty_label': 'כמות:',
+                'no_data_to_export': 'אין נתונים לייצוא',
+                'data_exported_successfully': 'הנתונים יוצאו בהצלחה',
+                'backup_created_successfully': 'הגיבוי נוצר בהצלחה',
+                'data_restored_successfully': 'הנתונים שוחזרו בהצלחה',
+                'failed_to_restore': 'שחזור הגיבוי נכשל. פורמט קובץ לא חוקי.',
+                'failed_to_save': 'שמירת הנתונים נכשלה. ייתכן שהאחסון מלא.',
+                'products_used_label': 'מוצרים בשימוש:',
+                'try_adjusting_search': 'נסה להתאים את שאילתת החיפוש',
+                'try_adjusting_search_category': 'נסה להתאים את החיפוש או לבחור קטגוריה אחרת',
+                'no_items_found_in': 'לא נמצאו פריטים ב',
+                'category_word': 'קטגוריה',
+                'no_inventory_available': 'אין פריטי מלאי זמינים',
+                'offline_message': 'אתה לא מחובר',
+                'please_enter_client_name': 'אנא הזן שם לקוח',
+                'please_enter_valid_phone': 'אנא הזן מספר טלפון תקף',
+                'please_enter_valid_email': 'אנא הזן כתובת אימייל תקפה',
+                'please_select_client': 'אנא בחר לקוח',
+                'please_select_date': 'אנא בחר תאריך',
+                'please_select_time': 'אנא בחר שעה לתור',
+                'please_enter_service': 'אנא הזן שם שירות',
+                'please_enter_valid_price': 'אנא הזן מחיר תקף',
+                'please_select_valid_date': 'אנא בחר תאריך תקף (היום או עתיד)',
+                'please_enter_item_name': 'אנא הזן שם פריט',
+                'please_enter_valid_quantity': 'אנא הזן כמות תקפה',
+                'please_enter_valid_threshold': 'אנא הזן סף מלאי נמוך תקף'
             }
         };
         
@@ -2610,8 +2946,16 @@ class HairSalonPro {
     }
     
     setupEventListeners() {
-        // Navigation
+        // Navigation (sidebar)
         document.querySelectorAll('.nav-link[data-section]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.showSection(e.currentTarget.getAttribute('data-section'));
+            });
+        });
+        
+        // Bottom navigation (mobile)
+        document.querySelectorAll('.bottom-nav-item[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.showSection(e.currentTarget.getAttribute('data-section'));
@@ -2756,11 +3100,21 @@ class HairSalonPro {
     }
     
     translatePage() {
+        // Translate text content
         document.querySelectorAll('[data-i18n]').forEach(element => {
             const key = element.getAttribute('data-i18n');
             const translation = this.translate(key);
             if (translation !== key) {
                 element.textContent = translation;
+            }
+        });
+        
+        // Translate placeholders
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-i18n-placeholder');
+            const translation = this.translate(key);
+            if (translation !== key) {
+                element.placeholder = translation;
             }
         });
     }
@@ -2780,11 +3134,18 @@ class HairSalonPro {
             link.classList.remove('active');
         });
         
+        // Remove active class from all bottom nav items
+        document.querySelectorAll('.bottom-nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        
         // Show selected section
         document.getElementById(sectionId).classList.add('active');
         
-        // Add active class to clicked nav link
-        document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+        // Add active class to clicked nav link (both sidebar and bottom nav)
+        document.querySelectorAll(`[data-section="${sectionId}"]`).forEach(link => {
+            link.classList.add('active');
+        });
         
         // Push history state for navigation (unless we're navigating via back button)
         if (!skipHistory && sectionId !== this.currentSection) {
@@ -2975,8 +3336,8 @@ class HairSalonPro {
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-search"></i>
-                    <h3>No clients found</h3>
-                    <p>Try adjusting your search query</p>
+                    <h3>${this.translate('no_clients_yet')}</h3>
+                    <p>${this.translate('try_adjusting_search')}</p>
                 </div>
             `;
             return;
@@ -3042,8 +3403,8 @@ class HairSalonPro {
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-search"></i>
-                    <h3>No appointments found</h3>
-                    <p>Try adjusting your search query</p>
+                    <h3>${this.translate('no_appointments_yet')}</h3>
+                    <p>${this.translate('try_adjusting_search')}</p>
                 </div>
             `;
             return;
@@ -3065,7 +3426,7 @@ class HairSalonPro {
                         <p><i class="fas fa-tag"></i> ${appointment.price.toFixed(2)}</p>
                         ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
                         ${appointment.inventoryUsage && appointment.inventoryUsage.length > 0 ? 
-                            `<p><i class="fas fa-box-open"></i> Products used: ${appointment.inventoryUsage.map(item => `${item.itemName} (${item.quantity})`).join(', ')}</p>` : ''}
+                            `<p><i class="fas fa-box-open"></i> ${this.translate('products_used_label')} ${appointment.inventoryUsage.map(item => `${item.itemName} (${item.quantity})`).join(', ')}</p>` : ''}
                     </div>
                     <div class="data-item-actions">
                         <button class="btn btn-outline btn-sm" onclick="HairSalonApp.editAppointment('${appointment.id}')">
@@ -3115,7 +3476,7 @@ class HairSalonPro {
                     <p><i class="fas fa-tag"></i> ${appointment.price.toFixed(2)}</p>
                     ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
                     ${appointment.inventoryUsage && appointment.inventoryUsage.length > 0 ? 
-                        `<p><i class="fas fa-box-open"></i> Products used: ${appointment.inventoryUsage.map(item => `${item.itemName} (${item.quantity})`).join(', ')}</p>` : ''}
+                        `<p><i class="fas fa-box-open"></i> ${this.translate('products_used_label')} ${appointment.inventoryUsage.map(item => `${item.itemName} (${item.quantity})`).join(', ')}</p>` : ''}
                 </div>
                 <div class="data-item-actions">
                     <button class="btn btn-outline btn-sm" onclick="HairSalonApp.editAppointment('${appointment.id}')">
@@ -3167,13 +3528,13 @@ class HairSalonPro {
         
         if (filteredInventory.length === 0) {
             const message = category !== 'all' 
-                ? `No items found in ${this.translate(category)} category` 
-                : 'No inventory items found';
+                ? `${this.translate('no_items_found_in')} ${this.translate(category)} ${this.translate('category_word')}` 
+                : this.translate('no_inventory_items');
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-search"></i>
                     <h3>${message}</h3>
-                    <p>Try adjusting your search query or selecting a different category</p>
+                    <p>${this.translate('try_adjusting_search_category')}</p>
                 </div>
             `;
             return;
@@ -3335,7 +3696,7 @@ class HairSalonPro {
                         <p><i class="fas fa-tag"></i> ${appointment.price.toFixed(2)}</p>
                         ${appointment.notes ? `<p><i class="fas fa-sticky-note"></i> ${appointment.notes}</p>` : ''}
                         ${appointment.inventoryUsage && appointment.inventoryUsage.length > 0 ? 
-                            `<p><i class="fas fa-box-open"></i> Products used: ${appointment.inventoryUsage.map(item => `${item.itemName} (${item.quantity})`).join(', ')}</p>` : ''}
+                            `<p><i class="fas fa-box-open"></i> ${this.translate('products_used_label')} ${appointment.inventoryUsage.map(item => `${item.itemName} (${item.quantity})`).join(', ')}</p>` : ''}
                     </div>
                     <div class="data-item-actions">
                         <button class="btn btn-outline btn-sm" onclick="HairSalonApp.editAppointment('${appointment.id}')">
@@ -3449,7 +3810,7 @@ class HairSalonPro {
         container.innerHTML = '';
         
         if (this.inventory.length === 0) {
-            container.innerHTML = '<p>No inventory items available</p>';
+            container.innerHTML = `<p>${this.translate('no_inventory_available')}</p>`;
             return;
         }
         
@@ -3462,9 +3823,9 @@ class HairSalonPro {
             itemElement.innerHTML = `
                 <h4>${item.name}</h4>
                 <p>${this.translate(item.category)}</p>
-                <p>Available: ${item.quantity} units</p>
+                <p>${this.translate('available_units')}: ${item.quantity} ${this.translate('units')}</p>
                 <div class="inventory-quantity-input">
-                    <label>Qty:</label>
+                    <label>${this.translate('qty_label')}</label>
                     <input type="number" min="0" max="${item.quantity}" value="0" data-id="${item.id}">
                 </div>
             `;
@@ -3481,17 +3842,17 @@ class HairSalonPro {
         
         // Validation
         if (!name) {
-            this.showToast('Please enter a client name');
+            this.showToast(this.translate('please_enter_client_name'));
             return;
         }
         
         if (!this.validatePhone(phone)) {
-            this.showToast('Please enter a valid phone number');
+            this.showToast(this.translate('please_enter_valid_phone'));
             return;
         }
         
         if (email && !this.validateEmail(email)) {
-            this.showToast('Please enter a valid email address');
+            this.showToast(this.translate('please_enter_valid_email'));
             return;
         }
         
@@ -3538,32 +3899,32 @@ class HairSalonPro {
         
         // Validation
         if (!clientId) {
-            this.showToast('Please select a client');
+            this.showToast(this.translate('please_select_client'));
             return;
         }
         
         if (!date) {
-            this.showToast('Please select a date');
+            this.showToast(this.translate('please_select_date'));
             return;
         }
         
         if (!time) {
-            this.showToast('Please select a time for the appointment');
+            this.showToast(this.translate('please_select_time'));
             return;
         }
         
         if (!service) {
-            this.showToast('Please enter a service name');
+            this.showToast(this.translate('please_enter_service'));
             return;
         }
         
         if (!this.validatePrice(price)) {
-            this.showToast('Please enter a valid price');
+            this.showToast(this.translate('please_enter_valid_price'));
             return;
         }
         
         if (!this.validateDateTime(date, time)) {
-            this.showToast('Please select a valid date (today or future)');
+            this.showToast(this.translate('please_select_valid_date'));
             return;
         }
         
@@ -3727,17 +4088,17 @@ class HairSalonPro {
         
         // Validation
         if (!name) {
-            this.showToast('Please enter an item name');
+            this.showToast(this.translate('please_enter_item_name'));
             return;
         }
         
         if (isNaN(quantity) || quantity < 0) {
-            this.showToast('Please enter a valid quantity');
+            this.showToast(this.translate('please_enter_valid_quantity'));
             return;
         }
         
         if (isNaN(lowStock) || lowStock < 0) {
-            this.showToast('Please enter a valid low stock threshold');
+            this.showToast(this.translate('please_enter_valid_threshold'));
             return;
         }
         
@@ -4117,7 +4478,7 @@ class HairSalonPro {
         }
         
         if (data.length === 0) {
-            this.showToast('No data to export');
+            this.showToast(this.translate('no_data_to_export'));
             return;
         }
         
@@ -4150,7 +4511,7 @@ class HairSalonPro {
         link.click();
         document.body.removeChild(link);
         
-        this.showToast('Data exported successfully');
+        this.showToast(this.translate('data_exported_successfully'));
     }
     
     /**
@@ -4179,7 +4540,7 @@ class HairSalonPro {
         link.click();
         document.body.removeChild(link);
         
-        this.showToast('Backup created successfully');
+        this.showToast(this.translate('backup_created_successfully'));
     }
     
     /**
@@ -4231,10 +4592,10 @@ class HairSalonPro {
                 this.renderInventory();
                 this.renderCalendar();
                 
-                this.showToast('Data restored successfully');
+                this.showToast(this.translate('data_restored_successfully'));
             } catch (error) {
                 console.error('Failed to restore backup:', error);
-                this.showToast('Failed to restore backup. Invalid file format.');
+                this.showToast(this.translate('failed_to_restore'));
             }
         };
         reader.readAsText(file);
@@ -4398,7 +4759,7 @@ class HairSalonPro {
             localStorage.setItem('hairsalon_usage_history', JSON.stringify(this.usageHistory));
         } catch (error) {
             console.error('Failed to save to localStorage:', error);
-            this.showToast('Failed to save data. Storage might be full.');
+            this.showToast(this.translate('failed_to_save'));
         }
     }
     
