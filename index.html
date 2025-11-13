@@ -31,6 +31,77 @@
             --shadow: 0 12px 40px rgba(0,0,0,0.4);
             --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
+        
+        /* Light Mode Theme */
+        body.light-mode {
+            --dark: #ffffff;
+            --darker: #f5f5f5;
+            --dark-gray: #e0e0e0;
+            --light: #212121;
+            --shadow: 0 12px 40px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            color: #212121;
+        }
+        
+        body.light-mode .card {
+            background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+        
+        body.light-mode .sidebar {
+            background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
+            border-right: 1px solid #e0e0e0;
+        }
+        
+        body.light-mode .app-header {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        body.light-mode .form-control {
+            background: #ffffff;
+            border: 1px solid #bdbdbd;
+            color: #212121;
+        }
+        
+        body.light-mode .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+        }
+        
+        body.light-mode .nav-link {
+            color: #212121;
+        }
+        
+        body.light-mode .nav-link:hover,
+        body.light-mode .nav-link.active {
+            background: linear-gradient(90deg, rgba(233, 30, 99, 0.1) 0%, transparent 100%);
+        }
+        
+        body.light-mode .data-item {
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(240,240,240,0.6) 100%);
+        }
+        
+        body.light-mode .stat-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+        }
+        
+        body.light-mode .calendar-day {
+            background: rgba(0,0,0,0.03);
+        }
+        
+        body.light-mode .calendar-day:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        
+        body.light-mode .modal-content {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        body.light-mode input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: invert(0);
+        }
 
         * {
             margin: 0;
@@ -1620,6 +1691,45 @@
                             </div>
                         </div>
                         
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="appearance">Appearance</label>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 10px;">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 2px solid transparent;" id="themeDarkLabel">
+                                    <input type="radio" name="theme" id="themeDark" value="dark" checked style="width: 20px; height: 20px; cursor: pointer;">
+                                    <span><i class="fas fa-moon"></i> Dark Mode</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 2px solid transparent;" id="themeLightLabel">
+                                    <input type="radio" name="theme" id="themeLight" value="light" style="width: 20px; height: 20px; cursor: pointer;">
+                                    <span><i class="fas fa-sun"></i> Light Mode</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="settingsTimeFormat" data-i18n="time_format">Time Format</label>
+                            <select class="form-control" id="settingsTimeFormat">
+                                <option value="12">12-hour (AM/PM)</option>
+                                <option value="24">24-hour</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="settingsDateFormat" data-i18n="date_format">Date Format</label>
+                            <select class="form-control" id="settingsDateFormat">
+                                <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="notifications">Notifications</label>
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 10px;">
+                                <input type="checkbox" id="settingsShowToasts" checked style="width: 20px; height: 20px; cursor: pointer;">
+                                <span>Show toast notifications</span>
+                            </label>
+                        </div>
+                        
                         <div class="form-actions">
                             <button type="button" class="btn btn-outline" onclick="HairSalonApp.resetSettings()">
                                 <i class="fas fa-undo"></i> <span data-i18n="reset_defaults">Reset to Defaults</span>
@@ -1869,7 +1979,11 @@ class HairSalonPro {
                 fri: true,
                 sat: false,
                 sun: false
-            }
+            },
+            theme: 'dark',
+            timeFormat: '12',
+            dateFormat: 'MM/DD/YYYY',
+            showToasts: true
         };
         
         // Load data from localStorage with error handling
@@ -2285,6 +2399,7 @@ class HairSalonPro {
     init() {
         this.setupEventListeners();
         this.setupLanguage();
+        this.applyTheme();
         this.updateDashboard();
         this.renderCalendar();
         this.checkInstallPrompt();
@@ -2292,6 +2407,15 @@ class HairSalonPro {
         this.updateOnlineStatus();
         
         console.log('💇‍♀️ HairSalon Pro - Enhanced Version Loaded');
+    }
+    
+    applyTheme() {
+        // Apply saved theme on page load
+        if (this.settings.theme === 'light') {
+            document.body.classList.add('light-mode');
+        } else {
+            document.body.classList.remove('light-mode');
+        }
     }
     
     setupEventListeners() {
@@ -2754,6 +2878,14 @@ class HairSalonPro {
                     ${appointment.inventoryUsage && appointment.inventoryUsage.length > 0 ? 
                         `<p><i class="fas fa-box-open"></i> Products used: ${appointment.inventoryUsage.map(item => `${item.itemName} (${item.quantity})`).join(', ')}</p>` : ''}
                 </div>
+                <div class="data-item-actions">
+                    <button class="btn btn-outline btn-sm" onclick="HairSalonApp.editAppointment('${appointment.id}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="HairSalonApp.deleteAppointment('${appointment.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
             `;
             
             container.appendChild(appointmentElement);
@@ -3159,6 +3291,14 @@ class HairSalonPro {
             // Update existing appointment
             const appointmentIndex = this.appointments.findIndex(a => a.id === this.editingAppointmentId);
             if (appointmentIndex !== -1) {
+                const oldAppointment = this.appointments[appointmentIndex];
+                
+                // Restore previously used inventory
+                if (oldAppointment.inventoryUsage && oldAppointment.inventoryUsage.length > 0) {
+                    this.restoreInventory(oldAppointment.inventoryUsage, this.editingAppointmentId);
+                }
+                
+                // Update appointment
                 this.appointments[appointmentIndex] = {
                     ...this.appointments[appointmentIndex],
                     clientId,
@@ -3169,6 +3309,11 @@ class HairSalonPro {
                     notes,
                     inventoryUsage
                 };
+                
+                // Deduct new inventory usage
+                if (inventoryUsage.length > 0) {
+                    this.deductInventory(inventoryUsage, this.editingAppointmentId);
+                }
             }
             this.showToast(this.translate('appointment_updated'));
         } else {
@@ -3225,6 +3370,21 @@ class HairSalonPro {
                 this.usageHistory.push(usageRecord);
             }
         });
+        
+        this.saveToLocalStorage();
+    }
+    
+    restoreInventory(inventoryUsage, appointmentId) {
+        inventoryUsage.forEach(usage => {
+            const itemIndex = this.inventory.findIndex(i => i.id === usage.itemId);
+            if (itemIndex !== -1) {
+                // Restore the quantity
+                this.inventory[itemIndex].quantity += usage.quantity;
+            }
+        });
+        
+        // Remove usage history records for this appointment
+        this.usageHistory = this.usageHistory.filter(record => record.appointmentId !== appointmentId);
         
         this.saveToLocalStorage();
     }
@@ -3477,6 +3637,24 @@ class HairSalonPro {
         document.getElementById('workingDayFri').checked = this.settings.workingDays.fri;
         document.getElementById('workingDaySat').checked = this.settings.workingDays.sat;
         document.getElementById('workingDaySun').checked = this.settings.workingDays.sun;
+        
+        // Load theme
+        if (this.settings.theme === 'light') {
+            document.getElementById('themeLight').checked = true;
+            document.body.classList.add('light-mode');
+        } else {
+            document.getElementById('themeDark').checked = true;
+            document.body.classList.remove('light-mode');
+        }
+        
+        // Load time format
+        document.getElementById('settingsTimeFormat').value = this.settings.timeFormat;
+        
+        // Load date format
+        document.getElementById('settingsDateFormat').value = this.settings.dateFormat;
+        
+        // Load notification settings
+        document.getElementById('settingsShowToasts').checked = this.settings.showToasts;
     }
     
     /**
@@ -3500,6 +3678,26 @@ class HairSalonPro {
             sat: document.getElementById('workingDaySat').checked,
             sun: document.getElementById('workingDaySun').checked
         };
+        
+        // Save theme
+        const selectedTheme = document.querySelector('input[name="theme"]:checked').value;
+        this.settings.theme = selectedTheme;
+        
+        // Apply theme immediately
+        if (selectedTheme === 'light') {
+            document.body.classList.add('light-mode');
+        } else {
+            document.body.classList.remove('light-mode');
+        }
+        
+        // Save time format
+        this.settings.timeFormat = document.getElementById('settingsTimeFormat').value;
+        
+        // Save date format
+        this.settings.dateFormat = document.getElementById('settingsDateFormat').value;
+        
+        // Save notification settings
+        this.settings.showToasts = document.getElementById('settingsShowToasts').checked;
         
         // Save to localStorage
         localStorage.setItem('hairsalon_settings', JSON.stringify(this.settings));
@@ -3536,7 +3734,11 @@ class HairSalonPro {
                         fri: true,
                         sat: false,
                         sun: false
-                    }
+                    },
+                    theme: 'dark',
+                    timeFormat: '12',
+                    dateFormat: 'MM/DD/YYYY',
+                    showToasts: true
                 };
                 
                 localStorage.setItem('hairsalon_settings', JSON.stringify(this.settings));
@@ -3547,6 +3749,9 @@ class HairSalonPro {
                 if (headerLogo) {
                     headerLogo.textContent = this.settings.businessName;
                 }
+                
+                // Apply theme
+                document.body.classList.remove('light-mode');
                 
                 this.showToast(this.translate('settings_reset'));
             }
@@ -3710,6 +3915,11 @@ class HairSalonPro {
     }
     
     showToast(message) {
+        // Check if toasts are enabled in settings
+        if (!this.settings.showToasts) {
+            return;
+        }
+        
         const toast = document.getElementById('toast');
         toast.textContent = message;
         toast.classList.add('show');
