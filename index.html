@@ -3541,6 +3541,13 @@ class HairSalonPro {
                 
                 localStorage.setItem('hairsalon_settings', JSON.stringify(this.settings));
                 this.loadSettings();
+                
+                // Update the app name in header
+                const headerLogo = document.querySelector('.app-header .logo span');
+                if (headerLogo) {
+                    headerLogo.textContent = this.settings.businessName;
+                }
+                
                 this.showToast(this.translate('settings_reset'));
             }
         );
