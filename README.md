@@ -21,9 +21,11 @@ A professional Progressive Web App (PWA) for managing hair salon operations, inc
 
 ### User Experience
 - ⚡ **Real-time Updates**: Dashboard updates automatically
-- 🎨 **Modern Dark Theme**: Professional gradient-based design
+- 🎨 **Dark & Light Themes**: Toggle between modern dark and light themes
 - 📱 **Responsive Design**: Works on desktop, tablet, and mobile
 - ♿ **Accessibility**: ARIA labels, keyboard navigation, focus management
+- ⚔️ **Full Appointment Control**: Edit and delete upcoming appointments from any view
+- ⚙️ **Customizable Settings**: Time format, date format, notifications, and more
 - ⌨️ **Keyboard Shortcuts**:
   - `Ctrl/Cmd + N`: Add new client
   - `Ctrl/Cmd + A`: Schedule new appointment
@@ -75,6 +77,27 @@ python -m http.server 8000
 1. Click "Add Inventory Item" or press `Ctrl/Cmd + I`
 2. Enter item details and low stock threshold
 3. Track usage automatically through appointments
+4. When editing appointments, inventory is automatically restored and re-deducted
+
+### Managing Upcoming Appointments
+1. Navigate to "Upcoming Sessions" tab
+2. View all future appointments in chronological order
+3. Click the edit (pencil) icon to modify an appointment
+4. Click the delete (trash) icon to remove an appointment
+5. All changes automatically update inventory tracking
+
+### Customizing Settings
+1. Go to "Settings" section
+2. Configure your preferences:
+   - **Business Name**: Customize the salon name
+   - **Currency Symbol**: Set your preferred currency (or leave empty)
+   - **Theme**: Choose between Dark Mode or Light Mode
+   - **Time Format**: Select 12-hour (AM/PM) or 24-hour format
+   - **Date Format**: Choose your preferred date format
+   - **Notifications**: Toggle toast notifications on/off
+   - **Business Hours**: Set opening and closing times
+   - **Working Days**: Select which days you operate
+3. Click "Save Settings" to apply changes
 
 ### Backup & Restore
 1. Go to "Export Data" section
@@ -88,6 +111,7 @@ All data is stored locally in your browser's localStorage:
 - `hairsalon_appointments`: Appointment records
 - `hairsalon_inventory`: Inventory items
 - `hairsalon_usage_history`: Product usage tracking
+- `hairsalon_settings`: User preferences (theme, formats, business info)
 - `hairsalon_language`: Language preference
 
 **Security Note**: This is a client-side-only application that stores data in the browser's localStorage. The data is not encrypted at rest, which is acceptable for this use case as it's meant for personal/local business use. For sensitive business information or multi-user scenarios, consider implementing server-side storage with proper encryption.
