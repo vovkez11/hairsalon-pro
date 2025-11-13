@@ -3395,6 +3395,25 @@ class HairSalonPro {
             return;
         }
         
+        // When editing, temporarily restore old inventory before validation
+        let oldAppointment = null;
+        if (this.editingAppointmentId) {
+            const appointmentIndex = this.appointments.findIndex(a => a.id === this.editingAppointmentId);
+            if (appointmentIndex !== -1) {
+                oldAppointment = this.appointments[appointmentIndex];
+                
+                // Temporarily restore previously used inventory for proper validation
+                if (oldAppointment.inventoryUsage && oldAppointment.inventoryUsage.length > 0) {
+                    oldAppointment.inventoryUsage.forEach(usage => {
+                        const itemIndex = this.inventory.findIndex(i => i.id === usage.itemId);
+                        if (itemIndex !== -1) {
+                            this.inventory[itemIndex].quantity += usage.quantity;
+                        }
+                    });
+                }
+            }
+        }
+        
         // Get inventory usage
         const inventoryUsage = [];
         const quantityInputs = document.querySelectorAll('#appointmentInventoryItems input[type="number"]');
@@ -3428,11 +3447,9 @@ class HairSalonPro {
             // Update existing appointment
             const appointmentIndex = this.appointments.findIndex(a => a.id === this.editingAppointmentId);
             if (appointmentIndex !== -1) {
-                const oldAppointment = this.appointments[appointmentIndex];
-                
-                // Restore previously used inventory
+                // Remove usage history records for old inventory usage (already restored above)
                 if (oldAppointment.inventoryUsage && oldAppointment.inventoryUsage.length > 0) {
-                    this.restoreInventory(oldAppointment.inventoryUsage, this.editingAppointmentId);
+                    this.usageHistory = this.usageHistory.filter(record => record.appointmentId !== this.editingAppointmentId);
                 }
                 
                 // Update appointment
@@ -3451,6 +3468,9 @@ class HairSalonPro {
                 if (inventoryUsage.length > 0) {
                     this.deductInventory(inventoryUsage, this.editingAppointmentId);
                 }
+                
+                // Save to localStorage after inventory changes
+                this.saveToLocalStorage();
             }
             this.showToast(this.translate('appointment_updated'));
         } else {
