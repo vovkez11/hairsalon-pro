@@ -1,0 +1,15 @@
+{
+  "name": "hairsalon-pro",
+  "version": "1.0.0",
+  "description": "A professional Progressive Web App (PWA) for managing hair salon operations, including client management, appointment scheduling, and inventory tracking.",
+  "main": "service-worker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.39.1"
+  }
+}
