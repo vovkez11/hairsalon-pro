@@ -1,5 +1,5 @@
 // Service Worker for HairSalon Pro - Enhanced Version
-const CACHE_NAME = 'hairsalon-pro-v6';
+const CACHE_NAME = 'hairsalon-pro-v7';
 const urlsToCache = [
   './',
   './index.html',
@@ -125,6 +125,56 @@ self.addEventListener('fetch', event => {
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+  }
+});
+
+// Handle push notifications for upcoming appointments
+self.addEventListener('push', event => {
+  console.log('🟢 Service Worker: Push notification received');
+  
+  let data = {
+    title: 'HairSalon Pro',
+    body: 'You have an upcoming appointment',
+    icon: './icons/icon-192.png',
+    badge: './icons/icon-192.png'
+  };
+  
+  if (event.data) {
+    try {
+      data = event.data.json();
+    } catch (e) {
+      data.body = event.data.text();
+    }
+  }
+  
+  const options = {
+    body: data.body,
+    icon: data.icon,
+    badge: data.badge,
+    vibrate: [200, 100, 200],
+    tag: 'appointment-reminder',
+    requireInteraction: true,
+    actions: [
+      { action: 'view', title: 'View Appointment' },
+      { action: 'dismiss', title: 'Dismiss' }
+    ]
+  };
+  
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
+
+// Handle notification clicks
+self.addEventListener('notificationclick', event => {
+  console.log('🟢 Service Worker: Notification clicked');
+  
+  event.notification.close();
+  
+  if (event.action === 'view') {
+    event.waitUntil(
+      clients.openWindow('/?section=upcoming')
+    );
   }
 });
 

@@ -857,6 +857,42 @@
             }
         }
         
+        /* Update Notification */
+        .update-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            z-index: 1001;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 90%;
+            animation: slideInDown 0.4s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        @keyframes slideInDown {
+            from {
+                top: -100px;
+                opacity: 0;
+            }
+            to {
+                top: 20px;
+                opacity: 1;
+            }
+        }
+        
         /* Confirmation Dialog */
         .confirm-dialog {
             position: fixed;
@@ -1926,6 +1962,11 @@
                                 <input type="checkbox" id="settingsShowToasts" checked style="width: 20px; height: 20px; cursor: pointer;">
                                 <span data-i18n="show_toast_notifications">Show toast notifications</span>
                             </label>
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 10px;">
+                                <input type="checkbox" id="settingsEnablePushNotifications" style="width: 20px; height: 20px; cursor: pointer;">
+                                <span data-i18n="enable_push_notifications">Enable push notifications for upcoming sessions</span>
+                            </label>
+                            <p style="font-size: 0.8em; color: rgba(255,255,255,0.6); margin-top: 5px; margin-left: 28px;" data-i18n="push_notification_info">Get notified 24 hours and 1 hour before appointments</p>
                         </div>
                         
                         <div class="form-actions">
@@ -2127,6 +2168,16 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
+    <!-- Update Available Notification -->
+    <div class="update-notification" id="updateNotification" style="display: none;">
+        <div style="flex: 1;">
+            <i class="fas fa-sync-alt"></i>
+            <span data-i18n="update_available">A new version is available!</span>
+        </div>
+        <button class="btn btn-primary btn-sm" id="updateAppButton" data-i18n="update_now">Update Now</button>
+        <button class="btn btn-outline btn-sm" id="dismissUpdateButton" data-i18n="later">Later</button>
+    </div>
+
     <!-- Install Prompt -->
     <div class="install-prompt" id="installPrompt">
         <span data-i18n="install_prompt">Install HairSalon Pro for better experience</span>
@@ -2237,7 +2288,8 @@ class HairSalonPro {
             theme: 'dark',
             timeFormat: '12',
             dateFormat: 'MM/DD/YYYY',
-            showToasts: true
+            showToasts: true,
+            enablePushNotifications: false
         };
         
         // Load data from localStorage with error handling
@@ -2379,6 +2431,15 @@ class HairSalonPro {
                 '12_hour': '12-hour (AM/PM)',
                 '24_hour': '24-hour',
                 'show_toast_notifications': 'Show toast notifications',
+                'enable_push_notifications': 'Enable push notifications for upcoming sessions',
+                'push_notification_info': 'Get notified 24 hours and 1 hour before appointments',
+                'update_available': 'A new version is available!',
+                'update_now': 'Update Now',
+                'later': 'Later',
+                'notification_permission_denied': 'Notification permission denied. Enable in browser settings.',
+                'notifications_enabled': 'Push notifications enabled successfully',
+                'appointment_reminder_24h': 'Appointment reminder: You have an appointment tomorrow',
+                'appointment_reminder_1h': 'Appointment reminder: You have an appointment in 1 hour',
                 'backup_all_data': 'Backup All Data',
                 'json_format': 'JSON format',
                 'restore_data': 'Restore Data',
@@ -2547,6 +2608,15 @@ class HairSalonPro {
                 '12_hour': '12 horas (AM/PM)',
                 '24_hour': '24 horas',
                 'show_toast_notifications': 'Mostrar notificaciones emergentes',
+                'enable_push_notifications': 'Habilitar notificaciones push para próximas sesiones',
+                'push_notification_info': 'Recibe notificaciones 24 horas y 1 hora antes de las citas',
+                'update_available': '¡Nueva versión disponible!',
+                'update_now': 'Actualizar Ahora',
+                'later': 'Más Tarde',
+                'notification_permission_denied': 'Permiso de notificación denegado. Habilitar en configuración del navegador.',
+                'notifications_enabled': 'Notificaciones push habilitadas exitosamente',
+                'appointment_reminder_24h': 'Recordatorio de cita: Tienes una cita mañana',
+                'appointment_reminder_1h': 'Recordatorio de cita: Tienes una cita en 1 hora',
                 'backup_all_data': 'Respaldar Todos los Datos',
                 'json_format': 'Formato JSON',
                 'restore_data': 'Restaurar Datos',
@@ -2715,6 +2785,15 @@ class HairSalonPro {
                 '12_hour': '12-часовой (AM/PM)',
                 '24_hour': '24-часовой',
                 'show_toast_notifications': 'Показывать всплывающие уведомления',
+                'enable_push_notifications': 'Включить push-уведомления для предстоящих сеансов',
+                'push_notification_info': 'Получайте уведомления за 24 часа и за 1 час до записи',
+                'update_available': 'Доступна новая версия!',
+                'update_now': 'Обновить сейчас',
+                'later': 'Позже',
+                'notification_permission_denied': 'Разрешение на уведомления отклонено. Включите в настройках браузера.',
+                'notifications_enabled': 'Push-уведомления успешно включены',
+                'appointment_reminder_24h': 'Напоминание о записи: У вас запись завтра',
+                'appointment_reminder_1h': 'Напоминание о записи: У вас запись через 1 час',
                 'backup_all_data': 'Резервная копия всех данных',
                 'json_format': 'Формат JSON',
                 'restore_data': 'Восстановить данные',
@@ -2883,6 +2962,15 @@ class HairSalonPro {
                 '12_hour': '12 שעות (AM/PM)',
                 '24_hour': '24 שעות',
                 'show_toast_notifications': 'הצג התראות קופצות',
+                'enable_push_notifications': 'הפעל התראות דחיפה עבור פגישות קרובות',
+                'push_notification_info': 'קבל התראות 24 שעות ושעה לפני התורים',
+                'update_available': 'גרסה חדשה זמינה!',
+                'update_now': 'עדכן עכשיו',
+                'later': 'מאוחר יותר',
+                'notification_permission_denied': 'הרשאת התראות נדחתה. הפעל בהגדרות הדפדפן.',
+                'notifications_enabled': 'התראות דחיפה הופעלו בהצלחה',
+                'appointment_reminder_24h': 'תזכורת תור: יש לך תור מחר',
+                'appointment_reminder_1h': 'תזכורת תור: יש לך תור בעוד שעה',
                 'backup_all_data': 'גיבוי כל הנתונים',
                 'json_format': 'פורמט JSON',
                 'restore_data': 'שחזר נתונים',
@@ -2932,6 +3020,12 @@ class HairSalonPro {
         this.setupMobileMenu();
         this.updateOnlineStatus();
         this.setupBackButtonPrevention();
+        this.setupServiceWorkerUpdateListener();
+        
+        // Start notification checker if enabled
+        if (this.settings.enablePushNotifications && Notification.permission === 'granted') {
+            this.startNotificationChecker();
+        }
         
         console.log('💇‍♀️ HairSalon Pro - Enhanced Version Loaded');
     }
@@ -3020,6 +3114,29 @@ class HairSalonPro {
         
         document.getElementById('dismissInstallPrompt').addEventListener('click', () => {
             this.hideInstallPrompt();
+        });
+        
+        // Update notification handlers
+        document.getElementById('updateAppButton').addEventListener('click', () => {
+            this.updateApp();
+        });
+        
+        document.getElementById('dismissUpdateButton').addEventListener('click', () => {
+            this.dismissUpdateNotification();
+        });
+        
+        // Handle notification permission change
+        document.getElementById('settingsEnablePushNotifications').addEventListener('change', async (e) => {
+            if (e.target.checked) {
+                const permission = await this.requestNotificationPermission();
+                if (permission === 'granted') {
+                    this.showToast(this.translate('notifications_enabled'));
+                    this.startNotificationChecker();
+                } else {
+                    e.target.checked = false;
+                    this.showToast(this.translate('notification_permission_denied'));
+                }
+            }
         });
         
         // Close modals when clicking outside
@@ -4360,6 +4477,7 @@ class HairSalonPro {
         
         // Load notification settings
         document.getElementById('settingsShowToasts').checked = this.settings.showToasts;
+        document.getElementById('settingsEnablePushNotifications').checked = this.settings.enablePushNotifications || false;
     }
     
     /**
@@ -4403,6 +4521,12 @@ class HairSalonPro {
         
         // Save notification settings
         this.settings.showToasts = document.getElementById('settingsShowToasts').checked;
+        this.settings.enablePushNotifications = document.getElementById('settingsEnablePushNotifications').checked;
+        
+        // Start or stop notification checker based on setting
+        if (this.settings.enablePushNotifications && Notification.permission === 'granted') {
+            this.startNotificationChecker();
+        }
         
         // Save to localStorage
         localStorage.setItem('hairsalon_settings', JSON.stringify(this.settings));
@@ -4443,7 +4567,8 @@ class HairSalonPro {
                     theme: 'dark',
                     timeFormat: '12',
                     dateFormat: 'MM/DD/YYYY',
-                    showToasts: true
+                    showToasts: true,
+                    enablePushNotifications: false
                 };
                 
                 localStorage.setItem('hairsalon_settings', JSON.stringify(this.settings));
@@ -4855,6 +4980,67 @@ class HairSalonPro {
     }
     
     /**
+     * Setup service worker update listener
+     */
+    setupServiceWorkerUpdateListener() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(registration => {
+                // Check for updates every 30 minutes
+                setInterval(() => {
+                    registration.update();
+                }, 30 * 60 * 1000);
+                
+                // Listen for updates
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // New service worker available
+                            this.showUpdateNotification();
+                        }
+                    });
+                });
+            });
+        }
+    }
+    
+    /**
+     * Show update notification
+     */
+    showUpdateNotification() {
+        const updateNotification = document.getElementById('updateNotification');
+        updateNotification.style.display = 'flex';
+    }
+    
+    /**
+     * Dismiss update notification
+     */
+    dismissUpdateNotification() {
+        const updateNotification = document.getElementById('updateNotification');
+        updateNotification.style.display = 'none';
+    }
+    
+    /**
+     * Update the app
+     */
+    updateApp() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(registration => {
+                if (registration.waiting) {
+                    // Tell the service worker to skip waiting
+                    registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                    
+                    // Reload the page once the new service worker is active
+                    navigator.serviceWorker.addEventListener('controllerchange', () => {
+                        window.location.reload();
+                    });
+                }
+            });
+        }
+    }
+    
+    /**
      * Update online/offline status indicator
      */
     updateOnlineStatus() {
@@ -5013,6 +5199,112 @@ class HairSalonPro {
         return date.toLocaleDateString(this.currentLanguage === 'en' ? 'en-US' : 
                                       this.currentLanguage === 'es' ? 'es-ES' : 
                                       this.currentLanguage === 'ru' ? 'ru-RU' : 'he-IL');
+    }
+    
+    /**
+     * Request notification permission from user
+     * @returns {Promise<string>} - Permission state
+     */
+    async requestNotificationPermission() {
+        if (!('Notification' in window)) {
+            console.log('This browser does not support notifications');
+            return 'denied';
+        }
+        
+        if (Notification.permission === 'granted') {
+            return 'granted';
+        }
+        
+        if (Notification.permission !== 'denied') {
+            const permission = await Notification.requestPermission();
+            return permission;
+        }
+        
+        return Notification.permission;
+    }
+    
+    /**
+     * Schedule notifications for upcoming appointments
+     */
+    scheduleAppointmentNotifications() {
+        if (!this.settings.enablePushNotifications) {
+            return;
+        }
+        
+        if (Notification.permission !== 'granted') {
+            return;
+        }
+        
+        const now = new Date();
+        const upcomingAppointments = this.appointments.filter(apt => {
+            const aptDateTime = new Date(apt.date + ' ' + apt.time);
+            return aptDateTime > now;
+        });
+        
+        upcomingAppointments.forEach(appointment => {
+            const aptDateTime = new Date(appointment.date + ' ' + appointment.time);
+            const timeDiff = aptDateTime - now;
+            
+            // 24 hour notification
+            const twentyFourHours = 24 * 60 * 60 * 1000;
+            const oneHour = 60 * 60 * 1000;
+            
+            const client = this.clients.find(c => c.id === appointment.clientId);
+            const clientName = client ? client.name : 'Unknown Client';
+            
+            // Schedule 24-hour notification
+            if (timeDiff > twentyFourHours - 5000 && timeDiff < twentyFourHours + 5000) {
+                this.showNotification(
+                    this.translate('appointment_reminder_24h'),
+                    `${clientName} - ${appointment.service}`
+                );
+            }
+            
+            // Schedule 1-hour notification
+            if (timeDiff > oneHour - 5000 && timeDiff < oneHour + 5000) {
+                this.showNotification(
+                    this.translate('appointment_reminder_1h'),
+                    `${clientName} - ${appointment.service}`
+                );
+            }
+        });
+    }
+    
+    /**
+     * Show a browser notification
+     * @param {string} title - Notification title
+     * @param {string} body - Notification body
+     */
+    showNotification(title, body) {
+        if (Notification.permission === 'granted') {
+            const notification = new Notification(title, {
+                body: body,
+                icon: './icons/icon-192.png',
+                badge: './icons/icon-192.png',
+                vibrate: [200, 100, 200],
+                tag: 'appointment-reminder',
+                requireInteraction: true
+            });
+            
+            notification.onclick = () => {
+                window.focus();
+                this.showSection('upcoming');
+                notification.close();
+            };
+        }
+    }
+    
+    /**
+     * Check for notifications periodically
+     */
+    startNotificationChecker() {
+        // Check every minute for upcoming appointments
+        setInterval(() => {
+            this.scheduleAppointmentNotifications();
+        }, 60000); // 1 minute
+        
+        // Initial check
+        this.scheduleAppointmentNotifications();
     }
 }
 
