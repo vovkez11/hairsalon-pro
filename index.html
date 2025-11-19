@@ -3856,37 +3856,52 @@ class HairSalonPro {
             return;
         }
         
-        if (this.editingClientId) {
-            // Update existing client
-            const clientIndex = this.clients.findIndex(c => c.id === this.editingClientId);
-            if (clientIndex !== -1) {
-                this.clients[clientIndex] = {
-                    ...this.clients[clientIndex],
+        // Disable save button during save operation
+        const saveButton = document.querySelector('#addClientForm button[type="submit"]');
+        const originalButtonText = saveButton.innerHTML;
+        saveButton.disabled = true;
+        saveButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        
+        try {
+            if (this.editingClientId) {
+                // Update existing client
+                const clientIndex = this.clients.findIndex(c => c.id === this.editingClientId);
+                if (clientIndex !== -1) {
+                    this.clients[clientIndex] = {
+                        ...this.clients[clientIndex],
+                        name,
+                        phone,
+                        email,
+                        notes
+                    };
+                }
+                this.showToast(this.translate('client_updated'));
+            } else {
+                // Add new client
+                const newClient = {
+                    id: this.generateId(),
                     name,
                     phone,
                     email,
-                    notes
+                    notes,
+                    createdAt: new Date().toISOString()
                 };
+                this.clients.push(newClient);
+                this.showToast(this.translate('client_saved'));
             }
-            this.showToast(this.translate('client_updated'));
-        } else {
-            // Add new client
-            const newClient = {
-                id: this.generateId(),
-                name,
-                phone,
-                email,
-                notes,
-                createdAt: new Date().toISOString()
-            };
-            this.clients.push(newClient);
-            this.showToast(this.translate('client_saved'));
+            
+            this.saveToLocalStorage();
+            this.closeModal('addClientModal');
+            this.renderClients();
+            this.updateDashboard();
+        } catch (error) {
+            console.error('Error saving client:', error);
+            this.showToast('Failed to save client. Please try again.');
+        } finally {
+            // Re-enable save button
+            saveButton.disabled = false;
+            saveButton.innerHTML = originalButtonText;
         }
-        
-        this.saveToLocalStorage();
-        this.closeModal('addClientModal');
-        this.renderClients();
-        this.updateDashboard();
     }
     
     saveAppointment() {
@@ -4653,9 +4668,12 @@ class HairSalonPro {
      */
     validatePhone(phone) {
         if (!phone) return false; // Phone is required
-        // Allow various phone formats: +1234567890, (123) 456-7890, 123-456-7890, etc.
-        const phoneRegex = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/;
-        return phoneRegex.test(phone.replace(/\s/g, ''));
+        // Remove all non-digit characters except +
+        const cleaned = phone.replace(/[^\d+]/g, '');
+        // Must have at least 5 digits (min valid phone number)
+        // and at most 15 digits (international standard)
+        const digitsOnly = cleaned.replace(/\+/g, '');
+        return digitsOnly.length >= 5 && digitsOnly.length <= 15;
     }
     
     /**
@@ -4759,7 +4777,12 @@ class HairSalonPro {
             localStorage.setItem('hairsalon_usage_history', JSON.stringify(this.usageHistory));
         } catch (error) {
             console.error('Failed to save to localStorage:', error);
-            this.showToast(this.translate('failed_to_save'));
+            // Check if it's a quota exceeded error
+            if (error.name === 'QuotaExceededError' || error.code === 22) {
+                this.showToast('Storage quota exceeded. Please export and clear old data.');
+            } else {
+                this.showToast(this.translate('failed_to_save'));
+            }
         }
     }
     
