@@ -4060,111 +4060,135 @@ class HairSalonPro {
             return;
         }
         
-        // When editing, temporarily restore old inventory before validation
-        let oldAppointment = null;
-        if (this.editingAppointmentId) {
-            const appointmentIndex = this.appointments.findIndex(a => a.id === this.editingAppointmentId);
-            if (appointmentIndex !== -1) {
-                oldAppointment = this.appointments[appointmentIndex];
-                
-                // Temporarily restore previously used inventory for proper validation
-                if (oldAppointment.inventoryUsage && oldAppointment.inventoryUsage.length > 0) {
+        // Disable save button during save operation
+        const saveButton = document.querySelector('#addAppointmentForm button[type="submit"]');
+        const originalButtonText = saveButton.innerHTML;
+        saveButton.disabled = true;
+        saveButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        
+        try {
+            // When editing, temporarily restore old inventory before validation
+            let oldAppointment = null;
+            if (this.editingAppointmentId) {
+                const appointmentIndex = this.appointments.findIndex(a => a.id === this.editingAppointmentId);
+                if (appointmentIndex !== -1) {
+                    oldAppointment = this.appointments[appointmentIndex];
+                    
+                    // Temporarily restore previously used inventory for proper validation
+                    if (oldAppointment.inventoryUsage && oldAppointment.inventoryUsage.length > 0) {
+                        oldAppointment.inventoryUsage.forEach(usage => {
+                            const itemIndex = this.inventory.findIndex(i => i.id === usage.itemId);
+                            if (itemIndex !== -1) {
+                                this.inventory[itemIndex].quantity += usage.quantity;
+                            }
+                        });
+                    }
+                }
+            }
+            
+            // Get inventory usage
+            const inventoryUsage = [];
+            const quantityInputs = document.querySelectorAll('#appointmentInventoryItems input[type="number"]');
+            let hasInsufficientStock = false;
+            
+            quantityInputs.forEach(input => {
+                const quantity = parseInt(input.value);
+                if (quantity > 0) {
+                    const itemId = input.dataset.id;
+                    const item = this.inventory.find(i => i.id === itemId);
+                    
+                    if (item && quantity > item.quantity) {
+                        hasInsufficientStock = true;
+                        this.showToast(`${this.translate('insufficient_stock')}: ${item.name}`);
+                        return;
+                    }
+                    
+                    inventoryUsage.push({
+                        itemId,
+                        itemName: item.name,
+                        quantity
+                    });
+                }
+            });
+            
+            if (hasInsufficientStock) {
+                // Restore inventory back to deducted state if we're editing
+                if (oldAppointment && oldAppointment.inventoryUsage && oldAppointment.inventoryUsage.length > 0) {
                     oldAppointment.inventoryUsage.forEach(usage => {
                         const itemIndex = this.inventory.findIndex(i => i.id === usage.itemId);
                         if (itemIndex !== -1) {
-                            this.inventory[itemIndex].quantity += usage.quantity;
+                            this.inventory[itemIndex].quantity -= usage.quantity;
                         }
                     });
                 }
+                return; // Don't save appointment if insufficient stock
             }
-        }
-        
-        // Get inventory usage
-        const inventoryUsage = [];
-        const quantityInputs = document.querySelectorAll('#appointmentInventoryItems input[type="number"]');
-        let hasInsufficientStock = false;
-        
-        quantityInputs.forEach(input => {
-            const quantity = parseInt(input.value);
-            if (quantity > 0) {
-                const itemId = input.dataset.id;
-                const item = this.inventory.find(i => i.id === itemId);
-                
-                if (item && quantity > item.quantity) {
-                    hasInsufficientStock = true;
-                    this.showToast(`${this.translate('insufficient_stock')}: ${item.name}`);
-                    return;
+            
+            if (this.editingAppointmentId) {
+                // Update existing appointment
+                const appointmentIndex = this.appointments.findIndex(a => a.id === this.editingAppointmentId);
+                if (appointmentIndex !== -1) {
+                    // Remove usage history records for old inventory usage (already restored above)
+                    if (oldAppointment.inventoryUsage && oldAppointment.inventoryUsage.length > 0) {
+                        this.usageHistory = this.usageHistory.filter(record => record.appointmentId !== this.editingAppointmentId);
+                    }
+                    
+                    // Update appointment
+                    this.appointments[appointmentIndex] = {
+                        ...this.appointments[appointmentIndex],
+                        clientId,
+                        date,
+                        time,
+                        service,
+                        price,
+                        notes,
+                        inventoryUsage
+                    };
+                    
+                    // Deduct new inventory usage
+                    if (inventoryUsage.length > 0) {
+                        this.deductInventory(inventoryUsage, this.editingAppointmentId);
+                    }
+                    
+                    // Save to localStorage after inventory changes
+                    this.saveToLocalStorage();
                 }
-                
-                inventoryUsage.push({
-                    itemId,
-                    itemName: item.name,
-                    quantity
-                });
-            }
-        });
-        
-        if (hasInsufficientStock) {
-            return; // Don't save appointment if insufficient stock
-        }
-        
-        if (this.editingAppointmentId) {
-            // Update existing appointment
-            const appointmentIndex = this.appointments.findIndex(a => a.id === this.editingAppointmentId);
-            if (appointmentIndex !== -1) {
-                // Remove usage history records for old inventory usage (already restored above)
-                if (oldAppointment.inventoryUsage && oldAppointment.inventoryUsage.length > 0) {
-                    this.usageHistory = this.usageHistory.filter(record => record.appointmentId !== this.editingAppointmentId);
-                }
-                
-                // Update appointment
-                this.appointments[appointmentIndex] = {
-                    ...this.appointments[appointmentIndex],
+                this.showToast(this.translate('appointment_updated'));
+            } else {
+                // Add new appointment
+                const newAppointment = {
+                    id: this.generateId(),
                     clientId,
                     date,
                     time,
                     service,
                     price,
                     notes,
-                    inventoryUsage
+                    inventoryUsage,
+                    createdAt: new Date().toISOString()
                 };
+                this.appointments.push(newAppointment);
+                this.showToast(this.translate('appointment_saved'));
                 
-                // Deduct new inventory usage
-                if (inventoryUsage.length > 0) {
-                    this.deductInventory(inventoryUsage, this.editingAppointmentId);
-                }
-                
-                // Save to localStorage after inventory changes
-                this.saveToLocalStorage();
+                // Deduct inventory items
+                this.deductInventory(inventoryUsage, newAppointment.id);
             }
-            this.showToast(this.translate('appointment_updated'));
-        } else {
-            // Add new appointment
-            const newAppointment = {
-                id: this.generateId(),
-                clientId,
-                date,
-                time,
-                service,
-                price,
-                notes,
-                inventoryUsage,
-                createdAt: new Date().toISOString()
-            };
-            this.appointments.push(newAppointment);
-            this.showToast(this.translate('appointment_saved'));
             
-            // Deduct inventory items
-            this.deductInventory(inventoryUsage, newAppointment.id);
+            this.saveToLocalStorage();
+            this.closeModal('addAppointmentModal');
+            this.renderAppointments();
+            this.renderUpcomingSessions();
+            this.updateDashboard();
+            this.renderCalendar();
+            this.renderInventory();
+        } catch (error) {
+            console.error('Error saving appointment:', error);
+            this.showToast('Failed to save appointment. Please try again.');
+        } finally {
+            // Re-enable save button
+            saveButton.disabled = false;
+            saveButton.innerHTML = originalButtonText;
         }
-        
-        this.saveToLocalStorage();
-        this.closeModal('addAppointmentModal');
-        this.renderAppointments();
-        this.renderUpcomingSessions();
-        this.updateDashboard();
-        this.renderCalendar();
-        this.renderInventory();
     }
     
     deductInventory(inventoryUsage, appointmentId) {
@@ -4234,39 +4258,54 @@ class HairSalonPro {
             return;
         }
         
-        if (this.editingInventoryId) {
-            // Update existing inventory item
-            const inventoryIndex = this.inventory.findIndex(i => i.id === this.editingInventoryId);
-            if (inventoryIndex !== -1) {
-                this.inventory[inventoryIndex] = {
-                    ...this.inventory[inventoryIndex],
+        // Disable save button during save operation
+        const saveButton = document.querySelector('#addInventoryForm button[type="submit"]');
+        const originalButtonText = saveButton.innerHTML;
+        saveButton.disabled = true;
+        saveButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        
+        try {
+            if (this.editingInventoryId) {
+                // Update existing inventory item
+                const inventoryIndex = this.inventory.findIndex(i => i.id === this.editingInventoryId);
+                if (inventoryIndex !== -1) {
+                    this.inventory[inventoryIndex] = {
+                        ...this.inventory[inventoryIndex],
+                        name,
+                        category,
+                        quantity,
+                        lowStock,
+                        notes
+                    };
+                }
+                this.showToast(this.translate('inventory_updated'));
+            } else {
+                // Add new inventory item
+                const newInventoryItem = {
+                    id: this.generateId(),
                     name,
                     category,
                     quantity,
                     lowStock,
-                    notes
+                    notes,
+                    createdAt: new Date().toISOString()
                 };
+                this.inventory.push(newInventoryItem);
+                this.showToast(this.translate('inventory_saved'));
             }
-            this.showToast(this.translate('inventory_updated'));
-        } else {
-            // Add new inventory item
-            const newInventoryItem = {
-                id: this.generateId(),
-                name,
-                category,
-                quantity,
-                lowStock,
-                notes,
-                createdAt: new Date().toISOString()
-            };
-            this.inventory.push(newInventoryItem);
-            this.showToast(this.translate('inventory_saved'));
+            
+            this.saveToLocalStorage();
+            this.closeModal('addInventoryModal');
+            this.renderInventory();
+            this.updateDashboard();
+        } catch (error) {
+            console.error('Error saving inventory item:', error);
+            this.showToast('Failed to save inventory item. Please try again.');
+        } finally {
+            // Re-enable save button
+            saveButton.disabled = false;
+            saveButton.innerHTML = originalButtonText;
         }
-        
-        this.saveToLocalStorage();
-        this.closeModal('addInventoryModal');
-        this.renderInventory();
-        this.updateDashboard();
     }
     
     editClient(clientId) {
