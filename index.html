@@ -4117,6 +4117,9 @@ class HairSalonPro {
                         }
                     });
                 }
+                // Re-enable save button before returning
+                saveButton.disabled = false;
+                saveButton.innerHTML = originalButtonText;
                 return; // Don't save appointment if insufficient stock
             }
             
