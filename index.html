@@ -4849,7 +4849,7 @@ class HairSalonPro {
     }
     
     /**
-     * Validate date is not in the past
+     * Validate date and time are valid
      * @param {string} date - Date in YYYY-MM-DD format
      * @param {string} time - Time in HH:MM format
      * @returns {boolean} - True if valid
@@ -4858,13 +4858,14 @@ class HairSalonPro {
         if (!date || !time) return false;
         
         const appointmentDateTime = new Date(`${date}T${time}`);
-        const now = new Date();
         
-        // Allow appointments from today onwards
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const appointmentDate = new Date(appointmentDateTime.getFullYear(), appointmentDateTime.getMonth(), appointmentDateTime.getDate());
+        // Check if the date is valid (not NaN)
+        if (isNaN(appointmentDateTime.getTime())) {
+            return false;
+        }
         
-        return appointmentDate >= today;
+        // Allow all valid dates (including past dates for historical records and editing)
+        return true;
     }
     
     /**
