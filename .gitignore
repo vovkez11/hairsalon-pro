@@ -35,6 +35,8 @@ yarn-error.log*
 
 # Node modules (if used for development tools)
 node_modules/
+package.json
+package-lock.json
 
 # Build outputs (if any)
 dist/

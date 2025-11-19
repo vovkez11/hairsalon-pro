@@ -10,6 +10,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="HairSalon Pro">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <style>
@@ -3032,8 +3033,8 @@ class HairSalonPro {
         });
         
         // Handle back button on mobile
-        window.addEventListener('popstate', (event) => {
-            this.handleBackButton(event);
+        window.addEventListener('popstate', () => {
+            this.handleBackButton();
         });
         
         // Before install prompt
@@ -3191,9 +3192,8 @@ class HairSalonPro {
     
     /**
      * Handle back button press
-     * @param {PopStateEvent} event - The popstate event
      */
-    handleBackButton(event) {
+    handleBackButton() {
         // First, check if any modals are open and close them
         const openModal = document.querySelector('.modal.show');
         if (openModal) {
