@@ -2002,8 +2002,8 @@
                     <input type="text" class="form-control" id="clientName" required aria-required="true" aria-label="Client Name" data-i18n-placeholder="enter_client_name_placeholder" autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="clientPhone" data-i18n="phone_number">Phone Number</label>
-                    <input type="tel" class="form-control" id="clientPhone" required aria-required="true" aria-label="Phone Number" data-i18n-placeholder="phone_placeholder" autocomplete="off">
+                    <label class="form-label" for="clientPhone" data-i18n="phone_number">Phone Number (Optional)</label>
+                    <input type="tel" class="form-control" id="clientPhone" aria-label="Phone Number" data-i18n-placeholder="phone_placeholder" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="clientEmail" data-i18n="email_address">Email Address (Optional)</label>
@@ -2035,8 +2035,8 @@
             </div>
             <form id="addAppointmentForm">
                 <div class="form-group">
-                    <label class="form-label" for="appointmentClient" data-i18n="select_client">Select Client</label>
-                    <select class="form-control" id="appointmentClient" required>
+                    <label class="form-label" for="appointmentClient" data-i18n="select_client">Select Client (Optional)</label>
+                    <select class="form-control" id="appointmentClient">
                         <option value="" data-i18n="select_client">Select Client</option>
                     </select>
                 </div>
@@ -2053,8 +2053,8 @@
                     <input type="text" class="form-control" id="appointmentService" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="appointmentPrice" data-i18n="price">Price</label>
-                    <input type="number" class="form-control" id="appointmentPrice" step="0.01" required>
+                    <label class="form-label" for="appointmentPrice" data-i18n="price">Price (Optional)</label>
+                    <input type="number" class="form-control" id="appointmentPrice" step="0.01">
                 </div>
                 
                 <!-- Inventory Deduction Section -->
@@ -3429,7 +3429,7 @@ class HairSalonPro {
         if (searchQuery) {
             filteredClients = this.clients.filter(client => 
                 client.name.toLowerCase().includes(searchQuery) ||
-                client.phone.toLowerCase().includes(searchQuery) ||
+                (client.phone && client.phone.toLowerCase().includes(searchQuery)) ||
                 (client.email && client.email.toLowerCase().includes(searchQuery))
             );
         }
@@ -3468,7 +3468,7 @@ class HairSalonPro {
             clientElement.innerHTML = `
                 <div class="data-item-content">
                     <h4>${client.name}</h4>
-                    <p><i class="fas fa-phone"></i> ${client.phone}</p>
+                    ${client.phone ? `<p><i class="fas fa-phone"></i> ${client.phone}</p>` : ''}
                     ${client.email ? `<p><i class="fas fa-envelope"></i> ${client.email}</p>` : ''}
                     ${client.notes ? `<p><i class="fas fa-sticky-note"></i> ${client.notes}</p>` : ''}
                 </div>
@@ -3963,7 +3963,7 @@ class HairSalonPro {
             return;
         }
         
-        if (!this.validatePhone(phone)) {
+        if (phone && !this.validatePhone(phone)) {
             this.showToast(this.translate('please_enter_valid_phone'));
             return;
         }
@@ -4026,15 +4026,11 @@ class HairSalonPro {
         const date = document.getElementById('appointmentDate').value;
         const time = document.getElementById('appointmentTime').value;
         const service = this.sanitizeInput(document.getElementById('appointmentService').value.trim());
-        const price = parseFloat(document.getElementById('appointmentPrice').value);
+        const priceValue = document.getElementById('appointmentPrice').value;
+        const price = priceValue ? parseFloat(priceValue) : 0;
         const notes = this.sanitizeInput(document.getElementById('appointmentNotes').value.trim());
         
         // Validation
-        if (!clientId) {
-            this.showToast(this.translate('please_select_client'));
-            return;
-        }
-        
         if (!date) {
             this.showToast(this.translate('please_select_date'));
             return;
@@ -4050,7 +4046,7 @@ class HairSalonPro {
             return;
         }
         
-        if (!this.validatePrice(price)) {
+        if (price && !this.validatePrice(price)) {
             this.showToast(this.translate('please_enter_valid_price'));
             return;
         }
@@ -4831,7 +4827,7 @@ class HairSalonPro {
      * @returns {boolean} - True if valid
      */
     validatePhone(phone) {
-        if (!phone) return false; // Phone is required
+        if (!phone) return true; // Phone is now optional
         // Remove all non-digit characters except +
         const cleaned = phone.replace(/[^\d+]/g, '');
         // Must have at least 5 digits (min valid phone number)
