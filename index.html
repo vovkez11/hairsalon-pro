@@ -3849,18 +3849,21 @@ class HairSalonPro {
             this.populateClientDropdown();
             this.populateInventoryForAppointment();
             
-            // Set default time to current time + 1 hour
-            const now = new Date();
-            now.setHours(now.getHours() + 1);
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            document.getElementById('appointmentTime').value = `${hours}:${minutes}`;
-        }
-        
-        // Set today's date as default for appointment date if no date selected from calendar
-        if (modalId === 'addAppointmentModal' && !this.selectedCalendarDate) {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('appointmentDate').value = today;
+            // Set default time and date only when creating new appointment (not editing)
+            if (!this.editingAppointmentId) {
+                // Set default time to current time + 1 hour
+                const now = new Date();
+                now.setHours(now.getHours() + 1);
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                document.getElementById('appointmentTime').value = `${hours}:${minutes}`;
+                
+                // Set today's date as default if no date selected from calendar
+                if (!this.selectedCalendarDate) {
+                    const today = new Date().toISOString().split('T')[0];
+                    document.getElementById('appointmentDate').value = today;
+                }
+            }
         }
         
         // Focus on first input field
