@@ -1954,22 +1954,22 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <form id="addClientForm">
+            <form id="addClientForm" autocomplete="off">
                 <div class="form-group">
                     <label class="form-label" for="clientName" data-i18n="client_name">Client Name</label>
-                    <input type="text" class="form-control" id="clientName" required aria-required="true" aria-label="Client Name" data-i18n-placeholder="enter_client_name_placeholder">
+                    <input type="text" class="form-control" id="clientName" required aria-required="true" aria-label="Client Name" data-i18n-placeholder="enter_client_name_placeholder" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="clientPhone" data-i18n="phone_number">Phone Number</label>
-                    <input type="tel" class="form-control" id="clientPhone" required aria-required="true" aria-label="Phone Number" data-i18n-placeholder="phone_placeholder">
+                    <input type="tel" class="form-control" id="clientPhone" required aria-required="true" aria-label="Phone Number" data-i18n-placeholder="phone_placeholder" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="clientEmail" data-i18n="email_address">Email Address (Optional)</label>
-                    <input type="email" class="form-control" id="clientEmail" aria-label="Email Address" data-i18n-placeholder="email_placeholder">
+                    <input type="email" class="form-control" id="clientEmail" aria-label="Email Address" data-i18n-placeholder="email_placeholder" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="clientNotes" data-i18n="notes">Notes (Optional)</label>
-                    <textarea class="form-control" id="clientNotes" rows="3" aria-label="Notes" data-i18n-placeholder="notes_placeholder"></textarea>
+                    <textarea class="form-control" id="clientNotes" rows="3" aria-label="Notes" data-i18n-placeholder="notes_placeholder" autocomplete="off"></textarea>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-outline" onclick="HairSalonApp.closeModal('addClientModal')" data-i18n="cancel">Cancel</button>
