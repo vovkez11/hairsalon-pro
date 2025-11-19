@@ -3032,8 +3032,8 @@ class HairSalonPro {
         });
         
         // Handle back button on mobile
-        window.addEventListener('popstate', (event) => {
-            this.handleBackButton(event);
+        window.addEventListener('popstate', () => {
+            this.handleBackButton();
         });
         
         // Before install prompt
@@ -3191,9 +3191,8 @@ class HairSalonPro {
     
     /**
      * Handle back button press
-     * @param {PopStateEvent} event - The popstate event
      */
-    handleBackButton(event) {
+    handleBackButton() {
         // First, check if any modals are open and close them
         const openModal = document.querySelector('.modal.show');
         if (openModal) {
