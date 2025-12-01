@@ -25,11 +25,13 @@ A professional Progressive Web App (PWA) for managing hair salon operations, inc
 - 📱 **Responsive Design**: Works on desktop, tablet, and mobile
 - ♿ **Accessibility**: ARIA labels, keyboard navigation, focus management
 - ⚔️ **Full Appointment Control**: Edit and delete upcoming appointments from any view
+- 🗑️ **Safe Client Deletion**: Delete clients with confirmation dialog and 5-second undo option
 - ⚙️ **Customizable Settings**: Time format, date format, notifications, and more
 - ⌨️ **Keyboard Shortcuts**:
   - `Ctrl/Cmd + N`: Add new client
   - `Ctrl/Cmd + A`: Schedule new appointment
   - `Ctrl/Cmd + I`: Add inventory item
+  - `ESC`: Close modals and confirmation dialogs
 
 ### Security & Validation
 - 🔒 **Input Sanitization**: Protection against XSS attacks
@@ -65,6 +67,11 @@ python -m http.server 8000
 1. Click "Add Client" or press `Ctrl/Cmd + N`
 2. Fill in client details (name and phone are required)
 3. Save the client
+4. **Edit a client**: Click the edit (pencil) icon to modify client information
+5. **Delete a client**: Click the delete (trash) icon to remove a client
+   - A confirmation dialog will appear before deletion
+   - After deletion, an **Undo** option appears for 5 seconds to restore the client
+   - Press `ESC` key to cancel the confirmation dialog
 
 ### Scheduling Appointments
 1. Click "Schedule Appointment" or press `Ctrl/Cmd + A`
