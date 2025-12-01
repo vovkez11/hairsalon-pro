@@ -2260,7 +2260,7 @@
          id="confirmDialog"
          role="alertdialog"
          aria-modal="true"
-         aria-labelledby="confirmTitle"
+         aria-labelledby="confirmTitleWrapper"
          aria-describedby="confirmMessage">
         <h3 id="confirmTitleWrapper"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i> <span id="confirmTitle">Confirm Action</span></h3>
         <p id="confirmMessage">Are you sure?</p>
@@ -4608,10 +4608,13 @@ class HairSalonPro {
      */
     restoreClient(client, originalIndex) {
         try {
-            // Insert the client back at its original position (or at end if index is invalid)
+            // Insert the client back at its original position
+            // After deletion, array length is reduced by 1, so originalIndex may now equal length
+            // splice handles this correctly by inserting at the end
             if (originalIndex >= 0 && originalIndex <= this.clients.length) {
                 this.clients.splice(originalIndex, 0, client);
             } else {
+                // Fallback: append to end if index is somehow invalid
                 this.clients.push(client);
             }
             
@@ -4661,7 +4664,7 @@ class HairSalonPro {
             </button>
         `;
         
-        // Add click handler for undo button
+        // Add click handler for undo button with { once: true } to prevent memory leaks
         const undoBtn = toast.querySelector('.undo-btn');
         const handleUndo = () => {
             clearTimeout(this.undoTimeout);
@@ -4670,7 +4673,7 @@ class HairSalonPro {
             toast.innerHTML = '';
             onUndo();
         };
-        undoBtn.addEventListener('click', handleUndo);
+        undoBtn.addEventListener('click', handleUndo, { once: true });
         
         // Auto-hide after duration
         this.undoTimeout = setTimeout(() => {
