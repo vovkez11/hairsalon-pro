@@ -944,6 +944,43 @@
             outline-offset: 2px;
         }
         
+        /* Screen reader only class for accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Undo toast styling */
+        .toast.undo-toast {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, var(--warning) 0%, #ffa726 100%);
+        }
+        
+        .toast.undo-toast .undo-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85em;
+            transition: var(--transition);
+        }
+        
+        .toast.undo-toast .undo-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
         /* Pagination */
         .pagination {
             display: flex;
@@ -2218,18 +2255,23 @@
         </div>
     </nav>
     
-    <!-- Confirmation Dialog -->
-    <div class="confirm-dialog" id="confirmDialog">
-        <h3><i class="fas fa-exclamation-triangle"></i> <span id="confirmTitle">Confirm Action</span></h3>
+    <!-- Confirmation Dialog with full accessibility support -->
+    <div class="confirm-dialog" 
+         id="confirmDialog"
+         role="alertdialog"
+         aria-modal="true"
+         aria-labelledby="confirmTitle"
+         aria-describedby="confirmMessage">
+        <h3 id="confirmTitleWrapper"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i> <span id="confirmTitle">Confirm Action</span></h3>
         <p id="confirmMessage">Are you sure?</p>
-        <div class="confirm-dialog-actions">
-            <button class="btn btn-outline" id="confirmCancel">Cancel</button>
-            <button class="btn btn-danger" id="confirmOk">Delete</button>
+        <div class="confirm-dialog-actions" role="group" aria-label="Dialog actions">
+            <button class="btn btn-outline" id="confirmCancel" aria-label="Cancel and close dialog">Cancel</button>
+            <button class="btn btn-danger" id="confirmOk" aria-label="Confirm deletion">Delete</button>
         </div>
     </div>
     
-    <!-- Modal backdrop for confirmation -->
-    <div class="modal" id="confirmBackdrop" style="display: none;"></div>
+    <!-- Modal backdrop for confirmation (hidden from screen readers when not active) -->
+    <div class="modal" id="confirmBackdrop" style="display: none;" aria-hidden="true"></div>
 
 <script>
 // HairSalon Pro - FIXED TIME SELECTION VERSION
@@ -2390,6 +2432,18 @@ class HairSalonPro {
                 'delete': 'Delete',
                 'delete_confirmation': 'Are you sure you want to delete this item?',
                 'item_deleted': 'Item deleted successfully',
+                'delete_client': 'Delete Client',
+                'confirm_delete_client': 'Are you sure you want to delete',
+                'client_deleted': 'Client deleted',
+                'client_restored': 'Client restored successfully',
+                'client_not_found': 'Client not found',
+                'delete_failed': 'Failed to delete. Please try again.',
+                'restore_failed': 'Failed to restore. Please try again.',
+                'undo': 'Undo',
+                'undo_delete': 'Undo delete action',
+                'client_actions': 'Client actions',
+                'phone': 'Phone',
+                'email': 'Email',
                 'products_used': 'Products Used',
                 'view_usage_history': 'View Usage History',
                 'no_usage_history': 'No usage history for this product',
@@ -2567,6 +2621,18 @@ class HairSalonPro {
                 'delete': 'Eliminar',
                 'delete_confirmation': '¿Está seguro de que desea eliminar este elemento?',
                 'item_deleted': 'Elemento eliminado exitosamente',
+                'delete_client': 'Eliminar Cliente',
+                'confirm_delete_client': '¿Está seguro de que desea eliminar a',
+                'client_deleted': 'Cliente eliminado',
+                'client_restored': 'Cliente restaurado exitosamente',
+                'client_not_found': 'Cliente no encontrado',
+                'delete_failed': 'Error al eliminar. Por favor, inténtelo de nuevo.',
+                'restore_failed': 'Error al restaurar. Por favor, inténtelo de nuevo.',
+                'undo': 'Deshacer',
+                'undo_delete': 'Deshacer acción de eliminar',
+                'client_actions': 'Acciones de cliente',
+                'phone': 'Teléfono',
+                'email': 'Correo electrónico',
                 'products_used': 'Productos Utilizados',
                 'view_usage_history': 'Ver Historial de Uso',
                 'no_usage_history': 'No hay historial de uso para este producto',
@@ -2744,6 +2810,18 @@ class HairSalonPro {
                 'delete': 'Удалить',
                 'delete_confirmation': 'Вы уверены, что хотите удалить этот элемент?',
                 'item_deleted': 'Элемент успешно удален',
+                'delete_client': 'Удалить клиента',
+                'confirm_delete_client': 'Вы уверены, что хотите удалить',
+                'client_deleted': 'Клиент удален',
+                'client_restored': 'Клиент успешно восстановлен',
+                'client_not_found': 'Клиент не найден',
+                'delete_failed': 'Ошибка при удалении. Пожалуйста, попробуйте снова.',
+                'restore_failed': 'Ошибка при восстановлении. Пожалуйста, попробуйте снова.',
+                'undo': 'Отменить',
+                'undo_delete': 'Отменить удаление',
+                'client_actions': 'Действия с клиентом',
+                'phone': 'Телефон',
+                'email': 'Эл. почта',
                 'products_used': 'Использованные продукты',
                 'view_usage_history': 'Просмотреть историю использования',
                 'no_usage_history': 'Нет истории использования для этого продукта',
@@ -2921,6 +2999,18 @@ class HairSalonPro {
                 'delete': 'מחק',
                 'delete_confirmation': 'האם אתה בטוח שברצונך למחוק פריט זה?',
                 'item_deleted': 'הפריט נמחק בהצלחה',
+                'delete_client': 'מחק לקוח',
+                'confirm_delete_client': 'האם אתה בטוח שברצונך למחוק את',
+                'client_deleted': 'הלקוח נמחק',
+                'client_restored': 'הלקוח שוחזר בהצלחה',
+                'client_not_found': 'הלקוח לא נמצא',
+                'delete_failed': 'המחיקה נכשלה. נסה שוב.',
+                'restore_failed': 'השחזור נכשל. נסה שוב.',
+                'undo': 'בטל',
+                'undo_delete': 'בטל מחיקה',
+                'client_actions': 'פעולות לקוח',
+                'phone': 'טלפון',
+                'email': 'אימייל',
                 'products_used': 'מוצרים בשימוש',
                 'view_usage_history': 'צפה בהיסטוריית שימוש',
                 'no_usage_history': 'אין היסטוריית שימוש למוצר זה',
@@ -3461,23 +3551,32 @@ class HairSalonPro {
         }
         
         container.innerHTML = '';
+        // Render each client item with full accessibility support
+        // Future enhancement: Add multi-select checkboxes for bulk delete operations
         filteredClients.forEach(client => {
             const clientElement = document.createElement('div');
             clientElement.className = 'data-item';
+            clientElement.setAttribute('data-client-id', client.id);
             
             clientElement.innerHTML = `
                 <div class="data-item-content">
                     <h4>${client.name}</h4>
-                    ${client.phone ? `<p><i class="fas fa-phone"></i> ${client.phone}</p>` : ''}
-                    ${client.email ? `<p><i class="fas fa-envelope"></i> ${client.email}</p>` : ''}
-                    ${client.notes ? `<p><i class="fas fa-sticky-note"></i> ${client.notes}</p>` : ''}
+                    ${client.phone ? `<p><i class="fas fa-phone" aria-hidden="true"></i> <span class="sr-only">${this.translate('phone')}:</span> ${client.phone}</p>` : ''}
+                    ${client.email ? `<p><i class="fas fa-envelope" aria-hidden="true"></i> <span class="sr-only">${this.translate('email')}:</span> ${client.email}</p>` : ''}
+                    ${client.notes ? `<p><i class="fas fa-sticky-note" aria-hidden="true"></i> <span class="sr-only">${this.translate('notes')}:</span> ${client.notes}</p>` : ''}
                 </div>
-                <div class="data-item-actions">
-                    <button class="btn btn-outline btn-sm" onclick="HairSalonApp.editClient('${client.id}')">
-                        <i class="fas fa-edit"></i>
+                <div class="data-item-actions" role="group" aria-label="${this.translate('client_actions')}">
+                    <button class="btn btn-outline btn-sm" 
+                            onclick="HairSalonApp.editClient('${client.id}')"
+                            aria-label="${this.translate('edit_client')}: ${client.name}"
+                            title="${this.translate('edit_client')}">
+                        <i class="fas fa-edit" aria-hidden="true"></i>
                     </button>
-                    <button class="btn btn-danger btn-sm" onclick="HairSalonApp.deleteClient('${client.id}')">
-                        <i class="fas fa-trash"></i>
+                    <button class="btn btn-danger btn-sm" 
+                            onclick="HairSalonApp.deleteClient('${client.id}')"
+                            aria-label="${this.translate('delete_client')}: ${client.name}"
+                            title="${this.translate('delete_client')}">
+                        <i class="fas fa-trash" aria-hidden="true"></i>
                     </button>
                 </div>
             `;
@@ -4428,21 +4527,160 @@ class HairSalonPro {
         this.openModal('viewUsageModal');
     }
     
+    /**
+     * Delete a client with confirmation dialog and undo capability
+     * @param {string} clientId - The unique identifier of the client to delete
+     * 
+     * Future enhancement: Support bulk delete by accepting an array of clientIds
+     * and using Promise.all for concurrent deletion with a single undo action
+     */
     deleteClient(clientId) {
         const client = this.clients.find(c => c.id === clientId);
-        if (!client) return;
+        if (!client) {
+            this.showToast(this.translate('client_not_found'));
+            return;
+        }
         
         this.showConfirmDialog(
-            'Delete Client',
-            `Are you sure you want to delete ${client.name}? This action cannot be undone.`,
+            this.translate('delete_client'),
+            `${this.translate('confirm_delete_client')} ${client.name}?`,
             () => {
-                this.clients = this.clients.filter(c => c.id !== clientId);
-                this.saveToLocalStorage();
-                this.renderClients();
-                this.updateDashboard();
-                this.showToast(this.translate('item_deleted'));
+                this.performClientDeletion(client, clientId);
             }
         );
+    }
+    
+    /**
+     * Perform the actual client deletion with undo support
+     * @param {Object} client - The client object to delete
+     * @param {string} clientId - The client ID
+     */
+    performClientDeletion(client, clientId) {
+        try {
+            // Store the client for potential undo
+            const deletedClient = { ...client };
+            const clientIndex = this.clients.findIndex(c => c.id === clientId);
+            
+            // Remove the client from the array
+            this.clients = this.clients.filter(c => c.id !== clientId);
+            
+            // Remove from DOM immediately for better UX
+            const clientElement = document.querySelector(`[data-client-id="${clientId}"]`);
+            if (clientElement) {
+                clientElement.style.transition = 'opacity 0.3s, transform 0.3s';
+                clientElement.style.opacity = '0';
+                clientElement.style.transform = 'translateX(-20px)';
+                setTimeout(() => {
+                    clientElement.remove();
+                    // Re-render if the list is now empty
+                    if (this.clients.length === 0) {
+                        this.renderClients();
+                    }
+                }, 300);
+            }
+            
+            // Save to localStorage
+            this.saveToLocalStorage();
+            
+            // Update dashboard metrics
+            this.updateDashboard();
+            
+            // Show undo toast with restore option
+            this.showUndoToast(
+                this.translate('client_deleted'),
+                () => {
+                    this.restoreClient(deletedClient, clientIndex);
+                }
+            );
+            
+        } catch (error) {
+            console.error('Error deleting client:', error);
+            this.showToast(this.translate('delete_failed'));
+            // Re-render to restore consistent state
+            this.renderClients();
+        }
+    }
+    
+    /**
+     * Restore a deleted client (undo operation)
+     * @param {Object} client - The client object to restore
+     * @param {number} originalIndex - The original position in the array
+     */
+    restoreClient(client, originalIndex) {
+        try {
+            // Insert the client back at its original position (or at end if index is invalid)
+            if (originalIndex >= 0 && originalIndex <= this.clients.length) {
+                this.clients.splice(originalIndex, 0, client);
+            } else {
+                this.clients.push(client);
+            }
+            
+            // Save to localStorage
+            this.saveToLocalStorage();
+            
+            // Re-render the clients list
+            this.renderClients();
+            
+            // Update dashboard metrics
+            this.updateDashboard();
+            
+            // Show success toast
+            this.showToast(this.translate('client_restored'));
+            
+        } catch (error) {
+            console.error('Error restoring client:', error);
+            this.showToast(this.translate('restore_failed'));
+        }
+    }
+    
+    /**
+     * Show an undo toast notification with a restore button
+     * @param {string} message - The message to display
+     * @param {Function} onUndo - Callback function when undo is clicked
+     * @param {number} duration - Duration in ms before auto-hide (default: 5000)
+     */
+    showUndoToast(message, onUndo, duration = 5000) {
+        // Check if toasts are enabled in settings
+        if (!this.settings.showToasts) {
+            return;
+        }
+        
+        const toast = document.getElementById('toast');
+        
+        // Clear any existing undo timeout
+        if (this.undoTimeout) {
+            clearTimeout(this.undoTimeout);
+        }
+        
+        // Set up the undo toast content
+        toast.className = 'toast undo-toast show';
+        toast.innerHTML = `
+            <span>${message}</span>
+            <button class="undo-btn" aria-label="${this.translate('undo_delete')}">
+                <i class="fas fa-undo" aria-hidden="true"></i> ${this.translate('undo')}
+            </button>
+        `;
+        
+        // Add click handler for undo button
+        const undoBtn = toast.querySelector('.undo-btn');
+        const handleUndo = () => {
+            clearTimeout(this.undoTimeout);
+            toast.classList.remove('show');
+            toast.className = 'toast';
+            toast.innerHTML = '';
+            onUndo();
+        };
+        undoBtn.addEventListener('click', handleUndo);
+        
+        // Auto-hide after duration
+        this.undoTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+            // Reset toast to normal state
+            setTimeout(() => {
+                toast.className = 'toast';
+                toast.innerHTML = '';
+            }, 300);
+        }, duration);
     }
     
     deleteAppointment(appointmentId) {
