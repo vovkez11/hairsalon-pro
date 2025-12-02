@@ -1127,7 +1127,8 @@
         }
         
         body.light-mode .corrupted-field {
-            color: #e65100 !important;
+            color: var(--warning) !important;
+            filter: brightness(0.7);
         }
 
         /* Calendar Styles */
@@ -3592,12 +3593,18 @@ class HairSalonPro {
         if (searchQuery) {
             filteredClients = this.clients.filter(client => {
                 try {
+                    // Safely convert to string and lowercase, handling non-string types
+                    const safeLowerCase = (val) => {
+                        if (typeof val !== 'string') return '';
+                        return val.toLowerCase();
+                    };
+                    
                     const nameMatch = client.name && this.isValidText(client.name) && 
-                                     client.name.toLowerCase().includes(searchQuery);
+                                     safeLowerCase(client.name).includes(searchQuery);
                     const phoneMatch = client.phone && this.isValidText(client.phone) && 
-                                      client.phone.toLowerCase().includes(searchQuery);
+                                      safeLowerCase(client.phone).includes(searchQuery);
                     const emailMatch = client.email && this.isValidText(client.email) && 
-                                      client.email.toLowerCase().includes(searchQuery);
+                                      safeLowerCase(client.email).includes(searchQuery);
                     return nameMatch || phoneMatch || emailMatch;
                 } catch (e) {
                     // Include clients with corrupted data in results so they can be managed
@@ -3649,7 +3656,9 @@ class HairSalonPro {
                 const notesDisplay = this.getSafeDisplayValue(client.notes, this.translate('notes'));
                 
                 // Build the display name for buttons (use ID as fallback for corrupted names)
-                const displayName = nameDisplay.isCorrupted ? `Client #${client.id.substring(0, 8)}` : nameDisplay.value;
+                // Safely convert client.id to string to handle potential corruption
+                const safeClientId = String(client.id || 'unknown');
+                const displayName = nameDisplay.isCorrupted ? `Client #${safeClientId.substring(0, 8)}` : nameDisplay.value;
                 
                 clientElement.innerHTML = `
                     ${isCorrupted ? `
@@ -4691,10 +4700,13 @@ class HairSalonPro {
             return;
         }
         
+        // Safely convert clientId to string to handle potential corruption
+        const safeClientId = String(clientId || 'unknown');
+        
         // Get a safe identifier for the confirmation dialog
         const clientIdentifier = this.isValidText(client.name) && client.name 
             ? client.name 
-            : `Client #${clientId.substring(0, 8)}`;
+            : `Client #${safeClientId.substring(0, 8)}`;
         
         this.showConfirmDialog(
             this.translate('force_delete_client'),
@@ -5329,16 +5341,19 @@ class HairSalonPro {
         // Check for excessive non-printable Unicode characters
         // Allow common printable ranges and extended Unicode
         let nonPrintableCount = 0;
-        for (let i = 0; i < Math.min(value.length, 100); i++) {
+        const sampleSize = Math.min(value.length, 100);
+        for (let i = 0; i < sampleSize; i++) {
             const code = value.charCodeAt(i);
-            // Check for replacement character or other problematic codes
+            // 0xFFFD is the Unicode replacement character (indicates encoding issues)
+            // 0x80-0x9F are C1 control characters (rarely used in legitimate text)
             if (code === 0xFFFD || (code >= 0x80 && code <= 0x9F)) {
                 nonPrintableCount++;
             }
         }
         
-        // If more than 20% of first 100 chars are suspicious, flag as corrupted
-        if (value.length > 0 && nonPrintableCount / Math.min(value.length, 100) > 0.2) {
+        // Threshold for corruption detection: if more than 20% of sampled characters are suspicious
+        const CORRUPTION_THRESHOLD = 0.2;
+        if (value.length > 0 && nonPrintableCount / sampleSize > CORRUPTION_THRESHOLD) {
             return false;
         }
         
