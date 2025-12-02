@@ -1088,6 +1088,47 @@
         .data-item.low-stock {
             border-left-color: var(--danger);
         }
+        
+        /* Corrupted Data Styling */
+        .data-item.data-item-corrupted {
+            border-left-color: var(--warning);
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(255, 152, 0, 0.05) 100%);
+        }
+        
+        .corrupted-data-warning {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, var(--warning) 0%, #ffa726 100%);
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 0.85em;
+            font-weight: 600;
+            width: 100%;
+        }
+        
+        .corrupted-data-warning i {
+            font-size: 1.1em;
+        }
+        
+        .corrupted-field {
+            color: var(--warning) !important;
+            font-style: italic;
+        }
+        
+        .btn-text {
+            margin-left: 4px;
+        }
+        
+        body.light-mode .data-item.data-item-corrupted {
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.15) 0%, rgba(255, 152, 0, 0.08) 100%);
+        }
+        
+        body.light-mode .corrupted-field {
+            color: #e65100 !important;
+        }
 
         /* Calendar Styles */
         .calendar-container {
@@ -2527,7 +2568,15 @@ class HairSalonPro {
                 'please_select_valid_date': 'Please select a valid date (today or future)',
                 'please_enter_item_name': 'Please enter an item name',
                 'please_enter_valid_quantity': 'Please enter a valid quantity',
-                'please_enter_valid_threshold': 'Please enter a valid low stock threshold'
+                'please_enter_valid_threshold': 'Please enter a valid low stock threshold',
+                'corrupted_data': 'Corrupted data',
+                'corrupted_client_warning': 'This client record contains corrupted data and cannot be edited. Use Force Delete to remove it.',
+                'corrupted_client_record': 'Corrupted client record',
+                'unknown_client': 'Unknown client',
+                'force_delete': 'Force Delete',
+                'force_delete_client': 'Force Delete Client',
+                'force_delete_warning': 'This will permanently delete the corrupted client record. This action cannot be undone.',
+                'corrupted_client_deleted': 'Corrupted client record deleted successfully'
             },
             'es': {
                 'app_name': 'HairSalon Pro',
@@ -2716,7 +2765,15 @@ class HairSalonPro {
                 'please_select_valid_date': 'Por favor seleccione una fecha válida (hoy o futuro)',
                 'please_enter_item_name': 'Por favor ingrese un nombre de artículo',
                 'please_enter_valid_quantity': 'Por favor ingrese una cantidad válida',
-                'please_enter_valid_threshold': 'Por favor ingrese un umbral de stock bajo válido'
+                'please_enter_valid_threshold': 'Por favor ingrese un umbral de stock bajo válido',
+                'corrupted_data': 'Datos corruptos',
+                'corrupted_client_warning': 'Este registro de cliente contiene datos corruptos y no se puede editar. Use Eliminación Forzada para eliminarlo.',
+                'corrupted_client_record': 'Registro de cliente corrupto',
+                'unknown_client': 'Cliente desconocido',
+                'force_delete': 'Eliminar Forzado',
+                'force_delete_client': 'Eliminar Cliente Forzadamente',
+                'force_delete_warning': 'Esto eliminará permanentemente el registro de cliente corrupto. Esta acción no se puede deshacer.',
+                'corrupted_client_deleted': 'Registro de cliente corrupto eliminado exitosamente'
             },
             'ru': {
                 'app_name': 'HairSalon Pro',
@@ -2905,7 +2962,15 @@ class HairSalonPro {
                 'please_select_valid_date': 'Пожалуйста, выберите действительную дату (сегодня или будущее)',
                 'please_enter_item_name': 'Пожалуйста, введите название товара',
                 'please_enter_valid_quantity': 'Пожалуйста, введите действительное количество',
-                'please_enter_valid_threshold': 'Пожалуйста, введите действительный порог низкого запаса'
+                'please_enter_valid_threshold': 'Пожалуйста, введите действительный порог низкого запаса',
+                'corrupted_data': 'Поврежденные данные',
+                'corrupted_client_warning': 'Эта запись клиента содержит поврежденные данные и не может быть отредактирована. Используйте Принудительное удаление для удаления.',
+                'corrupted_client_record': 'Поврежденная запись клиента',
+                'unknown_client': 'Неизвестный клиент',
+                'force_delete': 'Принудительное удаление',
+                'force_delete_client': 'Принудительно удалить клиента',
+                'force_delete_warning': 'Это безвозвратно удалит поврежденную запись клиента. Это действие нельзя отменить.',
+                'corrupted_client_deleted': 'Поврежденная запись клиента успешно удалена'
             },
             'he': {
                 'app_name': 'HairSalon Pro',
@@ -3094,7 +3159,15 @@ class HairSalonPro {
                 'please_select_valid_date': 'אנא בחר תאריך תקף (היום או עתיד)',
                 'please_enter_item_name': 'אנא הזן שם פריט',
                 'please_enter_valid_quantity': 'אנא הזן כמות תקפה',
-                'please_enter_valid_threshold': 'אנא הזן סף מלאי נמוך תקף'
+                'please_enter_valid_threshold': 'אנא הזן סף מלאי נמוך תקף',
+                'corrupted_data': 'נתונים פגומים',
+                'corrupted_client_warning': 'רשומת לקוח זו מכילה נתונים פגומים ולא ניתן לערוך אותה. השתמש במחיקה כפויה כדי להסיר אותה.',
+                'corrupted_client_record': 'רשומת לקוח פגומה',
+                'unknown_client': 'לקוח לא ידוע',
+                'force_delete': 'מחיקה כפויה',
+                'force_delete_client': 'מחק לקוח בכפייה',
+                'force_delete_warning': 'פעולה זו תמחק לצמיתות את רשומת הלקוח הפגומה. לא ניתן לבטל פעולה זו.',
+                'corrupted_client_deleted': 'רשומת הלקוח הפגומה נמחקה בהצלחה'
             }
         };
         
@@ -3514,14 +3587,23 @@ class HairSalonPro {
     renderClients(searchQuery = '') {
         const container = document.getElementById('clientsList');
         
-        // Filter clients based on search query
+        // Filter clients based on search query (with safe text handling)
         let filteredClients = this.clients;
         if (searchQuery) {
-            filteredClients = this.clients.filter(client => 
-                client.name.toLowerCase().includes(searchQuery) ||
-                (client.phone && client.phone.toLowerCase().includes(searchQuery)) ||
-                (client.email && client.email.toLowerCase().includes(searchQuery))
-            );
+            filteredClients = this.clients.filter(client => {
+                try {
+                    const nameMatch = client.name && this.isValidText(client.name) && 
+                                     client.name.toLowerCase().includes(searchQuery);
+                    const phoneMatch = client.phone && this.isValidText(client.phone) && 
+                                      client.phone.toLowerCase().includes(searchQuery);
+                    const emailMatch = client.email && this.isValidText(client.email) && 
+                                      client.email.toLowerCase().includes(searchQuery);
+                    return nameMatch || phoneMatch || emailMatch;
+                } catch (e) {
+                    // Include clients with corrupted data in results so they can be managed
+                    return true;
+                }
+            });
         }
         
         if (this.clients.length === 0) {
@@ -3552,36 +3634,82 @@ class HairSalonPro {
         
         container.innerHTML = '';
         // Render each client item with full accessibility support
-        // Future enhancement: Add multi-select checkboxes for bulk delete operations
+        // Handles corrupted data gracefully with warnings
         filteredClients.forEach(client => {
-            const clientElement = document.createElement('div');
-            clientElement.className = 'data-item';
-            clientElement.setAttribute('data-client-id', client.id);
-            
-            clientElement.innerHTML = `
-                <div class="data-item-content">
-                    <h4>${client.name}</h4>
-                    ${client.phone ? `<p><i class="fas fa-phone" aria-hidden="true"></i> <span class="sr-only">${this.translate('phone')}:</span> ${client.phone}</p>` : ''}
-                    ${client.email ? `<p><i class="fas fa-envelope" aria-hidden="true"></i> <span class="sr-only">${this.translate('email')}:</span> ${client.email}</p>` : ''}
-                    ${client.notes ? `<p><i class="fas fa-sticky-note" aria-hidden="true"></i> <span class="sr-only">${this.translate('notes')}:</span> ${client.notes}</p>` : ''}
-                </div>
-                <div class="data-item-actions" role="group" aria-label="${this.translate('client_actions')}">
-                    <button class="btn btn-outline btn-sm" 
-                            onclick="HairSalonApp.editClient('${client.id}')"
-                            aria-label="${this.translate('edit_client')}: ${client.name}"
-                            title="${this.translate('edit_client')}">
-                        <i class="fas fa-edit" aria-hidden="true"></i>
-                    </button>
-                    <button class="btn btn-danger btn-sm" 
-                            onclick="HairSalonApp.deleteClient('${client.id}')"
-                            aria-label="${this.translate('delete_client')}: ${client.name}"
-                            title="${this.translate('delete_client')}">
-                        <i class="fas fa-trash" aria-hidden="true"></i>
-                    </button>
-                </div>
-            `;
-            
-            container.appendChild(clientElement);
+            try {
+                const clientElement = document.createElement('div');
+                const isCorrupted = this.hasCorruptedData(client);
+                clientElement.className = `data-item ${isCorrupted ? 'data-item-corrupted' : ''}`;
+                clientElement.setAttribute('data-client-id', client.id);
+                
+                // Safely get display values for each field
+                const nameDisplay = this.getSafeDisplayValue(client.name, this.translate('client_name'));
+                const phoneDisplay = this.getSafeDisplayValue(client.phone, this.translate('phone'));
+                const emailDisplay = this.getSafeDisplayValue(client.email, this.translate('email'));
+                const notesDisplay = this.getSafeDisplayValue(client.notes, this.translate('notes'));
+                
+                // Build the display name for buttons (use ID as fallback for corrupted names)
+                const displayName = nameDisplay.isCorrupted ? `Client #${client.id.substring(0, 8)}` : nameDisplay.value;
+                
+                clientElement.innerHTML = `
+                    ${isCorrupted ? `
+                        <div class="corrupted-data-warning">
+                            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                            <span>${this.translate('corrupted_client_warning')}</span>
+                        </div>
+                    ` : ''}
+                    <div class="data-item-content">
+                        <h4 class="${nameDisplay.isCorrupted ? 'corrupted-field' : ''}">${nameDisplay.value || this.translate('unknown_client')}</h4>
+                        ${phoneDisplay.value ? `<p class="${phoneDisplay.isCorrupted ? 'corrupted-field' : ''}"><i class="fas fa-phone" aria-hidden="true"></i> <span class="sr-only">${this.translate('phone')}:</span> ${phoneDisplay.value}</p>` : ''}
+                        ${emailDisplay.value ? `<p class="${emailDisplay.isCorrupted ? 'corrupted-field' : ''}"><i class="fas fa-envelope" aria-hidden="true"></i> <span class="sr-only">${this.translate('email')}:</span> ${emailDisplay.value}</p>` : ''}
+                        ${notesDisplay.value ? `<p class="${notesDisplay.isCorrupted ? 'corrupted-field' : ''}"><i class="fas fa-sticky-note" aria-hidden="true"></i> <span class="sr-only">${this.translate('notes')}:</span> ${notesDisplay.value}</p>` : ''}
+                    </div>
+                    <div class="data-item-actions" role="group" aria-label="${this.translate('client_actions')}">
+                        ${!isCorrupted ? `
+                            <button class="btn btn-outline btn-sm" 
+                                    onclick="HairSalonApp.editClient('${client.id}')"
+                                    aria-label="${this.translate('edit_client')}: ${displayName}"
+                                    title="${this.translate('edit_client')}">
+                                <i class="fas fa-edit" aria-hidden="true"></i>
+                            </button>
+                        ` : ''}
+                        <button class="btn btn-danger btn-sm" 
+                                onclick="HairSalonApp.${isCorrupted ? 'forceDeleteClient' : 'deleteClient'}('${client.id}')"
+                                aria-label="${isCorrupted ? this.translate('force_delete') : this.translate('delete_client')}: ${displayName}"
+                                title="${isCorrupted ? this.translate('force_delete') : this.translate('delete_client')}">
+                            <i class="fas fa-trash" aria-hidden="true"></i>
+                            ${isCorrupted ? `<span class="btn-text">${this.translate('force_delete')}</span>` : ''}
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(clientElement);
+            } catch (error) {
+                // If rendering fails completely, show a minimal fallback UI
+                console.error('Error rendering client:', client.id, error);
+                const errorElement = document.createElement('div');
+                errorElement.className = 'data-item data-item-corrupted';
+                errorElement.setAttribute('data-client-id', client.id);
+                errorElement.innerHTML = `
+                    <div class="corrupted-data-warning">
+                        <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                        <span>${this.translate('corrupted_client_warning')}</span>
+                    </div>
+                    <div class="data-item-content">
+                        <h4 class="corrupted-field">${this.translate('corrupted_client_record')}</h4>
+                        <p>ID: ${client.id || 'Unknown'}</p>
+                    </div>
+                    <div class="data-item-actions" role="group">
+                        <button class="btn btn-danger btn-sm" 
+                                onclick="HairSalonApp.forceDeleteClient('${client.id}')"
+                                title="${this.translate('force_delete')}">
+                            <i class="fas fa-trash" aria-hidden="true"></i>
+                            <span class="btn-text">${this.translate('force_delete')}</span>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(errorElement);
+            }
         });
     }
     
@@ -4551,6 +4679,74 @@ class HairSalonPro {
     }
     
     /**
+     * Force delete a client with corrupted data
+     * Shows a confirmation dialog before permanently removing the client
+     * Does not offer undo since corrupted data cannot be safely restored
+     * @param {string} clientId - The unique identifier of the client to delete
+     */
+    forceDeleteClient(clientId) {
+        const client = this.clients.find(c => c.id === clientId);
+        if (!client) {
+            this.showToast(this.translate('client_not_found'));
+            return;
+        }
+        
+        // Get a safe identifier for the confirmation dialog
+        const clientIdentifier = this.isValidText(client.name) && client.name 
+            ? client.name 
+            : `Client #${clientId.substring(0, 8)}`;
+        
+        this.showConfirmDialog(
+            this.translate('force_delete_client'),
+            `${this.translate('force_delete_warning')} ${clientIdentifier}?`,
+            () => {
+                this.performForceClientDeletion(clientId);
+            }
+        );
+    }
+    
+    /**
+     * Perform forced deletion of a client (no undo for corrupted data)
+     * @param {string} clientId - The client ID to delete
+     */
+    performForceClientDeletion(clientId) {
+        try {
+            // Remove the client from the array
+            this.clients = this.clients.filter(c => c.id !== clientId);
+            
+            // Remove from DOM immediately for better UX
+            const clientElement = document.querySelector(`[data-client-id="${clientId}"]`);
+            if (clientElement) {
+                clientElement.style.transition = 'opacity 0.3s, transform 0.3s';
+                clientElement.style.opacity = '0';
+                clientElement.style.transform = 'translateX(-20px)';
+                setTimeout(() => {
+                    clientElement.remove();
+                    // Re-render if the list is now empty
+                    if (this.clients.length === 0) {
+                        this.renderClients();
+                    }
+                }, 300);
+            }
+            
+            // Save to localStorage
+            this.saveToLocalStorage();
+            
+            // Update dashboard metrics
+            this.updateDashboard();
+            
+            // Show success toast (no undo for force delete)
+            this.showToast(this.translate('corrupted_client_deleted'));
+            
+        } catch (error) {
+            console.error('Error force deleting client:', error);
+            this.showToast(this.translate('delete_failed'));
+            // Re-render to restore consistent state
+            this.renderClients();
+        }
+    }
+    
+    /**
      * Perform the actual client deletion with undo support
      * @param {Object} client - The client object to delete
      * @param {string} clientId - The client ID
@@ -5110,6 +5306,85 @@ class HairSalonPro {
         
         // Allow all valid dates (including past dates for historical records and editing)
         return true;
+    }
+    
+    /**
+     * Check if a string contains valid displayable text
+     * Detects binary data, control characters, and corrupted content
+     * @param {string} value - The value to check
+     * @returns {boolean} - True if the value is valid displayable text
+     */
+    isValidText(value) {
+        if (value === null || value === undefined) return true;
+        if (typeof value !== 'string') return false;
+        if (value.length === 0) return true;
+        
+        // Check for null bytes (binary data indicator)
+        if (value.includes('\0')) return false;
+        
+        // Check for excessive control characters (ASCII 0-31 except common whitespace)
+        const controlCharRegex = /[\x00-\x08\x0B\x0C\x0E-\x1F]/;
+        if (controlCharRegex.test(value)) return false;
+        
+        // Check for excessive non-printable Unicode characters
+        // Allow common printable ranges and extended Unicode
+        let nonPrintableCount = 0;
+        for (let i = 0; i < Math.min(value.length, 100); i++) {
+            const code = value.charCodeAt(i);
+            // Check for replacement character or other problematic codes
+            if (code === 0xFFFD || (code >= 0x80 && code <= 0x9F)) {
+                nonPrintableCount++;
+            }
+        }
+        
+        // If more than 20% of first 100 chars are suspicious, flag as corrupted
+        if (value.length > 0 && nonPrintableCount / Math.min(value.length, 100) > 0.2) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Check if a client has corrupted data
+     * @param {Object} client - The client object to check
+     * @returns {boolean} - True if client has corrupted data
+     */
+    hasCorruptedData(client) {
+        if (!client) return true;
+        
+        // Check all text fields that could be corrupted
+        const textFields = ['name', 'phone', 'email', 'notes'];
+        for (const field of textFields) {
+            if (client[field] && !this.isValidText(client[field])) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Safely get a display value for a client field
+     * Returns a sanitized value or a warning message if corrupted
+     * @param {string} value - The field value
+     * @param {string} fieldName - The name of the field (for error messages)
+     * @returns {Object} - { value: string, isCorrupted: boolean }
+     */
+    getSafeDisplayValue(value, fieldName) {
+        if (value === null || value === undefined || value === '') {
+            return { value: '', isCorrupted: false };
+        }
+        
+        if (!this.isValidText(value)) {
+            return { 
+                value: `[${this.translate('corrupted_data')}: ${fieldName}]`, 
+                isCorrupted: true 
+            };
+        }
+        
+        // Sanitize valid text for display
+        return { value: this.sanitizeInput(value), isCorrupted: false };
     }
     
     /**
